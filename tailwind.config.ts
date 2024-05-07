@@ -15,13 +15,13 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
-    colors: {
-      'admin-bg': 'rgb(30, 30, 48)',
-      'admin-main': 'rgb(56, 57, 78)',
-      'admin-secondary': 'rgb(39, 40, 60)',
-      'admin-btn': 'rgb(192, 53, 162)',
-      'admin-input': 'rgb(90, 91, 112)',
-    },
+    // colors: {
+    //   'admin-bg': 'rgb(30, 30, 48)',
+    //   'admin-main': 'rgb(56, 57, 78)',
+    //   'admin-secondary': 'rgb(39, 40, 60)',
+    //   'admin-btn': 'rgb(192, 53, 162)',
+    //   'admin-input': 'rgb(90, 91, 112)',
+    // },
   },
   plugins: [],
 }

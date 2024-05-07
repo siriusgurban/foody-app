@@ -1,6 +1,7 @@
 import HeaderAdmin from '@/shared/components/headerAdmin'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const AdminDashboard: NextPage = () => {
   return (
@@ -17,3 +18,9 @@ const AdminDashboard: NextPage = () => {
 }
 
 export default AdminDashboard
+
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: { ...(await serverSideTranslations(locale, ['admin'])) },
+  }
+}

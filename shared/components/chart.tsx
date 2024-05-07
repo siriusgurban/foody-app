@@ -51,14 +51,7 @@ export default class ApexChart extends React.Component {
   render() {
     return (
       <div>
-        <div id="chart">
-          <ReactApexChart
-            options={this.state.options}
-            series={this.state.series}
-            type="donut"
-            width={380}
-          />
-        </div>
+        <div id="chart"></div>
         <div id="html-dist"></div>
       </div>
     )
