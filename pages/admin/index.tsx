@@ -1,4 +1,4 @@
-//@ts-nocheck
+//@ts- nocheck
 
 import HeaderAdmin from '@/shared/components/headerAdmin'
 import type { NextPage } from 'next'
@@ -7,7 +7,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useEffect, useState } from 'react'
 import { getProducts } from '@/shared/services/products'
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
-import { log } from 'console'
+import { useQuery } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 
 const AdminDashboard: NextPage = () => {
   const [prod, setProd] = useState()
@@ -42,6 +43,13 @@ const AdminDashboard: NextPage = () => {
   //   getPro()
   // }, [])
 
+  const { data, status } = useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  })
+
+  console.log(data?.data?.result?.data, 'query')
+
   return (
     <div>
       <Head>
@@ -51,7 +59,7 @@ const AdminDashboard: NextPage = () => {
       </Head>
 
       <HeaderAdmin />
-      {console.log(prod, 'proddd')}
+      <p>Status: {status}</p>
     </div>
   )
 }
