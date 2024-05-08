@@ -4,6 +4,8 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import ApexChart from './chart'
+import { increment } from '../store/basketSlice/basketSlice'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 function HeaderAdmin() {
   const { locale, locales, push } = useRouter()
@@ -12,6 +14,13 @@ function HeaderAdmin() {
   }
 
   const { t } = useTranslation('admin')
+
+  const count = useAppSelector((state) => state.basket.value)
+  const dispatch = useAppDispatch()
+
+  function Increase() {
+    dispatch(increment())
+  }
 
   return (
     <>
@@ -32,6 +41,9 @@ function HeaderAdmin() {
           )
         })}
       </div>
+
+      <button onClick={Increase}>Increase</button>
+      <p className="text-red-700">{count}</p>
     </>
   )
 }

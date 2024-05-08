@@ -12,14 +12,14 @@ import { log } from 'console'
 const AdminDashboard: NextPage = () => {
   const [prod, setProd] = useState()
 
-  useEffect(() => {
-    try {
-      const produ = await getProducts()
-      setProd(produ)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  // useEffect(() => {
+  //   try {
+  //     const produ = await getProducts()
+  //     setProd(produ)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }, [])
 
   // useEffect(() => {
   //   const getProducts = async () => {
