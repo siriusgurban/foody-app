@@ -1,59 +1,47 @@
 // @ts-nocheck
+import React, { Component } from 'react'
+import Chart from 'react-apexcharts'
 
-export default class ApexChart extends React.Component {
-  constructor(props: any) {
-    super(props)
+function ApexChart() {
+  class App extends Component {
+    constructor(props) {
+      super(props)
 
-    this.state = {
-      series: [44, 55, 41, 17, 15],
-      options: {
-        chart: {
-          width: 380,
-          type: 'donut',
-        },
-        plotOptions: {
-          pie: {
-            startAngle: -90,
-            endAngle: 270,
+      this.state = {
+        options: {
+          chart: {
+            id: 'basic-bar',
+          },
+          xaxis: {
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
           },
         },
-        dataLabels: {
-          enabled: false,
-        },
-        fill: {
-          type: 'gradient',
-        },
-        legend: {
-          formatter: function (val: any, opts: any) {
-            return val + ' - ' + opts.w.globals.series[opts.seriesIndex]
-          },
-        },
-        title: {
-          text: 'Gradient Donut with custom Start-angle',
-        },
-        responsive: [
+        series: [
           {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: 'bottom',
-              },
-            },
+            name: 'series-1',
+            data: [30, 40, 45, 50, 49, 60, 70, 91],
           },
         ],
-      },
+      }
+    }
+
+    render() {
+      return (
+        <div className="app">
+          <div className="row">
+            <div className="mixed-chart">
+              <Chart
+                options={this.state.options}
+                series={this.state.series}
+                type="bar"
+                width="500"
+              />
+            </div>
+          </div>
+        </div>
+      )
     }
   }
-
-  render() {
-    return (
-      <div>
-        <div id="chart"></div>
-        <div id="html-dist"></div>
-      </div>
-    )
-  }
 }
+
+export default ApexChart

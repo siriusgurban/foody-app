@@ -1,8 +1,9 @@
-//@ts-no check
+//@ts- nocheck
 
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import ApexChart from './chart'
 
 function HeaderAdmin() {
   const { locale, locales, push } = useRouter()
@@ -31,7 +32,6 @@ function HeaderAdmin() {
           )
         })}
       </div>
-      {/* <ApexChart /> */}
     </>
   )
 }

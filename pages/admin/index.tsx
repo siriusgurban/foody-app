@@ -1,9 +1,47 @@
+//@ts-nocheck
+
 import HeaderAdmin from '@/shared/components/headerAdmin'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useEffect, useState } from 'react'
+import { getProducts } from '@/shared/services/products'
+import { instanceAxios } from '@/shared/helpers/instanceAxios'
+import { log } from 'console'
 
 const AdminDashboard: NextPage = () => {
+  const [prod, setProd] = useState()
+
+  useEffect(() => {
+    try {
+      const produ = await getProducts()
+      setProd(produ)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
+  // useEffect(() => {
+  //   const getProducts = async () => {
+  //     try {
+  //       const response = await instanceAxios({ method: 'GET', url: 'products' })
+  //       setProd(response)
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   }
+  //   getProducts()
+  // }, [])
+
+  // useEffect(() => {
+  //   async function getPro() {
+  //     const data = await fetch('/api/products')
+  //     const res = await data.json()
+  //     setProd(res)
+  //   }
+  //   getPro()
+  // }, [])
+
   return (
     <div>
       <Head>
@@ -13,6 +51,7 @@ const AdminDashboard: NextPage = () => {
       </Head>
 
       <HeaderAdmin />
+      {console.log(prod, 'proddd')}
     </div>
   )
 }
