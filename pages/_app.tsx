@@ -5,16 +5,19 @@ import { Provider } from 'react-redux'
 import store from '../shared/store/store'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const queryClient = new QueryClient()
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    </QueryClientProvider>
+    <ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      </QueryClientProvider>
+    </ChakraProvider>
   )
 }
 

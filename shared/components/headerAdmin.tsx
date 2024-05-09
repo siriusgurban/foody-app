@@ -5,14 +5,14 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { increment } from '../store/basketSlice/basketSlice'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import Piechart from './Piechart'
+import { Button, useToast } from '@chakra-ui/react'
 
 function HeaderAdmin() {
   const { locale, locales, push } = useRouter()
   const handleClick = (l: any) => () => {
     push('/admin', undefined, { locale: l })
   }
-
+  const toast = useToast()
   const { t } = useTranslation('admin')
 
   const count = useAppSelector((state) => state.basket.value)
@@ -44,7 +44,20 @@ function HeaderAdmin() {
 
       <button onClick={Increase}>Increase</button>
       <p className="text-red-700">{count}</p>
-      <Piechart />
+      {/* <Piechart /> */}
+      <Button
+        onClick={() =>
+          toast({
+            title: 'Account created.',
+            description: "We've created your account for you.",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+      >
+        Show Toast
+      </Button>
     </>
   )
 }
