@@ -8,6 +8,7 @@ const nextConfig = {
     locales: ['en', 'az', 'de'],
     defaultLocale: 'en',
   },
+  transpilePackages: ['@mui/x-charts']
 };
 
 export default nextConfig;
