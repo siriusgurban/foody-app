@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { increment } from '../store/basketSlice/basketSlice'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import Piechart from './Piechart'
+// import Piechart from './Piechart'
 
 function HeaderAdmin() {
   const { locale, locales, push } = useRouter()
@@ -44,7 +44,7 @@ function HeaderAdmin() {
 
       <button onClick={Increase}>Increase</button>
       <p className="text-red-700">{count}</p>
-      <Piechart />
+      {/* <Piechart /> */}
     </>
   )
 }
