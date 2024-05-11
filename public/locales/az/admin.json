@@ -1,6 +1,9 @@
 {
     "product": "Məhsul",
         "add": "Əlavə et",
-        "login": "Giriş"
+        "login": "Giriş",
+        "welcome-admin": "Xoş Gəldin Admin",
+        "signin":"Giriş et"
+
 
 }
