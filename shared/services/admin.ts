@@ -8,8 +8,6 @@ import { instanceAxios } from '@/shared/helpers/instanceAxios'
 // const newPost = { email: 'admin@gmail.com', password: '123456' }
 
 export const postAdmin = async (data: any) => {
-  console.log(data, 'dataOfPostAuth')
-
   try {
     const response = await instanceAxios({
       method: 'POST',

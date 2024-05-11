@@ -8,6 +8,27 @@ const config: Config = {
     './shared/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    fontFamily: {
+      display: ['Roboto', 'sans-serif'],
+    },
+    screens: {
+      xs: { max: '320px' },
+
+      sm: { max: '576px' },
+      // => @media (min-width: 640px) { ... }
+
+      md: { max: '768px' },
+      // => @media (min-width: 768px) { ... }
+
+      lg: { max: '1024px' },
+      // => @media (min-width: 1024px) { ... }
+
+      xl: { max: '1280px' },
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    },
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -15,13 +36,14 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
-    // colors: {
-    //   'admin-bg': 'rgb(30, 30, 48)',
-    //   'admin-main': 'rgb(56, 57, 78)',
-    //   'admin-secondary': 'rgb(39, 40, 60)',
-    //   'admin-btn': 'rgb(192, 53, 162)',
-    //   'admin-input': 'rgb(90, 91, 112)',
-    // },
+    colors: {
+      'admin-bg': '#1E1E30',
+      'admin-main': '#38394E',
+      'admin-secondary': 'rgb(39, 40, 60)',
+      'admin-btn': '#C035A2',
+      'admin-input': '#5A5B70',
+      'admin-text': '#C7C7C7',
+    },
   },
   plugins: [],
 }
