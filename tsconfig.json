@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-i18next.config.js", "shared/components/Piechart.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-i18next.config.js", "shared/components/Piechartt.tsx"],
   "exclude": ["node_modules"]
 }

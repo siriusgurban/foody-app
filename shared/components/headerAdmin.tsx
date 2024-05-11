@@ -44,7 +44,7 @@ function HeaderAdmin() {
 
       <button onClick={Increase}>Increase</button>
       <p className="text-red-700">{count}</p>
-      {/* <Piechart /> */}
+
       <Button
         onClick={() =>
           toast({

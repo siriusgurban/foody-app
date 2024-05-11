@@ -4,11 +4,11 @@
 // import s from './next-i18next.configS';
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ['@mui/x-charts'],
   i18n: {
     locales: ['en', 'az', 'de'],
     defaultLocale: 'en',
   },
-  transpilePackages: ['@mui/x-charts']
 };
 
 export default nextConfig;

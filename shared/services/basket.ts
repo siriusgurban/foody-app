@@ -1,20 +1,23 @@
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 
-export const getProducts = async () => {
+export const getBasket = async () => {
   try {
-    const response = await instanceAxios({ method: 'GET', url: 'products' })
+    const response = await instanceAxios({
+      method: 'GET',
+      url: 'basket',
+    })
     return response
   } catch (err) {
     console.log(err)
   }
 }
 
-export const postProduct = async (data: any) => {
+export const postBasket = async (data: any) => {
   try {
     const response = await instanceAxios({
       method: 'POST',
-      url: 'products',
-      data: data,
+      url: 'basket/add',
+      data,
     })
     return response
   } catch (err) {
