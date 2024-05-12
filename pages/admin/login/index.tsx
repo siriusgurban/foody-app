@@ -166,7 +166,7 @@ function Login() {
           >
             <Image
               alt="adminlogin"
-              src={'/adminlogin.svg'}
+              src={'./adminlogin.svg'}
               width={346}
               height={304}
               className="w-full xs:h-36 sm:h-48"
