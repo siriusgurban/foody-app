@@ -19,6 +19,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Foody from '@/shared/components/foody'
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
+import { postAdmin } from '@/shared/services/admin'
 
 function Login() {
   const { t } = useTranslation('admin')
@@ -30,28 +31,27 @@ function Login() {
     password: '',
   }
 
-  const newPost = { email: 'admin@gmail.com', password: '123456' }
+  // const newPost = { email: 'admin@gmail.com', password: '123456' }
 
-  async function postAdmin(data: any) {
-    try {
-      console.log(data, 'asssssss')
+  // async function postAdmin(data: any) {
+  //   try {
+  //     console.log(data, 'asssssss')
 
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      const data1 = await response.json()
-      console.log(data1, 'data1')
+  //     const response = await fetch('/api/auth/signin', {
+  //       method: 'POST',
+  //       body: JSON.stringify(data),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //     const data1 = await response.json()
+  //     console.log(data1, 'data1')
 
-      return data1
-    } catch (err) {
-      console.log(err, 'postAuth')
-    }
-  }
-  postAdmin()
+  //     return data1
+  //   } catch (err) {
+  //     console.log(err, 'postAuth')
+  //   }
+  // }
 
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues,
@@ -76,31 +76,33 @@ function Login() {
     },
   })
 
-  async function handleForm() {
-    await postAdmin(newPost)
-  }
-
-  // async function handleForm(data) {
-  //   console.log(data, 'data')
-  //   try {
-  //     await postAdmin(data)
-  //     toast({
-  //       description: 'Your post created',
-  //       status: 'success',
-  //       duration: 3000,
-  //       isClosable: true,
-  //       position: 'top-right',
-  //     })
-  //   } catch (error) {
-  //     toast({
-  //       description: error.message,
-  //       status: 'error',
-  //       duration: 3000,
-  //       isClosable: true,
-  //       position: 'top-right',
-  //     })
-  //   }
+  // async function handleForm() {
+  //   await postAdmin(newPost)
   // }
+
+  async function handleForm(data) {
+    console.log(data, 'data')
+    try {
+      const a = await postAdmin(data)
+      toast({
+        description: 'Your post created',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      })
+
+      console.log(a, 'a')
+    } catch (error) {
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      })
+    }
+  }
 
   return (
     <div>

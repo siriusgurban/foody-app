@@ -1,3 +1,4 @@
+//@ts- nocheck
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 
 // const token = 'my_token'
@@ -13,7 +14,10 @@ export const postAdmin = async (data: any) => {
       method: 'POST',
       url: 'auth/signin',
       data,
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     })
     return response
   } catch (err) {
