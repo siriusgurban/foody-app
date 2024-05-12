@@ -4,5 +4,7 @@
     "login": "Login",
     "welcome-admin": "Welcome Admin",
     "signin":"Sign In",
-    "foody":"Foody"
+    "foody":"Foody",
+    "email": "Email",
+    "password":"Password"
 }

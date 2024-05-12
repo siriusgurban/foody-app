@@ -20,44 +20,23 @@ import Image from 'next/image'
 import Foody from '@/shared/components/foody'
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 import { postAdmin } from '@/shared/services/admin'
+import { adminLogin, token } from '@/shared/types/admin'
+
+const initialValues = {
+  email: '',
+  password: '',
+}
 
 function Login() {
   const { t } = useTranslation('admin')
   const toast = useToast()
   const { push } = useRouter()
 
-  const initialValues = {
-    email: '',
-    password: '',
-  }
-
-  // const newPost = { email: 'admin@gmail.com', password: '123456' }
-
-  // async function postAdmin(data: any) {
-  //   try {
-  //     console.log(data, 'asssssss')
-
-  //     const response = await fetch('/api/auth/signin', {
-  //       method: 'POST',
-  //       body: JSON.stringify(data),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //     const data1 = await response.json()
-  //     console.log(data1, 'data1')
-
-  //     return data1
-  //   } catch (err) {
-  //     console.log(err, 'postAuth')
-  //   }
-  // }
-
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues,
     onSubmit: handleForm,
     validate: (form) => {
-      const error = {}
+      const error: any = {}
       const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
       if (!form?.email?.trim()) {
@@ -76,23 +55,32 @@ function Login() {
     },
   })
 
-  // async function handleForm() {
-  //   await postAdmin(newPost)
-  // }
-
-  async function handleForm(data) {
-    console.log(data, 'data')
+  let tokenObj: token = JSON.parse(
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('tokenObj') ?? '{}'
+      : '{}',
+  )
+  async function handleForm(data: adminLogin) {
     try {
-      const a = await postAdmin(data)
+      const res = await postAdmin(data)
+      console.log(res, 'res')
+
+      tokenObj = {
+        access_token: res?.data.user.access_token,
+        refresh_token: res?.data.user.refresh_token,
+      }
+
+      localStorage.setItem('tokenObj', JSON.stringify(tokenObj))
+      localStorage.setItem('userInfo', JSON.stringify(res?.data.user))
+
       toast({
-        description: 'Your post created',
+        description: "You've entered",
         status: 'success',
         duration: 3000,
         isClosable: true,
         position: 'top-right',
       })
-
-      console.log(a, 'a')
+      push('/')
     } catch (error) {
       toast({
         description: error.message,
@@ -130,7 +118,7 @@ function Login() {
                   type="text"
                   id="email"
                   name="email"
-                  placeholder="User Email"
+                  placeholder={t('email')}
                   onChange={handleChange}
                   className="p-6 xs:p-2 sm:p-4"
                 />
@@ -143,7 +131,7 @@ function Login() {
                   type="password"
                   id="password"
                   name="password"
-                  placeholder="User password"
+                  placeholder={t('password')}
                   onChange={handleChange}
                   className="p-6 xs:p-2 sm:p-4"
                 />
