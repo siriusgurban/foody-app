@@ -12,7 +12,7 @@ const config: Config = {
       display: ['Roboto', 'sans-serif'],
     },
     screens: {
-      xs: { max: '320px' },
+      xs: { max: '319px' },
 
       sm: { max: '576px' },
       // => @media (min-width: 640px) { ... }

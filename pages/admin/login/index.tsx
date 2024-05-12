@@ -30,7 +30,9 @@ function Login() {
     password: '',
   }
 
-  const postAdmin = async (data: any) => {
+  const newPost = { email: 'admin@gmail.com', password: '123456' }
+
+  async function postAdmin(data: any) {
     try {
       console.log(data, 'asssssss')
 
@@ -49,8 +51,7 @@ function Login() {
       console.log(err, 'postAuth')
     }
   }
-
-  const newPost = { email: 'admin@gmail.com', password: '123456' }
+  postAdmin()
 
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues,
@@ -115,12 +116,13 @@ function Login() {
         <Box className="flex sm:flex-col-reverse xs:flex-col-reverse mt-40 xs:mt-2 sm:mt-6">
           <Box
             maxHeight={410}
-            className="flex flex-col justify-center xs:bg-transparent sm:bg-transparent bg-admin-main px-10"
+            maxWidth={424}
+            className="flex flex-col justify-center xs:bg-transparent sm:bg-transparent bg-admin-main px-10 w-full"
           >
             <Heading className="text-admin-text text-center lg:text-4xl md:text-3xl sm:text-xl xs:text-xl mb-10 xs:mb-3 sm:mb-6">
               {t('welcome-admin')}
             </Heading>
-            <FormControl className="p-0 max-w-80">
+            <FormControl className="p-0">
               <InputGroup className="mb-6 flex flex-col xs:mb-2 sm:mb-4">
                 <Input
                   type="text"
@@ -160,13 +162,13 @@ function Login() {
             </FormControl>
           </Box>
           <Box
-            className="bg-white flex align-middle justify-center xs:bg-transparent sm:bg-transparent xs:w-32 sm:w-52 xs:mx-auto sm:mx-auto px-7 xs:p-0 sm:p-0 xs:h-12"
+            className="bg-white flex align-middle justify-center xs:bg-transparent sm:bg-transparent xs:w-32 sm:w-52 xs:mx-auto sm:mx-auto px-7 xs:p-0 sm:p-0 xs:h-12 w-full"
             maxWidth={424}
             maxHeight={410}
           >
             <Image
               alt="adminlogin"
-              src={'./adminlogin.svg'}
+              src={'/adminLogin.svg'}
               width={346}
               height={304}
               className="w-full xs:h-36 sm:h-48"
