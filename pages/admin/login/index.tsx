@@ -10,13 +10,15 @@ import {
   FormHelperText,
   Heading,
   Input,
+  InputGroup,
   useToast,
 } from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
-import { postAdmin } from '../../../shared/services/admin'
 import Head from 'next/head'
 import Image from 'next/image'
+import Foody from '@/shared/components/foody'
+import { instanceAxios } from '@/shared/helpers/instanceAxios'
 
 function Login() {
   const { t } = useTranslation('admin')
@@ -28,7 +30,27 @@ function Login() {
     password: '',
   }
 
-  // const newPost = { email: 'admin@gmail.com', password: '123456' }
+  const postAdmin = async (data: any) => {
+    try {
+      console.log(data, 'asssssss')
+
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data1 = await response.json()
+      console.log(data1, 'data1')
+
+      return data1
+    } catch (err) {
+      console.log(err, 'postAuth')
+    }
+  }
+
+  const newPost = { email: 'admin@gmail.com', password: '123456' }
 
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues,
@@ -53,71 +75,84 @@ function Login() {
     },
   })
 
-  async function handleForm(data) {
-    console.log(data, 'data')
-    try {
-      await postAdmin(data)
-      toast({
-        description: 'Your post created',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      })
-    } catch (error) {
-      toast({
-        description: error.message,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      })
-    }
+  async function handleForm() {
+    await postAdmin(newPost)
   }
+
+  // async function handleForm(data) {
+  //   console.log(data, 'data')
+  //   try {
+  //     await postAdmin(data)
+  //     toast({
+  //       description: 'Your post created',
+  //       status: 'success',
+  //       duration: 3000,
+  //       isClosable: true,
+  //       position: 'top-right',
+  //     })
+  //   } catch (error) {
+  //     toast({
+  //       description: error.message,
+  //       status: 'error',
+  //       duration: 3000,
+  //       isClosable: true,
+  //       position: 'top-right',
+  //     })
+  //   }
+  // }
 
   return (
     <div>
       <Head>
         <title>Admin | {t('login')}</title>
+        <link rel="icon" href="/icons8-admin-96.png" />
       </Head>
-      <div className="bg-admin-bg h-lvh flex justify-center align-middle m-auto">
-        <Box className="flex sm:flex-col-reverse xs:flex-col-reverse">
+      <div className="bg-admin-bg h-lvh flex justify-center align-middle ">
+        <Box className="absolute left-8 top-14 xs:left-5 xs:top-5 sm:left-7 sm:top-10">
+          <Foody role="admin" />
+        </Box>
+
+        <Box className="flex sm:flex-col-reverse xs:flex-col-reverse mt-40 xs:mt-2 sm:mt-6">
           <Box
-            // width={424}
-            height={410}
-            className="flex flex-col justify-center bg-admin-main px-10"
+            maxHeight={410}
+            className="flex flex-col justify-center xs:bg-transparent sm:bg-transparent bg-admin-main px-10"
           >
-            <Heading className="text-admin-text text-center text-4xl md:text-3xl sm:text-2xl mb-10">
+            <Heading className="text-admin-text text-center lg:text-4xl md:text-3xl sm:text-xl xs:text-xl mb-10 xs:mb-3 sm:mb-6">
               {t('welcome-admin')}
             </Heading>
             <FormControl className="p-0 max-w-80">
-              <Input
-                type="text"
-                id="email"
-                name="email"
-                placeholder="User Email"
-                onChange={handleChange}
-                className="mb-6"
-              />
-              {errors?.email && (
-                <FormHelperText color="red">{errors?.email}</FormHelperText>
-              )}
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="User password"
-                onChange={handleChange}
-                className="mb-9"
-              />
-
-              {errors?.password && (
-                <FormHelperText color="red">{errors?.password}</FormHelperText>
-              )}
+              <InputGroup className="mb-6 flex flex-col xs:mb-2 sm:mb-4">
+                <Input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="User Email"
+                  onChange={handleChange}
+                  className="p-6 xs:p-2 sm:p-4"
+                />
+                {errors?.email && (
+                  <FormHelperText color="red">{errors?.email}</FormHelperText>
+                )}
+              </InputGroup>
+              <InputGroup className="mb-9 flex flex-col xs:mb-2 sm:mb-4">
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="User password"
+                  onChange={handleChange}
+                  className="p-6 xs:p-2 sm:p-4"
+                />
+                {errors?.password && (
+                  <FormHelperText color="red">
+                    {errors?.password}
+                  </FormHelperText>
+                )}
+              </InputGroup>
               <Button
                 variant="danger"
                 type="submit"
-                className="w-full bg-admin-btn text-[#ffffff]"
+                className="w-full bg-admin-btn text-white p-6 xs:p-2 sm:p-4 font-medium"
                 onClick={handleSubmit}
               >
                 {t('signin')}
@@ -125,15 +160,16 @@ function Login() {
             </FormControl>
           </Box>
           <Box
-            className="bg-[#ffffff] flex align-middle justify-center xs:bg-admin-bg sm:bg-admin-bg"
-            width={424}
-            height={410}
+            className="bg-white flex align-middle justify-center xs:bg-transparent sm:bg-transparent xs:w-32 sm:w-52 xs:mx-auto sm:mx-auto px-7 xs:p-0 sm:p-0 xs:h-12"
+            maxWidth={424}
+            maxHeight={410}
           >
             <Image
               alt="adminlogin"
               src={'/adminlogin.svg'}
               width={346}
               height={304}
+              className="w-full xs:h-36 sm:h-48"
             />
           </Box>
         </Box>
