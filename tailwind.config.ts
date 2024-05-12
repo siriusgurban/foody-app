@@ -25,9 +25,6 @@ const config: Config = {
 
       xl: { max: '1280px' },
       // => @media (min-width: 1280px) { ... }
-
-      '2xl': '1536px',
-      // => @media (min-width: 1536px) { ... }
     },
     extend: {
       backgroundImage: {
@@ -35,14 +32,14 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-    },
-    colors: {
-      'admin-bg': '#1E1E30',
-      'admin-main': '#38394E',
-      'admin-secondary': 'rgb(39, 40, 60)',
-      'admin-btn': '#C035A2',
-      'admin-input': '#5A5B70',
-      'admin-text': '#C7C7C7',
+      colors: {
+        'admin-bg': '#1E1E30',
+        'admin-main': '#38394E',
+        'admin-secondary': 'rgb(39, 40, 60)',
+        'admin-btn': '#C035A2',
+        'admin-input': '#5A5B70',
+        'admin-text': '#C7C7C7',
+      },
     },
   },
   plugins: [],
