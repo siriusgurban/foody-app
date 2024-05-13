@@ -6,5 +6,8 @@
         "signin":"Giriş et",
         "foody":"Foody",
         "email": "Email",
-        "password":"Şifrə"
+        "password":"Şifrə",
+        "category":"Kateqoriya",
+        "dashboard":"İdarə paneli",
+        "addproduct":"Məhsul Əlavə et"
 }

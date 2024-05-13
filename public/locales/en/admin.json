@@ -6,5 +6,8 @@
     "signin":"Sign In",
     "foody":"Foody",
     "email": "Email",
-    "password":"Password"
+    "password":"Password",
+    "category":"Category",
+    "dashboard":"Dashboard",
+    "addproduct":"Add Product"
 }
