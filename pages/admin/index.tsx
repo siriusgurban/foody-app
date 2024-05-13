@@ -9,9 +9,12 @@ import { getProducts } from '@/shared/services/products'
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
+import { Box } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 const AdminDashboard: NextPage = () => {
   const [prod, setProd] = useState()
+  const { push } = useRouter()
 
   // useEffect(() => {
   //   try {
@@ -60,6 +63,15 @@ const AdminDashboard: NextPage = () => {
 
       <HeaderAdmin />
       <p>Status: {status}</p>
+      <Box>
+        <Box onClick={() => push('/admin')}>Dashboard</Box>
+        <Box onClick={() => push('/admin/products')}>Products</Box>
+        <Box onClick={() => push('/admin/restaurants')}>Restuarants</Box>
+        <Box>Category</Box>
+        <Box>Orders</Box>
+        <Box>Offers</Box>
+        <Box>LogOut</Box>
+      </Box>
     </div>
   )
 }

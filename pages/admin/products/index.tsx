@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -14,6 +15,9 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getProducts, postProduct } from '../../../shared/services/products'
+import Head from 'next/head'
+import AdminHeader from '@/shared/components/AdminHeader'
+import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 
 const newPost = {
   img_url:
@@ -66,38 +70,19 @@ function Login() {
   console.log(products, 'products')
 
   return (
-    <div className="bg-admin-bg h-lvh">
-      {t('login')}
-      <FormControl>
-        <Input type="text" id="price" name="price" onChange={handleChange} />
-        <Input type="text" id="name" name="name" onChange={handleChange} />
-        <Input
-          type="text"
-          id="description"
-          name="description"
-          onChange={handleChange}
-        />
-        <Input
-          type="text"
-          id="rest_id"
-          name="rest_id"
-          onChange={handleChange}
-        />
-        <Input
-          type="img_url"
-          id="img_url"
-          name="img_url"
-          onChange={handleChange}
-        />
-        <Button
-          variant="danger"
-          type="submit"
-          className="w-100"
-          onClick={handleSubmit}
-        >
-          Sign In
-        </Button>
-      </FormControl>
+    <div>
+      <Head>
+        <title>Admin | {t('category')}</title>
+        <link rel="icon" href="/icons8-admin-96.png" />
+      </Head>
+
+      <Box className="bg-admin-bg h-lvh">
+        <Box className="max-w-[1440px] mx-auto">
+          <AdminHeader />
+          <AdminAsideMenu />
+          {/* <AdminAsideMenuResponsive /> */}
+        </Box>
+      </Box>
     </div>
   )
 }
