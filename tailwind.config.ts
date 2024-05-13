@@ -35,7 +35,7 @@ const config: Config = {
       colors: {
         'admin-bg': '#1E1E30',
         'admin-main': '#38394E',
-        'admin-secondary': 'rgb(39, 40, 60)',
+        'admin-secondary': '#27283C',
         'admin-btn': '#C035A2',
         'admin-input': '#5A5B70',
         'admin-text': '#C7C7C7',

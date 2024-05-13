@@ -2,12 +2,14 @@ import React from 'react'
 
 function Foody({ role }: { role: string }) {
   const admin = {
-    foody: 'xs:text-2xl sm:text-2xl md:text-3xl lg:text-3xl text-[#F5F5F5]',
+    foody:
+      'xs:text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:4xl text-[#F5F5F5]',
     dot: ' text-[#EAAB00]',
   }
 
   const client = {
-    foody: 'xs:text-2xl sm:text-2xl md:text-3xl lg:text-3xl text-[#000000]',
+    foody:
+      'xs:text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:4xl text-[#000000]',
     dot: ' text-[#D63626]',
   }
 
