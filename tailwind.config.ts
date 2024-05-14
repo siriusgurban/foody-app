@@ -23,7 +23,7 @@ const config: Config = {
       lg: { max: '1024px' },
       // => @media (min-width: 1024px) { ... }
 
-      xl: { max: '1280px' },
+      xl: { max: '1440px' },
       // => @media (min-width: 1280px) { ... }
     },
     extend: {

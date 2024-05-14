@@ -35,14 +35,14 @@ function Category() {
     <div>
       <Head>
         <title>Admin | {t('category')}</title>
-        <link rel="icon" href="/icons8-admin-96.png" />
+        <link rel="icon" href="/admin6024190.png" />
       </Head>
 
       <Box className="bg-admin-bg h-lvh">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
           <AdminAsideMenu />
-          {/* <AdminAsideMenuResponsive /> */}
+          <AdminAsideMenuResponsive />
         </Box>
       </Box>
     </div>
