@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Foody from './foody'
 import { useDispatch, useSelector } from 'react-redux'
-import { isOpenFn } from '../store/asideMenuSlice/asideMenuSlice'
+import { isOpenFn } from '../store/responsiveSlice/asideMenuSlice'
 import { useAppSelector } from '../store/hooks'
 
 function AdminAsideMenuResponsive() {
@@ -17,8 +17,8 @@ function AdminAsideMenuResponsive() {
   const isOpenState = useAppSelector((state) => state.asideMenu.value)
   const [state, setState] = useState<boolean>()
   useEffect(() => {
-    const openFn = () => (isOpenState ? '' : 'hidden')
-    setState(openFn)
+    const isOpenFn = () => (isOpenState ? '' : 'hidden')
+    setState(isOpenFn)
   }, [isOpenState])
 
   console.log(isOpenState, 'asddd')
