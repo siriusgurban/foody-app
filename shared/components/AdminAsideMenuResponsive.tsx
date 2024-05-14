@@ -8,9 +8,11 @@ import Foody from './foody'
 import { useDispatch, useSelector } from 'react-redux'
 import { isOpenFn } from '../store/responsiveSlice/asideMenuSlice'
 import { useAppSelector } from '../store/hooks'
+import { useTranslation } from 'react-i18next'
 
 function AdminAsideMenuResponsive() {
   const { push, asPath } = useRouter()
+  const { t } = useTranslation('admin')
 
   const isActive = (path: string) => (asPath === path ? '#CD61ED' : 'none')
 
@@ -46,8 +48,8 @@ function AdminAsideMenuResponsive() {
       <Box as="section" className="mt-4  w-64 rounded-xl h-96 p-5">
         <Box as="ul" className="w-64 flex flex-col gap-2">
           <Button
-            onClick={() => push('/admin')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
+            onClick={(() => push('/admin'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
@@ -61,11 +63,11 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/dashboard.svg"
             />
-            Dashboard
+            {t('dashboard')}
           </Button>
           <Button
-            onClick={() => push('/admin/products')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
+            onClick={(() => push('/admin/products'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
@@ -79,11 +81,11 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/products.svg"
             />
-            Products
+            {t('products')}
           </Button>
           <Button
-            onClick={() => push('/admin/restaurants')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
+            onClick={(() => push('/admin/restaurants'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
@@ -97,11 +99,11 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/restaurants.svg"
             />
-            Restaurants
+            {t('restaurants')}
           </Button>
           <Button
-            onClick={() => push('/admin/category')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52"
+            onClick={(() => push('/admin/category'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
@@ -115,11 +117,11 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/category.svg"
             />
-            Category
+            {t('category')}
           </Button>
           <Button
-            onClick={() => push('/admin/orders')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52"
+            onClick={(() => push('/admin/orders'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
@@ -133,15 +135,15 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/orders.svg"
             />
-            Orders
+            {t('orders')}
           </Button>
           <Button
-            onClick={() => push('/admin/offer')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52"
+            onClick={(() => push('/admin/offers'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
-              backgroundColor: isActive('/admin/offer'),
+              backgroundColor: isActive('/admin/offers'),
             }}
             as="li"
           >
@@ -151,11 +153,11 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/offer.svg"
             />
-            Offer
+            {t('offers')}
           </Button>
           <Button
-            onClick={() => push('/admin/login')}
-            className="flex gap-7 w-52 text-pink20 cursor-pointer hover:bg-admin-btnhover hover:w-52"
+            onClick={(() => push('/admin/login'), () => handleClose())}
+            className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
             colorScheme="none"
             style={{
               justifyContent: 'flex-start',
@@ -169,7 +171,7 @@ function AdminAsideMenuResponsive() {
               height={18}
               src="/adminasidemenu/logout.svg"
             />
-            Logout
+            {t('logout')}
           </Button>
         </Box>
       </Box>

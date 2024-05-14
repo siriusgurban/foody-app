@@ -80,7 +80,7 @@ function Login() {
         isClosable: true,
         position: 'top-right',
       })
-      push('/')
+      push('/admin')
     } catch (error) {
       toast({
         description: error.message,
