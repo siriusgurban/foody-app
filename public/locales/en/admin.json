@@ -9,5 +9,10 @@
     "password":"Password",
     "category":"Category",
     "dashboard":"Dashboard",
-    "addproduct":"Add Product"
+    "addproduct":"Add Product",
+    "products":"Products",
+    "restaurants":"Restaurants",
+    "orders":"Orders",
+    "offers":"Offers",
+    "logout":"Logout"
 }
