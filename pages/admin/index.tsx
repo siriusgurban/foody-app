@@ -70,7 +70,7 @@ const AdminDashboard: NextPage = () => {
         <Box>Category</Box>
         <Box>Orders</Box>
         <Box>Offers</Box>
-        <Box>LogOut</Box>
+        <Box className=" sm:hidden ">LogOut</Box>
       </Box>
     </div>
   )

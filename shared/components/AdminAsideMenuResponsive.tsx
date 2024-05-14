@@ -1,17 +1,48 @@
+//@ts-nocheck
+
 import { Box, Button } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Foody from './foody'
+import { useDispatch, useSelector } from 'react-redux'
+import { isOpenFn } from '../store/asideMenuSlice/asideMenuSlice'
+import { useAppSelector } from '../store/hooks'
 
 function AdminAsideMenuResponsive() {
   const { push, asPath } = useRouter()
 
   const isActive = (path: string) => (asPath === path ? '#CD61ED' : 'none')
-  const isOpen = true
-  const openFn = () => (isOpen ? '' : 'hidden')
+
+  const isOpenState = useAppSelector((state) => state.asideMenu.value)
+  const [state, setState] = useState<boolean>()
+  useEffect(() => {
+    const openFn = () => (isOpenState ? '' : 'hidden')
+    setState(openFn)
+  }, [isOpenState])
+
+  console.log(isOpenState, 'asddd')
+
+  const dispatch = useDispatch()
+
+  function handleClose() {
+    dispatch(isOpenFn())
+    console.log('close')
+  }
 
   return (
-    <Box className={`bg-admin-aside h-lvh ${openFn}`}>
+    <Box className={`bg-admin-aside h-lvh ${state} absolute left-0 top-0`}>
+      <Box className="flex pt-4 ps-4 gap-4">
+        <Image
+          src={'/arrowBack.svg'}
+          width={12}
+          height={20}
+          alt="arrow"
+          onClick={handleClose}
+          className="cursor-pointer"
+        />
+        <Foody role="admin" />
+      </Box>
       <Box as="section" className="mt-4  w-64 rounded-xl h-96 p-5">
         <Box as="ul" className="w-64 flex flex-col gap-2">
           <Button
