@@ -36,6 +36,7 @@ const config: Config = {
       'admin-modal-frame-bg':'rgb(67, 68, 90)',
       'admin-white':'rgb(255, 255, 255)',
       'admin-modal-purple-btn':'rgb(192, 53, 162)',
+      
       'admin-cancel-btn':'rgb(67, 68, 90)',
       
     },
