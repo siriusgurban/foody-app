@@ -47,6 +47,17 @@ const config: Config = {
       'admin-delete-icon':' rgb(235, 87, 87)',
       'admin-edit-icon':' rgb(0, 178, 169);',
       'admin-restaurant-card-category':'rgb(130, 130, 130);',
+
+      'admin-modal-placeholder':'rgb(242, 242, 242)',
+      'admin-modal-upload-icon':' rgb(236, 92, 248);',
+      'admin-modal-frame-bg':'rgb(67, 68, 90)',
+      'admin-white':'rgb(255, 255, 255)',
+      'admin-modal-purple-btn':'rgb(192, 53, 162)',
+      'admin-cancel-btn':'rgb(67, 68, 90)',
+     
+      
+
+
     },
   },
   plugins: [],

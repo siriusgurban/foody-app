@@ -1,10 +1,5 @@
-<<<<<<< HEAD
+
 import React, { useState } from 'react';
-=======
-
-
-import React from 'react';
->>>>>>> 429f866357165122f44e4991965f36b328b3d633
 import { AddIcon } from '@chakra-ui/icons'
 
 import AdminRestaurantsDropdown from '@/shared/components/adminRestaurantsDropdown';
