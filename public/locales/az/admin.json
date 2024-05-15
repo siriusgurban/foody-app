@@ -1,6 +1,13 @@
 {
     "product": "Məhsul",
         "add": "Əlavə et",
-        "login": "Giriş"
-
+        "login": "Giriş",
+        "welcome-admin": "Xoş Gəldin Admin",
+        "signin":"Giriş et",
+        "foody":"Foody",
+        "email": "Email",
+        "password":"Şifrə",
+        "category":"Kateqoriya",
+        "dashboard":"İdarə paneli",
+        "addproduct":"Məhsul Əlavə et"
 }

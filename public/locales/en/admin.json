@@ -1,5 +1,13 @@
 {
     "product" : "Product",
     "add": "Add",
-    "login": "Login"
+    "login": "Login",
+    "welcome-admin": "Welcome Admin",
+    "signin":"Sign In",
+    "foody":"Foody",
+    "email": "Email",
+    "password":"Password",
+    "category":"Category",
+    "dashboard":"Dashboard",
+    "addproduct":"Add Product"
 }

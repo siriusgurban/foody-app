@@ -1,3 +1,4 @@
+//@ts- nocheck
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 
 // const token = 'my_token'
@@ -8,14 +9,15 @@ import { instanceAxios } from '@/shared/helpers/instanceAxios'
 // const newPost = { email: 'admin@gmail.com', password: '123456' }
 
 export const postAdmin = async (data: any) => {
-  console.log(data, 'dataOfPostAuth')
-
   try {
     const response = await instanceAxios({
       method: 'POST',
       url: 'auth/signin',
       data,
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     })
     return response
   } catch (err) {
