@@ -9,6 +9,16 @@ const nextConfig = {
     locales: ['en', 'az', 'de'],
     defaultLocale: 'en',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'gujarat.mallsmarket.com',
+        port: '',
+        pathname: '/sites/default/files/styles/medium/public/images/brands/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

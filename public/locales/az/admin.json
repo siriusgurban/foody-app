@@ -9,5 +9,10 @@
         "password":"Şifrə",
         "category":"Kateqoriya",
         "dashboard":"İdarə paneli",
-        "addproduct":"Məhsul Əlavə et"
+        "addproduct":"Məhsul Əlavə et",
+        "products":"Məhsullar",
+        "restaurants":"Restoranlar",
+        "orders":"Sifarişlər",
+        "offers":"Təkliflər",
+        "logout":"Çıxış"
 }

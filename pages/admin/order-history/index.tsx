@@ -12,13 +12,13 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function AdminDashboard() {
+function OrderHistory() {
   const { t } = useTranslation('admin')
 
   return (
     <div>
       <Head>
-        <title>Admin | {t('dashboard')}</title>
+        <title>Admin | {t('order-history')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
 
@@ -33,7 +33,7 @@ function AdminDashboard() {
   )
 }
 
-export default AdminDashboard
+export default OrderHistory
 
 export async function getStaticProps({ locale }: { locale: any }) {
   return {
