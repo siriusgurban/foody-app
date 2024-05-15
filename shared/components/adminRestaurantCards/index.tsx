@@ -8,7 +8,7 @@ const AdminRestaurantsCard: FC = () => {
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
                     <div
                         key={index}
-                        className="relative  bg-admin-secondary-add  w-64 h-20 rounded-md  border-2  shadow-md p-2 mb-4"
+                        className="relative  bg-admin-secondary-add  w-64 h-20 rounded-md  border-2  shadow-md p-2 mb-4  font-display"
                     >
                         <div className="flex w-full h-full items-center justify-between gap-4">
                             <div className="w-20 h-16 flex-shrink-0 mr-2 relative mt-6">
