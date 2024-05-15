@@ -1,23 +1,41 @@
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminHeader from '@/shared/components/AdminHeader'
-import Foody from '@/shared/components/foody'
-import { getCategories, getCategoryById } from '@/shared/services/category'
-import { Box, Button, useToast } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
+import {
+  deleteCategory,
+  getCategories,
+  getCategoryById,
+} from '@/shared/services/category'
+import {
+  Box,
+  Button,
+  useToast,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from '@chakra-ui/react'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import AdminRestaurantsDropdown from '@/shared/components/adminRestaurantsDropdown'
+import { AddIcon } from '@chakra-ui/icons'
+import { MdDeleteForever, MdEdit } from 'react-icons/md'
 
 function Category() {
   const { t } = useTranslation('admin')
   const toast = useToast()
-  const { push } = useRouter()
 
-  const { data: categories } = useQuery({
+  const { data } = useQuery({
     queryFn: getCategories,
     queryKey: ['categories'],
   })
@@ -29,7 +47,27 @@ function Category() {
     queryKey: ['category'],
   })
 
-  console.log(category, 'cate')
+  const { mutate } = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess(data, variables, context) {
+      console.log(data, 'success')
+      toast({
+        title: 'Category deleted',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    },
+    onError(data, variables, context) {
+      console.log(data, 'error')
+    },
+  })
+
+  function handleDelete(id: any) {
+    mutate(id)
+  }
+
+  console.log(data?.data?.result?.data, 'cate')
 
   return (
     <div>
@@ -41,8 +79,80 @@ function Category() {
       <Box className="bg-admin-bg h-lvh">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
-          <AdminAsideMenu />
-          <AdminAsideMenuResponsive />
+          <Box className="flex gap-7">
+            <AdminAsideMenu />
+            <AdminAsideMenuResponsive />
+            <Box className="flex flex-col gap-4 w-full">
+              <div className="max-w-7xl py-6 ">
+                <div className="bg-white overflow-hidden shadow-sm rounded-2xl">
+                  <div className="p-6 flex  justify-between items-center bg-admin-secondary ">
+                    <h1 className="text-xl font-semibold text-admin-secondary-heading ">
+                      Restaurants
+                    </h1>
+                    <div className="flex gap-2  ">
+                      <div className="">
+                        <AdminRestaurantsDropdown className2="" />
+                      </div>
+                      <button className=" text-admin-secondary-add bg-admin-add-button-bg text-sm px-4 py-2  rounded-2xl ">
+                        <span>
+                          <AddIcon boxSize={2} color="white" />
+                        </span>
+                        ADD CATEGORY
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <TableContainer>
+                <Table variant="simple" className="bg-white">
+                  <Thead>
+                    <Tr>
+                      <Th>ID</Th>
+                      <Th>Image</Th>
+                      <Th>Name</Th>
+                      <Th>Slug</Th>
+                      <Th></Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {data?.data?.result?.data?.map(
+                      (item: any, index: number) => {
+                        return (
+                          <Tr key={index}>
+                            <Td py={1}>{item?.id}</Td>
+                            <Td py={1}>
+                              <Image
+                                src={item?.img_url}
+                                width={48}
+                                height={42}
+                                alt="table_image"
+                              />
+                            </Td>
+                            <Td py={1}>{item?.name}</Td>
+                            <Td py={1}>{item?.slug}</Td>
+                            <Td>
+                              <div className="flex justify-end gap-4">
+                                <button>
+                                  <span>
+                                    <MdEdit className="fill-admin-edit-icon w-5 h-5" />
+                                  </span>
+                                </button>
+                                <button onClick={() => handleDelete(item?.id)}>
+                                  <span>
+                                    <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
+                                  </span>
+                                </button>
+                              </div>
+                            </Td>
+                          </Tr>
+                        )
+                      },
+                    )}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </div>
