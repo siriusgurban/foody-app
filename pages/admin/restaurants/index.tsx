@@ -18,7 +18,6 @@ const Restaurants: React.FC = () => {
 
   function showHideModal() {
     setHideModal((prev) => !prev);
-    // console.log(isHiddenModal);
   }
   return (
     <div className="bg-admin-bg min-h-screen flex justify-between font-display">
