@@ -16,6 +16,9 @@ const theme = extendTheme({
     heading: `'Roboto', sans-serif`,
     body: `'Roboto', sans-serif`,
   },
+  sizes: {
+    ss: { px: '256px' },
+  },
 })
 
 function App({ Component, pageProps }: AppProps) {

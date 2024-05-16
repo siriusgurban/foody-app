@@ -16,8 +16,8 @@ export const asideMenuSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    isOpenFn: (state) => {
-      state.value = !state.value
+    isOpenFn: (state, action) => {
+      state.value = !action.payload
     },
   },
 })

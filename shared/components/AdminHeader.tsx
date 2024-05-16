@@ -7,6 +7,7 @@ import {
   MenuList,
   Select,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -15,15 +16,18 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { isOpenFn } from '../store/responsiveSlice/asideMenuSlice'
 import { Lang } from './Lang'
+import { useAppSelector } from '../store/hooks'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const isOpenState = useAppSelector((state) => state.asideMenu.value)
 
   const dispatch = useDispatch()
 
   function handleOpen() {
     console.log('cliked')
-    dispatch(isOpenFn())
+    dispatch(isOpenFn(isOpenState))
   }
 
   return (
@@ -36,7 +40,7 @@ function AdminHeader() {
           alt="hamburgerMenu"
           className="cursor-pointer"
           //   className="lg:hidden xl:hidden xs:flex sm:flex"
-          onClick={handleOpen}
+          onClick={onOpen}
         />
         <Foody role="admin" />
       </Box>
@@ -44,24 +48,8 @@ function AdminHeader() {
         <button className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs">
           + <span className="xs:hidden sm:hidden">{t('addproduct')}</span>
         </button>
-        {/* <Menu>
-          <MenuButton as={Button}>
-            <Image src={'/languages/en.svg'} width={41} height={41} alt="en" />
-          </MenuButton>
-          <MenuList>
-            <MenuItem>
-              <Image
-                src={'/languages/en.svg'}
-                width={41}
-                height={41}
-                alt="en"
-              />
-            </MenuItem>
-          </MenuList>
-        </Menu> */}
         <Lang />
         <button>
-          {' '}
           <Image
             src={'/adminLogo.svg'}
             width={41}
