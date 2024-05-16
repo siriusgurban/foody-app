@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-i18next.config.js", "shared/components/Piechartt.tsx", "styles/colors.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-i18next.config.js", "shared/components/Piechartt.tsx", "styles/colors.js", "shared/components/AdminAsideMenu.tsx", "shared/components/AdminAsideMenuResponsive.tsx", "shared/components/AdminHeader.tsx", "shared/components/foody.tsx"],
   "exclude": ["node_modules"]
 }

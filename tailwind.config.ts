@@ -12,18 +12,18 @@ const config: Config = {
       display: ['Roboto', 'sans-serif'],
     },
     screens: {
-      xs: { max: '319px' },
+      xs:  '319px',
 
-      sm: { max: '576px' },
+      sm:'576px',
       // => @media (min-width: 640px) { ... }
 
-      md: { max: '768px' },
+      md:  '768px' ,
       // => @media (min-width: 768px) { ... }
 
-      lg: { max: '1024px' },
+      lg: '1024px',
       // => @media (min-width: 1024px) { ... }
 
-      xl: { max: '1280px' },
+      xl: '1280px',
       // => @media (min-width: 1280px) { ... }
     },
     extend: {
@@ -34,11 +34,14 @@ const config: Config = {
       },
     },
     colors: {
-      'admin-bg': 'rgb(30, 30, 48)',
-      'admin-main': 'rgb(56, 57, 78)',
-      'admin-secondary': 'rgb(39, 40, 60)',
-      'admin-btn': 'rgb(192, 53, 162)',
-      'admin-input': 'rgb(90, 91, 112)',
+      'admin-bg': '#1E1E30',
+        'admin-main': '#38394E',
+        'admin-secondary': '#27283C',
+        'admin-btn': '#C035A2',
+        'admin-btnhover': '#CD61ED',
+        'admin-aside': '#C74FEB',
+        'admin-input': '#5A5B70',
+        'admin-text': '#C7C7C7',
       
       'admin-secondary-heading': 'rgba(242, 242, 242, 0.87)',
       'admin-secondary-select': 'rgb(242, 242, 242);',
@@ -54,6 +57,7 @@ const config: Config = {
       'admin-white':'rgb(255, 255, 255)',
       'admin-modal-purple-btn':'rgb(192, 53, 162)',
       'admin-cancel-btn':'rgb(67, 68, 90)',
+      'admin-modal-scrollbar':'rgb(239, 93, 168)'
      
       
 

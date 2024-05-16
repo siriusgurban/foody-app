@@ -4,14 +4,15 @@ import React from 'react'
 interface Props {
     p?: string;
     className: string;
+    classNameSelect?: string;
 }
 
-const AdminModalDropdown = ({ p = 'category', className }: Props) => {
+const AdminModalDropdown = ({ p = 'category', className, classNameSelect }: Props) => {
     return (
         <div className={className}>
-            <p className="text-base font-medium   text-admin-text mb-1">{p}</p>
+            <p className="text-base font-medium mb-1 text-admin-text ">{p}</p>
             <select
-                className=" bg-admin-input w-full   text-admin-text rounded-2xl   pl-3 font-medium text-base py-4 font-display"
+                className={classNameSelect}
                 defaultValue={""}
             >
                 <option value="" disabled>
