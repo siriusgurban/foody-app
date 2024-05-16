@@ -10,6 +10,7 @@
         "category":"Kateqoriya",
         "dashboard":"İdarə paneli",
         "addproduct":"Məhsul Əlavə et",
+<<<<<<< HEAD
         "ADD RESTAURANT":"RESTORAN ƏLAVƏ ET",
         "Create Restaurant":"Restoran Yarat",
         "Cancel":"Ləğv Et",
@@ -25,4 +26,11 @@
        
        
 
+=======
+        "products":"Məhsullar",
+        "restaurants":"Restoranlar",
+        "orders":"Sifarişlər",
+        "offers":"Təkliflər",
+        "logout":"Çıxış"
+>>>>>>> 24c368fefa731e122beaf7883b78782a9bf7c8cf
 }

@@ -23,7 +23,11 @@ const config: Config = {
       lg: '1024px',
       // => @media (min-width: 1024px) { ... }
 
+<<<<<<< HEAD
       xl: '1280px',
+=======
+      xl: { max: '1440px' },
+>>>>>>> 24c368fefa731e122beaf7883b78782a9bf7c8cf
       // => @media (min-width: 1280px) { ... }
     },
     extend: {
@@ -32,9 +36,14 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+<<<<<<< HEAD
     },
     colors: {
       'admin-bg': '#1E1E30',
+=======
+      colors: {
+        'admin-bg': '#1E1E30',
+>>>>>>> 24c368fefa731e122beaf7883b78782a9bf7c8cf
         'admin-main': '#38394E',
         'admin-secondary': '#27283C',
         'admin-btn': '#C035A2',
@@ -42,15 +51,17 @@ const config: Config = {
         'admin-aside': '#C74FEB',
         'admin-input': '#5A5B70',
         'admin-text': '#C7C7C7',
+<<<<<<< HEAD
+=======
+        'admin-secondary-heading': 'rgba(242, 242, 242, 0.87)',
+        'admin-secondary-select': 'rgb(242, 242, 242);',
+        'admin-secondary-add': 'rgb(255, 255, 255)',
+        'admin-add-button-bg': 'rgb(192, 53, 162)',
+        'admin-delete-icon': ' rgb(235, 87, 87)',
+        'admin-edit-icon': ' rgb(0, 178, 169);',
+        'admin-restaurant-card-category': 'rgb(130, 130, 130);',
+>>>>>>> 24c368fefa731e122beaf7883b78782a9bf7c8cf
       
-      'admin-secondary-heading': 'rgba(242, 242, 242, 0.87)',
-      'admin-secondary-select': 'rgb(242, 242, 242);',
-      'admin-secondary-add': 'rgb(255, 255, 255)',
-      'admin-add-button-bg':'rgb(192, 53, 162)',
-      'admin-delete-icon':' rgb(235, 87, 87)',
-      'admin-edit-icon':' rgb(0, 178, 169);',
-      'admin-restaurant-card-category':'rgb(130, 130, 130);',
-
       'admin-modal-placeholder':'rgb(242, 242, 242)',
       'admin-modal-upload-icon':' rgb(236, 92, 248);',
       'admin-modal-frame-bg':'rgb(67, 68, 90)',
@@ -59,8 +70,7 @@ const config: Config = {
       'admin-cancel-btn':'rgb(67, 68, 90)',
       'admin-modal-scrollbar':'rgb(239, 93, 168)'
      
-      
-
+      },
 
     },
   },

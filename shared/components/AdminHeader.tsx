@@ -1,15 +1,29 @@
-import { Box } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Select,
+  Text,
+} from '@chakra-ui/react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import Foody from './foody'
 import { useTranslation } from 'react-i18next'
-import { useMutation } from '@tanstack/react-query'
+import { useDispatch } from 'react-redux'
+import { isOpenFn } from '../store/responsiveSlice/asideMenuSlice'
+import { Lang } from './Lang'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
 
+  const dispatch = useDispatch()
+
   function handleOpen() {
     console.log('cliked')
+    dispatch(isOpenFn())
   }
 
   return (
@@ -30,9 +44,22 @@ function AdminHeader() {
         <button className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs">
           + <span className="xs:hidden sm:hidden">{t('addproduct')}</span>
         </button>
-        <button>
-          <Image src={'/languages/en.svg'} width={41} height={41} alt="en" />
-        </button>
+        {/* <Menu>
+          <MenuButton as={Button}>
+            <Image src={'/languages/en.svg'} width={41} height={41} alt="en" />
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <Image
+                src={'/languages/en.svg'}
+                width={41}
+                height={41}
+                alt="en"
+              />
+            </MenuItem>
+          </MenuList>
+        </Menu> */}
+        <Lang />
         <button>
           {' '}
           <Image
