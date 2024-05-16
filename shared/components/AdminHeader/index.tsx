@@ -11,12 +11,12 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import Foody from './foody'
+import Foody from '../foody'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { isOpenFn } from '../store/responsiveSlice/asideMenuSlice'
-import { Lang } from './Lang'
-import { useAppSelector } from '../store/hooks'
+import { isOpenFn } from '../../store/responsiveSlice/asideMenuSlice'
+import { Lang } from '../Lang'
+import { useAppSelector } from '../../store/hooks'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')

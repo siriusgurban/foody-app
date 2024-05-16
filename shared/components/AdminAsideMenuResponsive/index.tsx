@@ -13,12 +13,12 @@ import {
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import Foody from './foody'
+import Foody from '../foody'
 import { useDispatch, useSelector } from 'react-redux'
-import { isOpenFn } from '../store/responsiveSlice/asideMenuSlice'
-import { useAppSelector } from '../store/hooks'
+import { isOpenFn } from '../../store/responsiveSlice/asideMenuSlice'
+import { useAppSelector } from '../../store/hooks'
 import { useTranslation } from 'react-i18next'
-import AdminAsideMenu from './AdminAsideMenu'
+import AdminAsideMenu from '../AdminAsideMenu'
 
 function AdminAsideMenuResponsive() {
   const { push, asPath } = useRouter()
