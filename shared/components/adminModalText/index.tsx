@@ -10,7 +10,7 @@ const AdminModalTextArea = ({ p = "desc", className }: Props) => {
         <div className={className}>
             <p className=" text-admin-text font-medium  mb-2   text-base font-display">{p}</p>
             <textarea
-                placeholder='Fastfood,drink,' className=" w-full  rounded-2xl h-24  font-medium text-base text-admin-modal-placeholder pt-2 pl-4  bg-admin-input capitalize font-display"
+                className=" w-full  rounded-2xl h-24  font-medium text-base text-admin-modal-placeholder pt-2 pl-4  bg-admin-input capitalize font-display"
             ></textarea>
         </div>
     )

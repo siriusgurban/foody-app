@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 interface Props {
     onClick?: any;
-    text: string;
-    className: string;
+    text?: string;
+    className?: string;
+    children?: ReactNode;
 }
-const AdminModalButton = ({ onClick, text = "", className }: Props) => {
+const AdminModalButton = ({ onClick, text = "", className, children }: Props) => {
     return (
         <button className={className} onClick={onClick}>
+            {children}
             {text}
         </button>
     )
