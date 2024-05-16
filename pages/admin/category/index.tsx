@@ -1,3 +1,6 @@
+import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
+import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
+import AdminHeader from '@/shared/components/AdminHeader'
 import Foody from '@/shared/components/foody'
 import { getCategories, getCategoryById } from '@/shared/services/category'
 import { Box, Button, useToast } from '@chakra-ui/react'
@@ -35,51 +38,11 @@ function Category() {
         <link rel="icon" href="/icons8-admin-96.png" />
       </Head>
 
-      <Box className="bg-admin-bg h-lvh px-4">
-        <Box className="max-w-[1280px] mx-auto">
-          <Box className="flex justify-between align-middle bg-admin-secondary rounded-b-lg h-16  px-5">
-            <Box className="flex gap-5 my-auto ">
-              <Image
-                src={'/hamburgerMenu.svg'}
-                width={20}
-                height={14}
-                alt="hamburgerMenu"
-                className="sx:hidden"
-              />
-              <Foody role="admin" />
-            </Box>
-            <Box className="flex gap-5 my-auto">
-              <button className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs">
-                + <span className="xs:hidden sm:hidden">{t('addproduct')}</span>
-              </button>
-              <button>
-                <Image
-                  src={'/languages/en.svg'}
-                  width={41}
-                  height={41}
-                  alt="en"
-                />
-              </button>
-              <button>
-                {' '}
-                <Image
-                  src={'/adminLogo.svg'}
-                  width={41}
-                  height={41}
-                  alt="adminLogo"
-                />
-              </button>
-            </Box>
-          </Box>
-          <Box className="bg-admin-btn ">
-            <Box onClick={() => push('/admin')}>Dashboard</Box>
-            <Box onClick={() => push('/admin/products')}>Products</Box>
-            <Box onClick={() => push('/admin/restaurants')}>Restuarants</Box>
-            <Box>Category</Box>
-            <Box>Orders</Box>
-            <Box>Offers</Box>
-            <Box>LogOut</Box>
-          </Box>
+      <Box className="bg-admin-bg h-lvh">
+        <Box className="max-w-[1440px] mx-auto">
+          <AdminHeader />
+          <AdminAsideMenu />
+          {/* <AdminAsideMenuResponsive /> */}
         </Box>
       </Box>
     </div>
