@@ -20,10 +20,10 @@ const config: Config = {
       md: '768px',
       // => @media (min-width: 768px) { ... }
 
-      lg: { max: '1024px' },
+      lg: '1024px',
       // => @media (min-width: 1024px) { ... }
 
-      xl: { max: '1440px' },
+      xl: '1440px',
       // => @media (min-width: 1280px) { ... }
     },
 
