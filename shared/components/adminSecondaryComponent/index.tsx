@@ -13,16 +13,16 @@ const AdminSecondaryComponent = ({ onClick, visible, p }: Props) => {
     const { t } = useTranslation('admin')
     return (
         <>
-            <div className=" bg-admin-main rounded-2xl flex flex-col sm:flex-row justify-between items-center p-8 ">
-                <div className="   text-admin-text text-xl  font-medium  ">
-                    Restaurants
+            <div className="  bg-admin-secondary rounded-2xl flex flex-col sm:flex-row justify-between items-center p-5 ">
+                <div className="   text-admin-secondary-heading text-xl  font-medium  ">
+                    {t('Restaurants')}
                 </div>
                 <div className="mt-3 sm:mt-0 flex flex-col items-center   sm:flex-row gap-5 ">
                     {visible ? (
                         <AdminModalDropdown
                             p={""}
                             className=" flex  width-200  gap-3 "
-                            classNameSelect=" rounded-2xl  py-2   px-2   bg-admin-input  rounded-2xl font-medium text-base  text-admin-text w-[170px] overflow-x-auto"
+                            classNameSelect=" rounded-2xl  py-2   px-2   bg-admin-input  rounded-2xl font-medium text-base  text-admin-secondary-heading    w-[170px] overflow-x-auto"
                         />
                     ) : (
                         ""
