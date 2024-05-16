@@ -25,14 +25,17 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AdminRestaurantsDropdown from '@/shared/components/adminRestaurantsDropdown'
 import { AddIcon } from '@chakra-ui/icons'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
+import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
+import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
 
 function Category() {
   const { t } = useTranslation('admin')
+  const [hideModal, setHideModal] = useState<boolean>(true)
   const toast = useToast()
 
   const { data } = useQuery({
@@ -67,6 +70,10 @@ function Category() {
     mutate(id)
   }
 
+  function showHideModal() {
+    setHideModal((prev) => !prev)
+  }
+
   console.log(data?.data?.result?.data, 'cate')
 
   return (
@@ -83,24 +90,13 @@ function Category() {
             <AdminAsideMenu />
             <AdminAsideMenuResponsive />
             <Box className="flex flex-col gap-4 w-full">
-              <div className="max-w-7xl py-6 ">
-                <div className="bg-white overflow-hidden shadow-sm rounded-2xl">
-                  <div className="p-6 flex  justify-between items-center bg-admin-secondary ">
-                    <h1 className="text-xl font-semibold text-admin-secondary-heading ">
-                      Restaurants
-                    </h1>
-                    <div className="flex gap-2  ">
-                      <div className="">
-                        <AdminRestaurantsDropdown className2="" />
-                      </div>
-                      <button className=" text-admin-secondary-add bg-admin-add-button-bg text-sm px-4 py-2  rounded-2xl ">
-                        <span>
-                          <AddIcon boxSize={2} color="white" />
-                        </span>
-                        ADD CATEGORY
-                      </button>
-                    </div>
-                  </div>
+              <div className="w-full">
+                <div className="m-5">
+                  <AdminSecondaryComponent
+                    p={t('category')}
+                    onClick={showHideModal}
+                    visible={true}
+                  />
                 </div>
               </div>
               <TableContainer>
