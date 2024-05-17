@@ -32,22 +32,18 @@ import { AddIcon } from '@chakra-ui/icons'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
 import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
+import AdminAddUpdateModal from '@/shared/components/adminAddUpdateModal'
+import AdminAddUpdateModalCategory from '@/shared/components/adminAddUpdateModalCategory'
 
 function Category() {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(true)
   const toast = useToast()
+  const { push, pathname } = useRouter()
 
   const { data } = useQuery({
     queryFn: getCategories,
     queryKey: ['categories'],
-  })
-
-  const idid = 'Pe7DYPji0FqEWGAC9yyK'
-
-  const { data: category } = useQuery({
-    queryFn: () => getCategoryById(idid),
-    queryKey: ['category'],
   })
 
   const { mutate } = useMutation({
@@ -68,6 +64,9 @@ function Category() {
 
   function handleDelete(id: any) {
     mutate(id)
+  }
+  function handleEdit(id: any, data: any) {
+    console.log('edited')
   }
 
   function showHideModal() {
@@ -92,6 +91,11 @@ function Category() {
             <Box className="flex flex-col gap-4 w-full">
               <div className="w-full">
                 <div className="m-5">
+                  <AdminAddUpdateModalCategory
+                    onClickClose={showHideModal}
+                    show={hideModal}
+                    text={t('Add Category')}
+                  />
                   <AdminSecondaryComponent
                     p={t('category')}
                     onClick={showHideModal}
@@ -128,11 +132,16 @@ function Category() {
                             <Td py={1}>{item?.slug}</Td>
                             <Td>
                               <div className="flex justify-end gap-4">
-                                <button>
+                                <Button
+                                  onClick={() => (
+                                    push(pathname + '?id=' + item?.id),
+                                    showHideModal()
+                                  )}
+                                >
                                   <span>
                                     <MdEdit className="fill-admin-edit-icon w-5 h-5" />
                                   </span>
-                                </button>
+                                </Button>
                                 <button onClick={() => handleDelete(item?.id)}>
                                   <span>
                                     <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />

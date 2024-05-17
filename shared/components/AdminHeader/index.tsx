@@ -11,12 +11,12 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import Foody from '../foody'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { isOpenFn } from '../../store/responsiveSlice/asideMenuSlice'
 import { Lang } from '../Lang'
 import { useAppSelector } from '../../store/hooks'
+import Foody from '../foody'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
@@ -38,15 +38,15 @@ function AdminHeader() {
           width={20}
           height={14}
           alt="hamburgerMenu"
-          className="cursor-pointer"
-          //   className="lg:hidden xl:hidden xs:flex sm:flex"
+          // className="cursor-pointer"
+          className="md:hidden lg:hidden xl:hidden"
           onClick={onOpen}
         />
         <Foody role="admin" />
       </Box>
       <Box className="flex gap-5 my-auto">
         <button className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs">
-          + <span className="xs:hidden sm:hidden">{t('addproduct')}</span>
+          + <span className="hidden md:inline-block">{t('addproduct')}</span>
         </button>
         <Lang />
         <button>
