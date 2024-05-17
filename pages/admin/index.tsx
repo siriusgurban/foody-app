@@ -15,13 +15,11 @@ import DonutChart from '../../shared/components/chart'
 import MountainLineChart from '../../shared/components/chart2'
 import FastFoodSalesBarChart from '../../shared/components/chart3'
 
-
 function AdminDashboard() {
   const { t } = useTranslation('admin')
 
   return (
     <div>
-
       <Head>
         <title>Admin | {t('dashboard')}</title>
         <link rel="icon" href="/admin6024190.png" />
@@ -30,18 +28,18 @@ function AdminDashboard() {
       <Box className="bg-admin-bg h-lvh">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
-          <AdminAsideMenu />
-          <AdminAsideMenuResponsive />
+          <Box className="flex gap-3">
+            <AdminAsideMenu />
+            <AdminAsideMenuResponsive />
+
+            <div className=" gap-4  mt-4 flex flex-wrap">
+              <DonutChart />
+              <MountainLineChart />
+              <FastFoodSalesBarChart />
+            </div>
+          </Box>
         </Box>
-
       </Box>
-      <div className=" gap-4   flex">
-        <DonutChart />
-        <MountainLineChart />
-        <FastFoodSalesBarChart />
-      </div>
-
-
     </div>
   )
 }
@@ -53,5 +51,3 @@ export async function getStaticProps({ locale }: { locale: any }) {
     props: { ...(await serverSideTranslations(locale, ['admin'])) },
   }
 }
-
-

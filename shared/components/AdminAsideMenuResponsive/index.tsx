@@ -46,9 +46,10 @@ function AdminAsideMenuResponsive() {
   {
     console.log(isOpen, 'aaaaaaaaa')
   }
+  //className="mt-4 w-64 rounded-xl p-5"
 
   return (
-    <Box as="section" className="mt-4 w-64 rounded-xl p-5">
+    <Box as="section">
       {/* <Box className="flex gap-5 my-auto ">
         <Image
           src={'/hamburgerMenu.svg'}
