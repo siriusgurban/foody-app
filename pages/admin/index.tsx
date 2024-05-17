@@ -11,12 +11,17 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import DonutChart from '../../shared/components/chart'
+import MountainLineChart from '../../shared/components/chart2'
+import FastFoodSalesBarChart from '../../shared/components/chart3'
+
 
 function AdminDashboard() {
   const { t } = useTranslation('admin')
 
   return (
     <div>
+
       <Head>
         <title>Admin | {t('dashboard')}</title>
         <link rel="icon" href="/admin6024190.png" />
@@ -28,7 +33,15 @@ function AdminDashboard() {
           <AdminAsideMenu />
           <AdminAsideMenuResponsive />
         </Box>
+
       </Box>
+      <div className=" gap-4   flex">
+        <DonutChart />
+        <MountainLineChart />
+        <FastFoodSalesBarChart />
+      </div>
+
+
     </div>
   )
 }
@@ -40,3 +53,5 @@ export async function getStaticProps({ locale }: { locale: any }) {
     props: { ...(await serverSideTranslations(locale, ['admin'])) },
   }
 }
+
+
