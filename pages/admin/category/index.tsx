@@ -20,7 +20,7 @@ import {
   TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -41,6 +41,8 @@ function Category() {
   const toast = useToast()
   const { push, pathname } = useRouter()
 
+  const queryClient = useQueryClient()
+
   const { data } = useQuery({
     queryFn: getCategories,
     queryKey: ['categories'],
@@ -59,6 +61,9 @@ function Category() {
     },
     onError(data, variables, context) {
       console.log(data, 'error')
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
     },
   })
 
