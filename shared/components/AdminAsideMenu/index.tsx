@@ -13,7 +13,7 @@ function AdminAsideMenu() {
   return (
     <Box
       as="section"
-      className="mt-4 bg-admin-aside w-64 rounded-xl h-96 p-5 xs:none sm:none"
+      className="mt-4 bg-admin-aside w-64 rounded-xl h-96 p-5 hidden md:flex"
     >
       <Box as="ul" className="w-64 flex flex-col gap-2">
         <Button

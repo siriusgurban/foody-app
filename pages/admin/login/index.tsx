@@ -96,7 +96,7 @@ function Login() {
     <div>
       <Head>
         <title>Admin | {t('login')}</title>
-        <link rel="icon" href="/icons8-admin-96.png" />
+        <link rel="icon" href="/admin6024190.png" />
       </Head>
       <div className="bg-admin-bg h-lvh flex justify-center align-middle ">
         <Box className="absolute left-8 top-14 xs:left-5 xs:top-5 sm:left-7 sm:top-10">
