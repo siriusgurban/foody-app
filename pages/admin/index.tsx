@@ -32,10 +32,17 @@ function AdminDashboard() {
             <AdminAsideMenu />
             <AdminAsideMenuResponsive />
 
-            <div className=" gap-4  mt-4 flex flex-wrap">
-              <DonutChart />
-              <MountainLineChart />
-              <FastFoodSalesBarChart />
+            <div className=" gap-7   mt-4 flex flex-col max-h-[620px] scrollbar overflow-y-scroll pr-4">
+              <div className='flex gap-8  flex-wrap'>
+                <DonutChart />
+                <MountainLineChart />
+              </div>
+              <div className='flex gap-8 flex-wrap'>
+                <FastFoodSalesBarChart />
+                <FastFoodSalesBarChart />
+              </div>
+
+
             </div>
           </Box>
         </Box>
