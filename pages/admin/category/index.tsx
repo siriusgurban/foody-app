@@ -2,20 +2,14 @@ import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminHeader from '@/shared/components/AdminHeader'
 
-import Foody from '@/shared/components/foody'
-import { getCategories, getCategoryById } from '@/shared/services/category'
-import { Box, Button, useToast } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
-
 import {
   deleteCategory,
   getCategories,
   getCategoryById,
 } from '@/shared/services/category'
+import { Box, Button, useToast } from '@chakra-ui/react'
+
 import {
-  Box,
-  Button,
-  useToast,
   Table,
   Thead,
   Tbody,
@@ -170,7 +164,6 @@ function Category() {
               </TableContainer>
             </Box>
           </Box>
-
         </Box>
       </Box>
     </div>
