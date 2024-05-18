@@ -28,7 +28,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../services/products";
 
-const defaultImageUrl = "/locales/pizza.svg";
+const defaultImageUrl = "/adminproducts/pizza.svg";
 
 function AdminProductsSide() {
   const [products, setProducts] = useState([]);
@@ -81,30 +81,55 @@ function AdminProductsSide() {
           <Text ml="33px" mt="26px" textColor="#C7C7C7">
             Products
           </Text>
-          <Accordion
-            defaultIndex={[0]}
-            allowMultiple
-            bg="#5A5B70"
-            w="199px"
-            h="35px"
-            mr="52px"
-            mt="20px"
-            border="none"
-            borderRadius="30"
-            textAlign="center"
-          >
-            <AccordionItem>
-              <h2>
-                <AccordionButton color="#C7C7C7">
-                  <Box as="span" flex="1" textAlign="left" textColor="#C7C7C7">
-                    Resturant type
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}></AccordionPanel>
-            </AccordionItem>
-          </Accordion>
+          <Box display="flex">
+            <Box>
+              <Accordion
+                defaultIndex={[0]}
+                allowMultiple
+                bg="#5A5B70"
+                w="199px"
+                h="35px"
+                mr="52px"
+                mt="20px"
+                border="none"
+                borderRadius="30"
+                textAlign="center"
+              >
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton color="#C7C7C7">
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        textColor="#C7C7C7"
+                      >
+                        Resturant type
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}></AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            </Box>
+            <Box>
+              <Button
+                display="flex"
+                justifyContent="space-evenly "
+                bg="#C035A2"
+                w="150px"
+                h="35px"
+                mt="20px"
+                mr="30px"
+                borderRadius="10px"
+                colorScheme="#C035A2"
+              >
+                <Image src="/adminproducts/search.svg" />
+                Search
+              </Button>
+            </Box>
+          </Box>
         </Box>
 
         <Box display="flex" gap="40px" flexWrap="wrap">
@@ -155,10 +180,10 @@ function AdminProductsSide() {
                     onClick={() => handleDeleteClick(product.id)}
                     cursor="pointer"
                   >
-                    <img src="/locales/garbage.svg" alt="delete" />
+                    <img src="/adminproducts/garbage.svg" alt="delete" />
                   </Text>
                   <Text onClick={() => setDrawerOpen(true)} cursor="pointer">
-                    <img src="/locales/pen.svg" alt="edit" />
+                    <img src="/adminproducts/pen.svg" alt="edit" />
                   </Text>
                 </Box>
               </Box>
@@ -225,7 +250,7 @@ function AdminProductsSide() {
                 cursor="pointer"
               >
                 <img
-                  src="/locales/cloud.svg"
+                  src="/adminproducts/cloud.svg"
                   alt="upload_image"
                   width="60px"
                   height="40px"
@@ -326,8 +351,27 @@ function AdminProductsSide() {
             </Box>
           </Box>
           <Box display="flex" gap="44px" justifyContent="center" mt="30px">
-            <Button colorScheme="#38394E" maxW="350px" width="100%" borderRadius="15px" bg="#38394E" textColor="#FFFFFF" boxShadow="3px 5px 5px 5px #354E51">Cancel</Button>
-            <Button colorScheme="#C035A2" maxW="350px" width="100%" borderRadius="15px" bg="#C035A2" textColor="#FFFFFF">Update  Product</Button>
+            <Button
+              colorScheme="#38394E"
+              maxW="350px"
+              width="100%"
+              borderRadius="15px"
+              bg="#38394E"
+              textColor="#FFFFFF"
+              boxShadow="3px 5px 5px 5px #354E51"
+            >
+              Cancel
+            </Button>
+            <Button
+              colorScheme="#C035A2"
+              maxW="350px"
+              width="100%"
+              borderRadius="15px"
+              bg="#C035A2"
+              textColor="#FFFFFF"
+            >
+              Update Product
+            </Button>
           </Box>
         </DrawerContent>
       </Drawer>
