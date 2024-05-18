@@ -1,9 +1,12 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const Lang = () => {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
+
+  const { locale, locales, push, pathname } = useRouter()
 
   const [langDropdown, setLangDropdown] = useState(false)
 
@@ -13,16 +16,23 @@ export const Lang = () => {
     await i18n.changeLanguage(lang)
     setSelectedLanguage(lang)
     setLangDropdown(false)
+    push('/', undefined, { locale: lang + `${pathname}` })
   }
+
+  // const clickHandle = async (lang: string) => {
+  //   await i18n.changeLanguage(lang)
+  //   setSelectedLanguage(lang)
+  //   setLangDropdown(false)
+  // }
 
   const toggleDropDown = () => {
     setLangDropdown(!langDropdown)
   }
 
   return (
-    <div className=" relative max-w-[41px]">
+    <div className="relative max-w-10">
       <Image
-        className="cursor-pointer mx-2"
+        className="cursor-pointer"
         width={40}
         height={0}
         src={`/languages/${selectedLanguage}.svg`}
@@ -32,12 +42,12 @@ export const Lang = () => {
       {langDropdown && (
         <div
           className={`flex flex-col gap-4 w-max bg-admin-secondary
-           px-2 py-4 absolute shadow-lg z-10 top-12 left-0 `}
+           px-2 py-4 absolute shadow-lg z-10 top-12 -left-2 `}
         >
           <Image
             className="cursor-pointer hover:scale-95 transition-all duration-500"
             width={40}
-            height={0}
+            height={40}
             src={'/languages/en.svg'}
             alt="EnFlag"
             onClick={() => clickHandle('en')}
@@ -46,7 +56,7 @@ export const Lang = () => {
           <Image
             className="cursor-pointer hover:scale-95 transition-all duration-500"
             width={40}
-            height={0}
+            height={40}
             src={'/languages/az.svg'}
             alt="AzFlag"
             onClick={() => clickHandle('az')}
