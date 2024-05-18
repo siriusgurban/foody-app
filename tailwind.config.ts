@@ -56,6 +56,13 @@ const config: Config = {
         'admin-modal-purple-btn': 'rgb(192, 53, 162)',
         'admin-cancel-btn': 'rgb(67, 68, 90)',
         'admin-modal-scrollbar': 'rgb(239, 93, 168)',
+
+
+        'client-login-mainColor':'#EB5757',
+        'client-main-gray1':'#828282',
+        'client-main-gray2':'#4F4F4F',
+        'client-light-red':'#FFE7E7',
+        
       },
     },
     plugins: [],
