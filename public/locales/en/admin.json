@@ -9,5 +9,24 @@
     "password":"Password",
     "category":"Category",
     "dashboard":"Dashboard",
-    "addproduct":"Add Product"
+    "addproduct":"Add Product",
+    "ADD RESTAURANT":"ADD RESTAURANT",
+    "Create Restaurant":"Create Restaurant",
+    "Cancel":"Cancel",
+    "Add Restaurant":"Add Restaurant",
+    "Add Your Restuarants Information":"Add Your Restuarants Information",
+    "Upload Image":"Upload Image",
+    "Name":"Name",
+    "Cuisine":"Cuisine",
+    "Delivery Price $":"Delivery Price $",
+    "Delivery Min":"",
+    "Address":"Address",
+    "Category":"Category",
+    "products":"Products",
+    "restaurants":"Restaurants",
+    "orders":"Orders",
+    "offers":"Offers",
+    "logout":"Logout",
+    "Update Restaurant":"Update Restaurant"
+
 }

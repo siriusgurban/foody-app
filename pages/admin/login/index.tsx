@@ -31,6 +31,7 @@ function Login() {
   const { t } = useTranslation('admin')
   const toast = useToast()
   const { push } = useRouter()
+  const [disable, setDisable] = useState(false)
 
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues,
@@ -62,6 +63,7 @@ function Login() {
   )
   async function handleForm(data: adminLogin) {
     try {
+      setDisable(true)
       const res = await postAdmin(data)
       console.log(res, 'res')
 
@@ -80,7 +82,7 @@ function Login() {
         isClosable: true,
         position: 'top-right',
       })
-      push('/')
+      push('/admin')
     } catch (error) {
       toast({
         description: error.message,
@@ -89,6 +91,8 @@ function Login() {
         isClosable: true,
         position: 'top-right',
       })
+    } finally {
+      setDisable(false)
     }
   }
 
@@ -96,44 +100,49 @@ function Login() {
     <div>
       <Head>
         <title>Admin | {t('login')}</title>
-        <link rel="icon" href="/icons8-admin-96.png" />
+        <link rel="icon" href="/admin6024190.png" />
       </Head>
       <div className="bg-admin-bg h-lvh flex justify-center align-middle ">
-        <Box className="absolute left-8 top-14 xs:left-5 xs:top-5 sm:left-7 sm:top-10">
+        <Box className="absolute md:left-8 md:top-14 xs:left-3 xs:top-3">
           <Foody role="admin" />
         </Box>
 
-        <Box className="flex sm:flex-col-reverse xs:flex-col-reverse mt-40 xs:mt-2 sm:mt-6">
+        <Box className="flex lg:flex-row xs:flex-col-reverse xs:my-auto mt-40">
           <Box
             maxHeight={410}
             maxWidth={424}
-            className="flex flex-col justify-center xs:bg-transparent sm:bg-transparent bg-admin-main px-10 w-full"
+            className="flex flex-col justify-center md:bg-admin-main xs:bg-transparent p-10 w-full "
           >
-            <Heading className="text-admin-text text-center lg:text-4xl md:text-3xl sm:text-xl xs:text-xl mb-10 xs:mb-3 sm:mb-6">
+            <h1
+              className="text-admin-text text-center md:text-4xl xs:text-2xl sm:2xl font-bold xs:mb-5 md:mb-10 "
+              size={24}
+            >
               {t('welcome-admin')}
-            </Heading>
-            <FormControl className="p-0">
-              <InputGroup className="mb-6 flex flex-col xs:mb-2 sm:mb-4">
+            </h1>
+            <FormControl className="p-0  mx-auto">
+              <InputGroup className="md:mb-6 xs:mb-3 flex flex-col">
                 <Input
                   type="text"
                   id="email"
                   name="email"
                   placeholder={t('email')}
                   onChange={handleChange}
-                  className="p-6 xs:p-2 sm:p-4"
+                  className=" md:p-6 xs:p-2"
+                  sx={{ bgColor: '#5A5B70' }}
                 />
                 {errors?.email && (
                   <FormHelperText color="red">{errors?.email}</FormHelperText>
                 )}
               </InputGroup>
-              <InputGroup className="mb-9 flex flex-col xs:mb-2 sm:mb-4">
+              <InputGroup className="md:mb-9 xs:mb-6 flex flex-col">
                 <Input
                   type="password"
                   id="password"
                   name="password"
                   placeholder={t('password')}
                   onChange={handleChange}
-                  className="p-6 xs:p-2 sm:p-4"
+                  className=" md:p-6 xs:p-2 "
+                  sx={{ bgColor: '#5A5B70' }}
                 />
                 {errors?.password && (
                   <FormHelperText color="red">
@@ -141,18 +150,21 @@ function Login() {
                   </FormHelperText>
                 )}
               </InputGroup>
-              <Button
-                variant="danger"
-                type="submit"
-                className="w-full bg-admin-btn text-white p-6 xs:p-2 sm:p-4 font-medium"
-                onClick={handleSubmit}
-              >
-                {t('signin')}
-              </Button>
+              <Box className="flex justify-center">
+                <Button
+                  variant="danger"
+                  type="submit"
+                  className="w-full bg-admin-btn hover:bg-admin-btnhover text-white md:p-6 xs:p-3 font-medium"
+                  onClick={handleSubmit}
+                  isLoading={disable}
+                >
+                  {t('signin')}
+                </Button>
+              </Box>
             </FormControl>
           </Box>
           <Box
-            className="bg-white flex align-middle justify-center xs:bg-transparent sm:bg-transparent xs:w-32 sm:w-52 xs:mx-auto sm:mx-auto px-7 xs:p-0 sm:p-0 xs:h-12 w-full"
+            className="lg:bg-white flex align-middle justify-center xs:bg-transparent px-7 w-full"
             maxWidth={424}
             maxHeight={410}
           >
@@ -161,7 +173,7 @@ function Login() {
               src={'/adminLogin.svg'}
               width={346}
               height={304}
-              className="w-full xs:h-36 sm:h-48"
+              className="lg:w-full xs:w-2/3"
             />
           </Box>
         </Box>

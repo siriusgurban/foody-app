@@ -18,7 +18,9 @@ import { getProducts, postProduct } from '../../../shared/services/products'
 import Head from 'next/head'
 import AdminHeader from '@/shared/components/AdminHeader'
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
+
 import AdminProductsSide from '@/shared/components/AdminProductsSide'
+
 
 const newPost = {
   img_url:
@@ -73,6 +75,7 @@ function Login() {
   return (
     <div>
       <Head>
+
         <title>Admin | {t('Products')}</title>
         <link rel="icon" href="/icons8-admin-96.png" />
       </Head>
@@ -84,7 +87,7 @@ function Login() {
           <AdminAsideMenu />
           <AdminProductsSide />
           </Box>
-          {/* <AdminAsideMenuResponsive /> */}
+
         </Box>
       </Box>
     </div>

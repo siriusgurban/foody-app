@@ -16,6 +16,17 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-i18next.config.js", "shared/components/Piechartt.tsx", "styles/colors.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-i18next.config.js",
+    "shared/components/Piechartt.tsx",
+    "styles/colors.js",
+    "shared/components/AdminAsideMenu/index.tsx",
+    "shared/components/AdminAsideMenuResponsive/index.tsx",
+    "shared/components/AdminHeader/index.tsx",
+    "shared/components/foody/index.tsx"
+  ],
   "exclude": ["node_modules"]
 }

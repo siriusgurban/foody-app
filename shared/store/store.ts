@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import basketSlice from './basketSlice/basketSlice'
+import asideMenuSlice from './responsiveSlice/asideMenuSlice'
+// import asideMenuSlice from './asideMenuSlice/asideMenuSlice'
 // ...
 
 const store = configureStore({
   reducer: {
     basket: basketSlice,
+    asideMenu: asideMenuSlice,
   },
 })
 
