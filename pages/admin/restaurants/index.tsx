@@ -9,6 +9,7 @@ import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import { Box } from '@chakra-ui/react'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminAddUpdateModal from '../../../shared/components/adminAddUpdateModal'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 
 const data = [
@@ -67,3 +68,9 @@ const Restaurants: React.FC = () => {
 }
 
 export default Restaurants
+
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: { ...(await serverSideTranslations(locale, ['admin'])) },
+  }
+}
