@@ -19,6 +19,9 @@ import Head from 'next/head'
 import AdminHeader from '@/shared/components/AdminHeader'
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 
+import AdminProductsSide from '@/shared/components/AdminProductsSide'
+
+
 const newPost = {
   img_url:
     'https://firebasestorage.googleapis.com/v0/b/foodyapp-51b6e.appspot.com/o/product%2Fgeneral?alt=media&token=fc1915ed-481b-4f67-a018-7084e6df1aef',
@@ -72,15 +75,19 @@ function Login() {
   return (
     <div>
       <Head>
-        <title>Admin | {t('category')}</title>
+
+        <title>Admin | {t('Products')}</title>
         <link rel="icon" href="/icons8-admin-96.png" />
       </Head>
 
-      <Box className="bg-admin-bg h-lvh">
+      <Box bg="#1E1E30">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
+          <Box display="flex" gap="28px">
           <AdminAsideMenu />
-          {/* <AdminAsideMenuResponsive /> */}
+          <AdminProductsSide />
+          </Box>
+
         </Box>
       </Box>
     </div>

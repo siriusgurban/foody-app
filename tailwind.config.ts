@@ -42,6 +42,7 @@ const config: Config = {
         'admin-aside': '#C74FEB',
         'admin-input': '#5A5B70',
         'admin-text': '#C7C7C7',
+
         'admin-secondary-heading': 'rgba(242, 242, 242, 0.87)',
         'admin-secondary-select': 'rgb(242, 242, 242);',
         'admin-secondary-add': 'rgb(255, 255, 255)',
