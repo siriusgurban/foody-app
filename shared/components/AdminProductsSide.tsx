@@ -25,15 +25,24 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getProducts } from "../services/products";
+
+const leastDestructiveRef = useRef<HTMLButtonElement | null>(null);
 
 const defaultImageUrl = "/adminproducts/pizza.svg";
 
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+
 function AdminProductsSide() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [deleteProductId, setDeleteProductId] = useState(null);
+  const [deleteProductId, setDeleteProductId] = useState<number | null>(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -55,7 +64,7 @@ function AdminProductsSide() {
     fetchProducts();
   }, []);
 
-  const handleDeleteClick = (productId) => {
+  const handleDeleteClick = (productId: number) => {
     setDeleteProductId(productId);
     onOpen();
   };
@@ -314,31 +323,23 @@ function AdminProductsSide() {
                     defaultIndex={[0]}
                     allowMultiple
                     bg="#5A5B70"
-                    w="478px"
-                    h="46px"
-                    m="auto"
+                    w="474px"
+                    h="35px"
                     border="none"
-                    borderRadius="20px"
+                    m="auto"
+                    borderRadius="30"
                     textAlign="center"
                   >
-                    <AccordionItem
-                      bg="#5A5B70"
-                      w="478px"
-                      h="46px"
-                      m="auto"
-                      border="none"
-                      borderRadius="20px"
-                      textAlign="center"
-                    >
+                    <AccordionItem>
                       <h2>
-                        <AccordionButton color="#989FAC">
+                        <AccordionButton color="#C7C7C7">
                           <Box
                             as="span"
                             flex="1"
                             textAlign="left"
-                            textColor="#989FAC"
+                            textColor="#C7C7C7"
                           >
-                            Papa John’s
+                            Resturant type
                           </Box>
                           <AccordionIcon />
                         </AccordionButton>
@@ -350,79 +351,31 @@ function AdminProductsSide() {
               </Box>
             </Box>
           </Box>
-          <Box display="flex" gap="44px" justifyContent="center" mt="30px">
-            <Button
-              colorScheme="#38394E"
-              maxW="350px"
-              width="100%"
-              borderRadius="15px"
-              bg="#38394E"
-              textColor="#FFFFFF"
-              boxShadow="3px 5px 5px 5px #354E51"
-            >
-              Cancel
-            </Button>
-            <Button
-              colorScheme="#C035A2"
-              maxW="350px"
-              width="100%"
-              borderRadius="15px"
-              bg="#C035A2"
-              textColor="#FFFFFF"
-            >
-              Update Product
-            </Button>
-          </Box>
         </DrawerContent>
       </Drawer>
 
-      <AlertDialogExample
+      <AlertDialog
         isOpen={isOpen}
+        leastDestructiveRef={leastDestructiveRef}
         onClose={onClose}
-        onConfirm={handleDeleteConfirm}
-      />
-    </>
-  );
-}
-
-function AlertDialogExample({ isOpen, onClose, onConfirm }) {
-  const cancelRef = React.useRef();
-
-  return (
-    <>
-      <Box>
-        <AlertDialog
-          isOpen={isOpen}
-          leastDestructiveRef={cancelRef}
-          onClose={onClose}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent textAlign="center" mt="300px">
-              <AlertDialogHeader fontSize="24px" fontWeight="bold">
-                Are you sure it's deleted?
-              </AlertDialogHeader>
-
-              <AlertDialogBody
-                fontSize="20px"
-                maxW="350px"
-                display="flex"
-                margin="auto"
-              >
-                Attention! If you delete this product, it will not come back...
-              </AlertDialogBody>
-
-              <AlertDialogFooter display="flex" justifyContent="center">
-                <Button ref={cancelRef} onClick={onClose} w="106px">
-                  Cancel
-                </Button>
-                <Button colorScheme="red" onClick={onConfirm} ml={3} w="106px">
-                  Delete
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
-      </Box>
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Product
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button onClick={onClose}>Cancel</Button>
+              <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }
