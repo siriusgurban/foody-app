@@ -1,5 +1,4 @@
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
-import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminHeader from '@/shared/components/AdminHeader'
 
 import {
@@ -35,6 +34,7 @@ import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent
 import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
 import AdminAddUpdateModal from '@/shared/components/adminAddUpdateModal'
 import AdminAddUpdateModalCategory from '@/shared/components/adminAddUpdateModalCategory'
+import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 
 function Category() {
   const { t } = useTranslation('admin')
