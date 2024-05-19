@@ -28,7 +28,7 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
-import { getProducts } from '../services/products'
+import { getProducts } from '../../services/products'
 
 // const leastDestructiveRef = useRef<HTMLButtonElement | null>(null)
 

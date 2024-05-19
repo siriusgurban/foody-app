@@ -19,7 +19,7 @@ import Head from 'next/head'
 import AdminHeader from '@/shared/components/AdminHeader'
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 
-import AdminProductsSide from '@/shared/components/AdminProductsSide'
+import AdminProductsSide from '@/shared/components/adminProductsSide/AdminProductsSide'
 
 const newPost = {
   img_url:
