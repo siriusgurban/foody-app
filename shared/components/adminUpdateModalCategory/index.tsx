@@ -33,7 +33,7 @@ const initialValues = {
 }
 
 //
-const AdminAddUpdateModalCategory = ({
+const AdminUpdateModalCategory = ({
   show = true,
   onClickClose,
   text,
@@ -41,11 +41,19 @@ const AdminAddUpdateModalCategory = ({
   const { t } = useTranslation('admin')
   const toast = useToast()
   const queryClient = useQueryClient()
+  console.log(queryClient, 'queryClient')
 
   const { push, query } = useRouter()
   console.log(query.id, 'urlllllllllll')
 
-  const { values, handleChange, handleSubmit, errors, resetForm } = useFormik({
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    errors,
+    resetForm,
+    setValues,
+  } = useFormik({
     initialValues,
     onSubmit: handleForm,
     validate: (form) => {
@@ -63,31 +71,11 @@ const AdminAddUpdateModalCategory = ({
   })
 
   async function handleForm(data: any, id: string) {
-    // try {
-    //   const res = await postCategory(data)
-    //   console.log(res, 'res')
-
-    //   toast({
-    //     description: "You've entered",
-    //     status: 'success',
-    //     duration: 3000,
-    //     isClosable: true,
-    //     position: 'top-right',
-    //   })
-    // } catch (error) {
-    //   toast({
-    //     description: error.message,
-    //     status: 'error',
-    //     duration: 3000,
-    //     isClosable: true,
-    //     position: 'top-right',
-    //   })
-    // }
-    id == null ? mutate(data) : mutate(id, data)
+    mutate(id, data)
   }
 
   const { mutate } = useMutation({
-    mutationFn: query.id ? postCategory : updateCategory,
+    mutationFn: updateCategory,
     onSuccess(data, variables, context) {
       console.log(data, 'success')
       resetForm()
@@ -109,6 +97,10 @@ const AdminAddUpdateModalCategory = ({
   const { data: category } = useQuery({
     queryFn: () => getCategoryById(query?.id),
     queryKey: ['category'],
+    onSuccess: (data) => {
+      const { name, slug } = category
+      setValues({ name, slug })
+    },
   })
 
   console.log(values, 'values')
@@ -160,11 +152,7 @@ const AdminAddUpdateModalCategory = ({
                   type="text"
                   id="name"
                   name="name"
-                  value={
-                    query?.id
-                      ? values?.name
-                      : category?.data?.result?.data[0].name
-                  }
+                  value={values?.name}
                   placeholder={t('name')}
                   onChange={handleChange}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
@@ -181,11 +169,7 @@ const AdminAddUpdateModalCategory = ({
                   type="text"
                   id="slug"
                   name="slug"
-                  value={
-                    query?.id
-                      ? values?.slug
-                      : category?.data?.result?.data[0].slug
-                  }
+                  value={values?.slug}
                   placeholder={t('slug')}
                   onChange={handleChange}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
@@ -205,7 +189,7 @@ const AdminAddUpdateModalCategory = ({
           />
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t(`${query.id ? 'Update' : 'Create'} Category`)}
+            text={t(`Update Category`)}
             onClick={handleSubmit}
           />
         </div>
@@ -214,4 +198,4 @@ const AdminAddUpdateModalCategory = ({
   )
 }
 
-export default AdminAddUpdateModalCategory
+export default AdminUpdateModalCategory
