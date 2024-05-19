@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 import {
   Box,
   Image,
@@ -31,6 +29,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getProducts } from "../../services/products";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import DeleteModal from "../deleteModal";
 
 // const leastDestructiveRef = useRef<HTMLButtonElement | null>(null)
 
@@ -360,32 +359,9 @@ function AdminProductsSide() {
         </DrawerContent>
       </Drawer>
 
-      <AlertDialog
-        isOpen={isOpen}
-        // leastDestructiveRef={leastDestructiveRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Product
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button onClick={onClose}>Cancel</Button>
-              <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      <DeleteModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 }
 
 export default AdminProductsSide;
-
-
