@@ -75,7 +75,7 @@ function Login() {
     <div>
       <Head>
         <title>Admin | {t('Products')}</title>
-        <link rel="icon" href="/icons8-admin-96.png" />
+        <link rel="icon" href="/admin6024190.png" />
       </Head>
 
       <Box bg="#1E1E30">
@@ -98,3 +98,4 @@ export async function getStaticProps({ locale }: { locale: any }) {
     props: { ...(await serverSideTranslations(locale, ['admin'])) },
   }
 }
+

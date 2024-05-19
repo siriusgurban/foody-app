@@ -27,5 +27,7 @@
         "orders":"Sifarişlər",
         "offers":"Təkliflər",
         "logout":"Çıxış",
-        "Update Restaurant":"Restoranı Yenilə"
+        "Update Restaurant":"Restoranı Yenilə",
+        "resturant-type":"Restoranın növü",
+        "search": "Axtarış"
 }

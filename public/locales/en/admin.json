@@ -27,6 +27,8 @@
     "orders":"Orders",
     "offers":"Offers",
     "logout":"Logout",
-    "Update Restaurant":"Update Restaurant"
+    "Update Restaurant":"Update Restaurant",
+    "resturant-type":"Resturant type",
+    "search":"Search"
 
 }

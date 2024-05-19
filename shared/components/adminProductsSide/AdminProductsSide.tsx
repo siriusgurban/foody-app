@@ -26,56 +26,60 @@ import {
   Flex,
   Input,
   Textarea,
-} from '@chakra-ui/react'
-import React, { useEffect, useRef, useState } from 'react'
-import { getProducts } from '../../services/products'
+} from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
+import { getProducts } from "../../services/products";
+import { useTranslation } from "react-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // const leastDestructiveRef = useRef<HTMLButtonElement | null>(null)
 
-const defaultImageUrl = '/adminproducts/pizza.svg'
+const defaultImageUrl = "/adminproducts/pizza.svg";
 
 interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
+  id: number;
+  name: string;
+  description: string;
+  price: number;
 }
 
 function AdminProductsSide() {
-  const [products, setProducts] = useState<Product[]>([])
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [deleteProductId, setDeleteProductId] = useState<number | null>(null)
-  const [isDrawerOpen, setDrawerOpen] = useState(false)
+  const { t } = useTranslation("admin");
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [deleteProductId, setDeleteProductId] = useState<number | null>(null);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProducts()
+        const response = await getProducts();
         if (response && response.data && response.data.result) {
-          setProducts(response.data.result.data)
+          setProducts(response.data.result.data);
         } else {
           console.error(
-            'Error fetching products: Response format is incorrect.',
-          )
+            "Error fetching products: Response format is incorrect."
+          );
         }
       } catch (error) {
-        console.error('Error fetching products:', error)
+        console.error("Error fetching products:", error);
       }
-    }
+    };
 
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   const handleDeleteClick = (productId: number) => {
-    setDeleteProductId(productId)
-    onOpen()
-  }
+    setDeleteProductId(productId);
+    onOpen();
+  };
 
   const handleDeleteConfirm = () => {
     // Implement delete logic here using deleteProductId
-    console.log('Deleting product with ID:', deleteProductId)
-    onClose()
-  }
+    console.log("Deleting product with ID:", deleteProductId);
+    onClose();
+  };
 
   return (
     <>
@@ -90,7 +94,7 @@ function AdminProductsSide() {
           justifyContent="space-between"
         >
           <Text ml="33px" mt="26px" textColor="#C7C7C7">
-            Products
+            {t("products")}
           </Text>
           <Box display="flex">
             <Box>
@@ -115,7 +119,7 @@ function AdminProductsSide() {
                         textAlign="left"
                         textColor="#C7C7C7"
                       >
-                        Resturant type
+                        {t("resturant-type")}
                       </Box>
                       <AccordionIcon />
                     </AccordionButton>
@@ -137,7 +141,7 @@ function AdminProductsSide() {
                 colorScheme="#C035A2"
               >
                 <Image src="/adminproducts/search.svg" />
-                Search
+                {t("search")}
               </Button>
             </Box>
           </Box>
@@ -379,7 +383,9 @@ function AdminProductsSide() {
         </AlertDialogOverlay>
       </AlertDialog>
     </>
-  )
+  );
 }
 
-export default AdminProductsSide
+export default AdminProductsSide;
+
+
