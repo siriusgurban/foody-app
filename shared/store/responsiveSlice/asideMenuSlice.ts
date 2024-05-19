@@ -17,7 +17,7 @@ export const asideMenuSlice = createSlice({
   initialState,
   reducers: {
     isOpenFn: (state, action) => {
-      state.value = !action.payload
+      state.value = action.payload
     },
   },
 })

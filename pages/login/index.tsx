@@ -17,7 +17,6 @@ function Login() {
       <ClientLoginNav />
       <ClientLoginRegisterForm />
     </>
-
   )
 }
 

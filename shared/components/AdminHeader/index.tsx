@@ -20,14 +20,14 @@ import Foody from '../foody'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
   const isOpenState = useAppSelector((state) => state.asideMenu.value)
 
   const dispatch = useDispatch()
 
   function handleOpen() {
-    console.log('cliked')
-    dispatch(isOpenFn(isOpenState))
+    console.log('cliked', isOpenState)
+    dispatch(isOpenFn(true))
   }
 
   return (
@@ -38,9 +38,8 @@ function AdminHeader() {
           width={20}
           height={14}
           alt="hamburgerMenu"
-          // className="cursor-pointer"
-          className="md:hidden lg:hidden xl:hidden"
-          onClick={onOpen}
+          className="md:hidden lg:hidden xl:hidden cursor-pointer"
+          onClick={handleOpen}
         />
         <Foody role="admin" />
       </Box>
