@@ -31,14 +31,14 @@ import AdminRestaurantsDropdown from '@/shared/components/adminRestaurantsDropdo
 import { AddIcon } from '@chakra-ui/icons'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
-import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
-import AdminAddUpdateModal from '@/shared/components/adminAddUpdateModal'
-import AdminAddUpdateModalCategory from '@/shared/components/adminAddUpdateModalCategory'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
+import AdminUpdateModalCategory from '@/shared/components/adminUpdateModalCategory'
+import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
 
 function Category() {
   const { t } = useTranslation('admin')
-  const [hideModal, setHideModal] = useState<boolean>(true)
+  const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
+  const [hideModalAdd, setHideModalAdd] = useState<boolean>(true)
   const toast = useToast()
   const { push, pathname } = useRouter()
 
@@ -75,8 +75,11 @@ function Category() {
     console.log('edited')
   }
 
-  function showHideModal() {
-    setHideModal((prev) => !prev)
+  function showHideModalUpdate() {
+    setHideModalUpdate((prev) => !prev)
+  }
+  function showHideModalAdd() {
+    setHideModalAdd((prev) => !prev)
   }
 
   console.log(data?.data?.result?.data, 'cate')
@@ -97,14 +100,19 @@ function Category() {
             <Box className="flex flex-col gap-4 w-full">
               <div className="w-full">
                 <div className="m-5">
-                  <AdminAddUpdateModalCategory
-                    onClickClose={showHideModal}
-                    show={hideModal}
+                  <AdminUpdateModalCategory
+                    onClickClose={showHideModalUpdate}
+                    show={hideModalUpdate}
+                    text={t('Update Category')}
+                  />
+                  <AdminAddModalCategory
+                    onClickClose={showHideModalAdd}
+                    show={hideModalAdd}
                     text={t('Add Category')}
                   />
                   <AdminSecondaryComponent
                     p={t('category')}
-                    onClick={showHideModal}
+                    onClick={showHideModalAdd}
                     visible={true}
                   />
                 </div>
@@ -141,7 +149,7 @@ function Category() {
                                 <Button
                                   onClick={() => (
                                     push(pathname + '?id=' + item?.id),
-                                    showHideModal()
+                                    showHideModalUpdate()
                                   )}
                                 >
                                   <span>
