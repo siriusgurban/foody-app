@@ -71,9 +71,6 @@ function Category() {
   function handleDelete(id: any) {
     mutate(id)
   }
-  function handleEdit(id: any, data: any) {
-    console.log('edited')
-  }
 
   function showHideModalUpdate() {
     setHideModalUpdate((prev) => !prev)

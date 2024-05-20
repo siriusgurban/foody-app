@@ -1,10 +1,7 @@
 //@ts-nocheck
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import AdminModalUploadImage from '../adminModalUploadImage'
-import AdminModalInput from '../adminModalInput'
-import AdminModalTextArea from '../adminModalText'
-import AdminModalDropdown from '../adminModalDropdown'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
@@ -41,10 +38,8 @@ const AdminUpdateModalCategory = ({
   const { t } = useTranslation('admin')
   const toast = useToast()
   const queryClient = useQueryClient()
-  console.log(queryClient, 'queryClient')
 
   const { push, query } = useRouter()
-  console.log(query.id, 'urlllllllllll')
 
   const {
     values,
@@ -70,7 +65,7 @@ const AdminUpdateModalCategory = ({
     },
   })
 
-  async function handleForm(data: any, id: string) {
+  async function handleForm(id: string, data: any) {
     mutate(id, data)
   }
 
@@ -97,13 +92,32 @@ const AdminUpdateModalCategory = ({
   const { data: category } = useQuery({
     queryFn: () => getCategoryById(query?.id),
     queryKey: ['category'],
-    onSuccess: (data) => {
-      const { name, slug } = category
-      setValues({ name, slug })
+    onSuccess: () => {
+      // setValues({
+      //   name: category?.data?.result?.data?.name,
+      //   slug: category?.data?.result?.data?.slug,
+      //   img_url:
+      //     'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
+      // })
     },
   })
 
-  console.log(values, 'values')
+  console.log(category?.data?.result?.data?.name, 'cateq')
+
+  useEffect(() => {
+    console.log(category, 'categorycategorycategory'),
+      setValues(
+        {
+          name: category?.data?.result?.data?.name,
+          slug: category?.data?.result?.data?.slug,
+          img_url:
+            'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
+        },
+        true,
+      )
+  }, [])
+
+  // console.log(values, 'values')
 
   return (
     <div

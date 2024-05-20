@@ -17,6 +17,18 @@ const nextConfig = {
         port: '',
         pathname: '/sites/default/files/styles/medium/public/images/brands/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '/v0/b/foody-app-f27a2.appspot.com/o/**',
+      },
+      // {
+      //   protocol: '',
+      //   hostname: 'C:\fakepath',
+      //   port: '',
+      //   pathname: '\**',
+      // },
     ],
   },
 };

@@ -1,17 +1,20 @@
 //@ts- nocheck
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AdminModalUploadImage from '../adminModalUploadImage'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
-import { FormControl, FormHelperText, useToast } from '@chakra-ui/react'
+import { FormControl, FormHelperText, Input, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import { postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { fileStorage } from '../../../server/configs/firebase'
+import Image from 'next/image'
+import { IoMdCloudUpload } from 'react-icons/io'
 
-//
 interface Props {
   show?: boolean
   onClickClose?: () => void
@@ -21,17 +24,14 @@ interface Props {
 const initialValues = {
   name: '',
   slug: '',
-  img_url:
-    'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
+  img_url: '',
+  // 'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
 }
 
-//
 const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const { t } = useTranslation('admin')
   const toast = useToast()
   const queryClient = useQueryClient()
-  console.log(queryClient, 'queryClient')
-
   const { push, query } = useRouter()
 
   const { values, handleChange, handleSubmit, errors, resetForm } = useFormik({
@@ -77,6 +77,38 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
 
   console.log(values, 'values')
 
+  const [imgUrl, setImgUrl] = useState<any>('')
+  const imgRef = useRef<any>(null)
+  const [imgOnload, setImgOnload] = useState(false)
+
+  function getImgUrl(url: string): void {
+    console.log(url)
+    setImgUrl(url)
+  }
+
+  function getImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const name = e?.target?.files?.[0]?.name
+    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
+
+    if (!name) {
+      return
+    }
+    const imageRef = ref(fileStorage, `files/images/${name}`)
+
+    const file = e?.target?.files?.[0]
+    if (!file) {
+      return
+    }
+    uploadBytes(imageRef, file).then((snapshot) => {
+      setImgOnload(true)
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImgOnload(false)
+        setImgUrl(url)
+        getImgUrl(url)
+      })
+    })
+  }
+
   return (
     <div
       className={` fixed  z-10  w-full sm:w-3/4   sm:pl-10 ${
@@ -96,16 +128,35 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
         <div className=" flex flex-col  w-full lg:flex-row mb-16 ">
           <div className=" w-full h-36 lg:w-1/3 ">
             <p className="font-medium text-lg text-admin-text">
-              {t('Upload  Image')}
+              {t('Upload Image')}
             </p>
-            {/* <img
-                    width={118}
-                    height={122}
-                    alt=""
-                /> */}
+            <Image
+              width={118}
+              height={122}
+              alt="asd"
+              ref={imgRef}
+              src={`${imgOnload ? '/loadingImage.png' : imgUrl}`}
+              // onChange={(e) => getImage(e)}
+            />
           </div>
           <div className=" w-full lg:w-2/3 h-38 ">
-            <AdminModalUploadImage />
+            {/* <AdminModalUploadImage /> */}
+            <div className=" cursor-pointer bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
+              <div className=" relative ">
+                <input
+                  onChange={(e) => getImage(e)}
+                  value={values?.img_url}
+                  id="img_url"
+                  name="img_url"
+                  type="file"
+                  className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
+                />
+                <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
+                <p className=" text-admin-text font-medium text-lg font-display">
+                  Upload
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex   flex-col   lg:flex-row  w-full  mb-10 ">

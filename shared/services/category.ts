@@ -13,7 +13,7 @@ export const getCategoryById = async (id: string) => {
   try {
     const response = await instanceAxios({
       method: 'GET',
-      url: 'category' + '?id=' + id,
+      url: 'category' + '/' + id,
     })
     return response
   } catch (err) {
