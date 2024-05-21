@@ -86,27 +86,49 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   //   console.log(imgUrl, 'imgUrlimgUrlimgUrl')
   // }
 
+  // function getImage(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const name = e?.target?.files?.[0]?.name
+  //   console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
+
+  //   if (!name) {
+  //     return
+  //   }
+  //   const imageRef = ref(fileStorage, `files/images/${name}`)
+
+  //   const file = e?.target?.files?.[0]
+  //   if (!file) {
+  //     return
+  //   }
+  //   uploadBytes(imageRef, file).then((snapshot) => {
+  //     setImgOnload(true)
+  //     getDownloadURL(snapshot.ref).then((url) => {
+  //       setImgOnload(false)
+  //       setImgUrl(url)
+  //       // getImgUrl(url)
+  //     })
+  //   })
+  // }
+
   function getImage(e: React.ChangeEvent<HTMLInputElement>) {
-    const name = e?.target?.files?.[0]?.name
-    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
-
-    if (!name) {
-      return
-    }
-    const imageRef = ref(fileStorage, `files/images/${name}`)
-
     const file = e?.target?.files?.[0]
     if (!file) {
       return
     }
-    uploadBytes(imageRef, file).then((snapshot) => {
-      setImgOnload(true)
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImgOnload(false)
-        setImgUrl(url)
-        // getImgUrl(url)
+
+    const imageRef = ref(fileStorage, `files/images/${file.name}`)
+
+    uploadBytes(imageRef, file)
+      .then((snapshot) => {
+        return getDownloadURL(snapshot.ref)
       })
-    })
+      .then((url) => {
+        console.log(url, 'urllllllllllll')
+
+        setImgUrl(url)
+      })
+      .catch((error) => {
+        console.error('Error uploading image:', error)
+      })
   }
 
   return (
