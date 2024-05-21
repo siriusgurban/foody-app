@@ -63,6 +63,14 @@ const config: Config = {
         'client-main-gray1':'#828282',
         'client-main-gray2':'#4F4F4F',
         'client-light-red':'#FFE7E7',
+        'client-main-red':'#D63626',
+        'client-fill-gray':'#F3F4F6',
+        'client-zero-black':'#000000',
+        'client-pink':'#F178B6',
+        'client-fill-gray6':'#F2F2F2',
+        'client-white':'#FFFFFF',
+        'client-search-modal-text':'#2B3043'
+
         
       },
     },
