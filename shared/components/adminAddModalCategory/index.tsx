@@ -1,4 +1,4 @@
-//@ts- nocheck
+//@ts-nocheck
 
 import React, { useEffect, useRef, useState } from 'react'
 import AdminModalUploadImage from '../adminModalUploadImage'
@@ -33,6 +33,9 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const toast = useToast()
   const queryClient = useQueryClient()
   const { push, query } = useRouter()
+  const [imgUrl, setImgUrl] = useState<any>(initialValues.img_url)
+  const imgRef = useRef<any>(null)
+  const [imgOnload, setImgOnload] = useState(false)
 
   const { values, handleChange, handleSubmit, errors, resetForm } = useFormik({
     initialValues,
@@ -77,14 +80,11 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
 
   console.log(values, 'values')
 
-  const [imgUrl, setImgUrl] = useState<any>('')
-  const imgRef = useRef<any>(null)
-  const [imgOnload, setImgOnload] = useState(false)
-
-  function getImgUrl(url: string): void {
-    console.log(url)
-    setImgUrl(url)
-  }
+  // function getImgUrl(url: string): void {
+  //   console.log(url)
+  //   setImgUrl(url)
+  //   console.log(imgUrl, 'imgUrlimgUrlimgUrl')
+  // }
 
   function getImage(e: React.ChangeEvent<HTMLInputElement>) {
     const name = e?.target?.files?.[0]?.name
@@ -104,7 +104,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
       getDownloadURL(snapshot.ref).then((url) => {
         setImgOnload(false)
         setImgUrl(url)
-        getImgUrl(url)
+        // getImgUrl(url)
       })
     })
   }
@@ -133,10 +133,15 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             <Image
               width={118}
               height={122}
-              alt="asd"
+              alt="Upload"
               ref={imgRef}
-              src={`${imgOnload ? '/loadingImage.png' : imgUrl}`}
-              // onChange={(e) => getImage(e)}
+              src={`${
+                imgOnload
+                  ? '/loadingImage.png'
+                  : imgUrl
+                  ? imgUrl
+                  : '/upload.png'
+              }`}
             />
           </div>
           <div className=" w-full lg:w-2/3 h-38 ">
@@ -144,7 +149,9 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             <div className=" cursor-pointer bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
                 <input
-                  onChange={(e) => getImage(e)}
+                  onChange={(e) => {
+                    getImage(e), handleChange(e)
+                  }}
                   value={values?.img_url}
                   id="img_url"
                   name="img_url"
@@ -212,7 +219,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
           />
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t(`'Create Category`)}
+            text={t(`Create Category`)}
             onClick={handleSubmit}
           />
         </div>

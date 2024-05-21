@@ -95,7 +95,7 @@ function Category() {
             <AdminAsideMenu />
             <AdminAsideMenuResponsive />
             <Box className="flex flex-col gap-4 w-full">
-              <div className="w-full">
+              <div className=" xl:w-full">
                 <div className="m-5">
                   <AdminUpdateModalCategory
                     onClickClose={showHideModalUpdate}
@@ -114,7 +114,7 @@ function Category() {
                   />
                 </div>
               </div>
-              <TableContainer>
+              <TableContainer className="md:overflow-x-auto">
                 <Table variant="simple" className="bg-white">
                   <Thead>
                     <Tr>
