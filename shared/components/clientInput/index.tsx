@@ -9,7 +9,7 @@ interface Props {
     classNameInput?: string;
     children?: ReactNode;
     onChange?: any;
-    placeholder?: string; 
+    placeholder?: string;
 }
 
 const ClientInput = ({
@@ -19,7 +19,7 @@ const ClientInput = ({
         <div className={classNameDiv}>
             <label className={classNameLabel}>{p}</label>
             <div className="relative">
-                <input type={type} className={classNameInput} onChange={onChange} placeholder={ placeholder} />
+                <input type={type} className={classNameInput} onChange={onChange} placeholder={placeholder} />
                 {children && (
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2">
                         {children}
