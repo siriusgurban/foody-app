@@ -23,12 +23,12 @@ const nextConfig = {
         port: '',
         pathname: '/v0/b/foody-app-f27a2.appspot.com/o/**',
       },
-      // {
-      //   protocol: '',
-      //   hostname: 'C:\fakepath',
-      //   port: '',
-      //   pathname: '\**',
-      // },
+      {
+        protocol: 'https',
+        hostname: 'media-cdn.tripadvisor.com',
+        port: '',
+        pathname: '/media/photo-p/**',
+      },
     ],
   },
 };

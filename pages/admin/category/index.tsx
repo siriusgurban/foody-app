@@ -6,7 +6,7 @@ import {
   getCategories,
   getCategoryById,
 } from '@/shared/services/category'
-import { Box, Button, useToast } from '@chakra-ui/react'
+import { Box, Button, useDisclosure, useToast } from '@chakra-ui/react'
 
 import {
   Table,
@@ -34,6 +34,7 @@ import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminUpdateModalCategory from '@/shared/components/adminUpdateModalCategory'
 import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
+import DeleteModal from '@/shared/components/deleteModal'
 
 function Category() {
   const { t } = useTranslation('admin')
@@ -41,6 +42,7 @@ function Category() {
   const [hideModalAdd, setHideModalAdd] = useState<boolean>(true)
   const toast = useToast()
   const { push, pathname } = useRouter()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const queryClient = useQueryClient()
 
@@ -94,6 +96,7 @@ function Category() {
           <Box className="flex gap-7">
             <AdminAsideMenu />
             <AdminAsideMenuResponsive />
+
             <Box className="flex flex-col gap-4 w-full">
               <div className=" xl:w-full">
                 <div className="m-5">
@@ -155,6 +158,10 @@ function Category() {
                                 </Button>
                                 <button onClick={() => handleDelete(item?.id)}>
                                   <span>
+                                    <DeleteModal
+                                      isOpen={isOpen}
+                                      onClose={onClose}
+                                    />
                                     <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
                                   </span>
                                 </button>

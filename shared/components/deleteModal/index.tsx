@@ -9,22 +9,22 @@ import {
   AlertDialogOverlay,
   Button,
   useDisclosure,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
+} from '@chakra-ui/react'
+import React, { useState } from 'react'
 
 function DeleteModal({ isOpen, onClose }: any) {
   //   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleDeleteClick = (productId: number) => {
-    setDeleteProductId(productId);
+    setDeleteProductId(productId)
     // onOpen();
-  };
-  const [deleteProductId, setDeleteProductId] = useState<number | null>(null);
+  }
+  const [deleteProductId, setDeleteProductId] = useState<number | null>(null)
 
   const handleDeleteConfirm = () => {
     // Implement delete logic here using deleteProductId
-    console.log("Deleting product with ID:", deleteProductId);
-    onClose();
-  };
+    console.log('Deleting product with ID:', deleteProductId)
+    onClose()
+  }
 
   return (
     <AlertDialog
@@ -38,7 +38,7 @@ function DeleteModal({ isOpen, onClose }: any) {
             Delete Product
           </AlertDialogHeader>
           <AlertDialogBody>
-            Are you sure? You can't undo this action afterwards.
+            Are you sure? You can not undo this action afterwards.
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button onClick={onClose}>Cancel</Button>
@@ -49,7 +49,7 @@ function DeleteModal({ isOpen, onClose }: any) {
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  );
+  )
 }
 
-export default DeleteModal;
+export default DeleteModal
