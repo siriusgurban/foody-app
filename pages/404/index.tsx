@@ -1,7 +1,12 @@
-import React from 'react'
+import ClientHeader from "@/shared/components/clientFooter";
+import React from "react";
 
 function NotFound() {
-  return <div>NotFound</div>
+  return (
+    <>
+      <ClientHeader>
+    </>
+  );
 }
 
-export default NotFound
+export default NotFound;
