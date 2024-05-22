@@ -42,14 +42,16 @@ function RestaurantId() {
           <main className="flex mx-8 gap-10">
             <section className="">
               <Box>
-                <Image
-                  width={1400}
-                  height={100}
-                  alt="cover image"
-                  src={restaurant?.data?.result?.data?.img_url}
-                  className="object-fit-cover"
-                />
-                <Box className="flex px-8 border border-b-client-rest-grey">
+                <Box className="w-full">
+                  <Image
+                    width={1400}
+                    height={100}
+                    alt="cover image"
+                    src={restaurant?.data?.result?.data?.img_url}
+                    className="object-fit-cover"
+                  />
+                </Box>
+                <Box className="flex px-8 border border-b-client-rest-grey py-5">
                   <Box className="flex flex-col justify-start w-3/5">
                     <Text className="text-2xl font-bold text">
                       Papa John’s Pizza Restaurant
@@ -76,81 +78,114 @@ function RestaurantId() {
                     </Box>
                   </Box>
                 </Box>
-                <Box className=" bg-client-fill-gray">
-                  <Text className="text-2xl font-bold text-center py-10">
-                    Products
-                  </Text>
-                  <Box>
-                    <Box className="flex justify-between align-middle gap-8 py-6 px-8 border border-t-client-rest-grey">
-                      <Box className="flex gap-9">
-                        <Image
-                          width={57}
-                          height={53}
-                          alt="cover image"
-                          src={restaurant?.data?.result?.data?.img_url}
-                        />
-                        <Box className="flex flex-col ">
-                          <Text className="text-lg my-auto">
-                            Papa John’s Pizza Restaurant
-                          </Text>
-                          <Text className="text-client-rest-grey text-sm">
-                            Prepared with a patty, a slice of cheese and special
-                            sauce
-                          </Text>
+                <Box className="flex justify-between py-12 px-12">
+                  <Box className=" bg-client-fill-gray w-[846px]">
+                    <Text className="text-2xl font-bold text-center py-10">
+                      Products
+                    </Text>
+                    <Box>
+                      <Box className="flex justify-between align-middle gap-8 py-6 px-8 border border-t-client-rest-grey">
+                        <Box className="flex gap-9">
+                          <Image
+                            width={57}
+                            height={53}
+                            alt="cover image"
+                            src={restaurant?.data?.result?.data?.img_url}
+                          />
+                          <Box className="flex flex-col ">
+                            <Text className="text-lg my-auto">
+                              Papa John’s Pizza Restaurant
+                            </Text>
+                            <Text className="text-client-rest-grey text-sm">
+                              Prepared with a patty, a slice of cheese and
+                              special sauce
+                            </Text>
+                          </Box>
+                        </Box>
+                        <Box className="flex gap-9 align-middle justify-center">
+                          <Box className="flex gap-1.5 align-middle pt-2">
+                            <Text className="text-xs text-client-main-gray1 pt-1.5">
+                              From
+                            </Text>
+                            <Text>$7.90</Text>
+                          </Box>
+                          <Box>
+                            <Image
+                              width={40}
+                              height={40}
+                              alt="plus image"
+                              src={'/plus.svg'}
+                              className="cursor-pointer"
+                            />
+                          </Box>
                         </Box>
                       </Box>
-                      <Box className="flex gap-9">
-                        <Box className="flex gap-1.5 align-middle ">
-                          <Text className="text-xs text-client-main-gray1">
-                            From
-                          </Text>
-                          <Text>$7.90</Text>
+                      <Box className="flex justify-between align-middle gap-8 py-6 px-8 border border-t-client-rest-grey">
+                        <Box className="flex gap-9">
+                          <Image
+                            width={57}
+                            height={53}
+                            alt="cover image"
+                            src={restaurant?.data?.result?.data?.img_url}
+                          />
+                          <Box className="flex flex-col ">
+                            <Text className="text-lg my-auto">
+                              Papa John’s Pizza Restaurant
+                            </Text>
+                            <Text className="text-client-main-gray1 text-sm max-w-96">
+                              Prepared with a patty, a slice of cheese and
+                              special sauce
+                            </Text>
+                          </Box>
                         </Box>
-                        <Image
-                          width={40}
-                          height={40}
-                          alt="plus image"
-                          src={'/plus.svg'}
-                          className="cursor-pointer"
-                        />
+                        <Box className="flex gap-9">
+                          <Box className="flex gap-1.5 align-middle ">
+                            <Text className="text-xs text-client-main-gray1">
+                              From
+                            </Text>
+                            <Text>$7.90</Text>
+                          </Box>
+                          <Image
+                            width={40}
+                            height={40}
+                            alt="plus image"
+                            src={'/plus.svg'}
+                            className="cursor-pointer"
+                          />
+                        </Box>
                       </Box>
                     </Box>
-                    <Box className="flex justify-between align-middle gap-8 py-6 px-8 border border-t-client-rest-grey">
-                      <Box className="flex gap-9">
+                  </Box>
+                  {/* basket */}
+                  <Box className="bg-client-fill-gray w-[400px] h-[548px] border border-dashed border-client-rest-grey relative">
+                    <Box className="flex p-3 flex-col ">
+                      <Box className="flex gap-1 align-middle">
                         <Image
-                          width={57}
-                          height={53}
-                          alt="cover image"
-                          src={restaurant?.data?.result?.data?.img_url}
+                          width={25}
+                          height={22}
+                          alt="basket"
+                          src={'/basket.svg'}
+                          className="text-client-rest-grey"
                         />
-                        <Box className="flex flex-col ">
-                          <Text className="text-lg my-auto">
-                            Papa John’s Pizza Restaurant
-                          </Text>
-                          <Text className="text-client-main-gray1 text-sm max-w-96">
-                            Prepared with a patty, a slice of cheese and special
-                            saucexzzzzzzzzzzz Prepared with a patty, a slice of
-                            cheese and special saucexzzzzzzzzzzz Prepared with a
-                            patty, a slice of cheese and special
-                            saucexzzzzzzzzzzz Prepared with a patty, a slice of
-                            cheese and special saucexzzzzzzzzzzz
-                          </Text>
-                        </Box>
+                        <Text className="text-client-rest-grey">0 items</Text>
                       </Box>
-                      <Box className="flex gap-9">
-                        <Box className="flex gap-1.5 align-middle ">
-                          <Text className="text-xs text-client-main-gray1">
-                            From
-                          </Text>
-                          <Text>$7.90</Text>
-                        </Box>
+                      <Box className="w-72 flex flex-col justify-center align-middle m-auto ">
                         <Image
-                          width={40}
-                          height={40}
-                          alt="plus image"
-                          src={'/plus.svg'}
-                          className="cursor-pointer"
+                          width={200}
+                          height={200}
+                          alt="empty basket"
+                          src={'/basketEmpty.svg'}
+                          className="mx-auto"
                         />
+                        <Text className="text-client-rest-grey1 text-4xl text-center">
+                          Opps! Basket empty
+                        </Text>
+                      </Box>
+                      <Box className="w-[372px] mx-auto h-12 bg-client-rest-grey1 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3">
+                        <Text className="text-white my-auto">Checkout</Text>
+                        <Box className="text-client-rest-grey w-32 h-11 bg-white rounded-full my-auto text-center pt-3 ">
+                          $0.00
+                        </Box>
                       </Box>
                     </Box>
                   </Box>
