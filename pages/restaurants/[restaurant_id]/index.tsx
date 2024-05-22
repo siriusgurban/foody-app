@@ -48,27 +48,26 @@ function RestaurantId() {
                     height={100}
                     alt="cover image"
                     src={restaurant?.data?.result?.data?.img_url}
-                    className="object-fit-cover"
                   />
                 </Box>
                 <Box className="flex px-8 border border-b-client-rest-grey py-5">
                   <Box className="flex flex-col justify-start w-3/5">
                     <Text className="text-2xl font-bold text">
-                      Papa John’s Pizza Restaurant
+                      {restaurant?.data?.result?.data?.name}
                     </Text>
                     <Text className="text-client-main-gray1 text-sm">
-                      19 Nizami street, Sabail, Baku
+                      {restaurant?.data?.result?.data?.address}
                     </Text>
                   </Box>
                   <Box className="flex justify-start gap-7 w-2/5">
                     <Box className="text-client-main-gray1">
                       <Text className="text-lg">Cuisine</Text>
                       <Text className="text-sm">
-                        pizza, drink, hotdog, sendvich, roll
+                        {restaurant?.data?.result?.data?.cuisine}
                       </Text>
                     </Box>
                     <Box className="text-sm w-20 h-12 border border-client-main-red text-client-main-red rounded-md ">
-                      $5 Delivery
+                      ${restaurant?.data?.result?.data?.delivery_price} Delivery
                     </Box>
                     <Box
                       className="text-sm w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer"
@@ -84,76 +83,50 @@ function RestaurantId() {
                       Products
                     </Text>
                     <Box>
-                      <Box className="flex justify-between align-middle gap-8 py-6 px-8 border border-t-client-rest-grey">
-                        <Box className="flex gap-9">
-                          <Image
-                            width={57}
-                            height={53}
-                            alt="cover image"
-                            src={restaurant?.data?.result?.data?.img_url}
-                          />
-                          <Box className="flex flex-col ">
-                            <Text className="text-lg my-auto">
-                              Papa John’s Pizza Restaurant
-                            </Text>
-                            <Text className="text-client-rest-grey text-sm">
-                              Prepared with a patty, a slice of cheese and
-                              special sauce
-                            </Text>
-                          </Box>
-                        </Box>
-                        <Box className="flex gap-9 align-middle justify-center">
-                          <Box className="flex gap-1.5 align-middle pt-2">
-                            <Text className="text-xs text-client-main-gray1 pt-1.5">
-                              From
-                            </Text>
-                            <Text>$7.90</Text>
-                          </Box>
-                          <Box>
-                            <Image
-                              width={40}
-                              height={40}
-                              alt="plus image"
-                              src={'/plus.svg'}
-                              className="cursor-pointer"
-                            />
-                          </Box>
-                        </Box>
-                      </Box>
-                      <Box className="flex justify-between align-middle gap-8 py-6 px-8 border border-t-client-rest-grey">
-                        <Box className="flex gap-9">
-                          <Image
-                            width={57}
-                            height={53}
-                            alt="cover image"
-                            src={restaurant?.data?.result?.data?.img_url}
-                          />
-                          <Box className="flex flex-col ">
-                            <Text className="text-lg my-auto">
-                              Papa John’s Pizza Restaurant
-                            </Text>
-                            <Text className="text-client-main-gray1 text-sm max-w-96">
-                              Prepared with a patty, a slice of cheese and
-                              special sauce
-                            </Text>
-                          </Box>
-                        </Box>
-                        <Box className="flex gap-9">
-                          <Box className="flex gap-1.5 align-middle ">
-                            <Text className="text-xs text-client-main-gray1">
-                              From
-                            </Text>
-                            <Text>$7.90</Text>
-                          </Box>
-                          <Image
-                            width={40}
-                            height={40}
-                            alt="plus image"
-                            src={'/plus.svg'}
-                            className="cursor-pointer"
-                          />
-                        </Box>
-                      </Box>
+                      {restaurant?.data?.result?.data?.products?.map(
+                        (item: any, index: number) => {
+                          return (
+                            <Box
+                              key={index}
+                              className="flex justify-between align-middle gap-8 py-6 px-8 border-t border-t-client-rest-grey"
+                            >
+                              <Box className="flex gap-9">
+                                <Image
+                                  width={57}
+                                  height={53}
+                                  alt="cover image"
+                                  src={item?.img_url}
+                                />
+                                <Box className="flex flex-col ">
+                                  <Text className="text-lg my-auto">
+                                    {item?.name}
+                                  </Text>
+                                  <Text className="text-client-rest-grey text-sm">
+                                    {item?.description}
+                                  </Text>
+                                </Box>
+                              </Box>
+                              <Box className="flex gap-9 align-middle justify-center">
+                                <Box className="flex gap-1.5 align-middle pt-2">
+                                  <Text className="text-xs text-client-main-gray1 pt-1.5">
+                                    From
+                                  </Text>
+                                  <Text>${item?.price}</Text>
+                                </Box>
+                                <Box>
+                                  <Image
+                                    width={40}
+                                    height={40}
+                                    alt="plus image"
+                                    src={'/plus.svg'}
+                                    className="cursor-pointer"
+                                  />
+                                </Box>
+                              </Box>
+                            </Box>
+                          )
+                        },
+                      )}
                     </Box>
                   </Box>
                   {/* basket */}
