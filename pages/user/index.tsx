@@ -1,4 +1,4 @@
-//@ts- nocheck
+//@ts-nocheck
 
 import ClientHeader from '@/shared/components/clientHeader'
 import {
