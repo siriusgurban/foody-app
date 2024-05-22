@@ -71,6 +71,7 @@ const config: Config = {
         'client-search-modal-text': '#2B3043',
 
         'client-rest-grey': '#E0E0E0',
+        'client-rest-grey1': '#BDBDBD',
       },
     },
     plugins: [],
