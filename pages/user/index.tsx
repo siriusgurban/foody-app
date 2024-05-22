@@ -57,14 +57,12 @@ function User() {
                 <Box
                   className="flex gap-4 px-2 py-1.5 "
                   onClick={() => push('?page=' + 'profile')}
-                  // onClick={() => handleSet(item?.id)}
                 >
                   <Image
                     width={22}
                     height={14}
                     alt="profile"
                     src={'/profile.svg'}
-                    // className="text-client-main-gray1"
                   />
                   <Text className="text-xl font-semibold text-client-main-gray1">
                     Profile
