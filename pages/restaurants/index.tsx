@@ -1,13 +1,43 @@
+//@ts-nocheck
+
 import ClientHeader from '@/shared/components/clientHeader'
+import {
+  getRestuarantById,
+  getRestuarants,
+} from '@/shared/services/restaurants'
 import { Box, Text } from '@chakra-ui/react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function Restaurants() {
   const { t } = useTranslation()
+  const { push, query, asPath } = useRouter()
+  const [quer, setQuer] = useState('')
+  const isActive = (path: string) => (query.id === path ? '#F0E1E1' : 'none')
+
+  const { data } = useQuery({
+    queryFn: getRestuarants,
+    queryKey: ['restuarants'],
+  })
+
+  const queryClient = useQueryClient()
+
+  const { data: restaurant } = useQuery({
+    queryFn: () => getRestuarantById(query.id),
+    queryKey: ['restuarant', query.id],
+  })
+
+  function handleSet(id: string) {
+    setQuer(id)
+  }
+
+  console.log(query?.id, 'queryquery')
+
   return (
     <div>
       <div>
@@ -21,22 +51,69 @@ function Restaurants() {
           <header>
             <ClientHeader />
           </header>
-          <main className="flex mx-8">
+          <main className="flex mx-8 gap-10">
             <section className="">
-              <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col max-h-[620px] scrollbar overflow-y-scroll pr-4">
-                <Box>
-                  <Image
-                    width={25}
-                    height={28}
-                    alt="resto"
-                    src="https://media-cdn.tripadvisor.com/media/photo-p/16/f6/e2/8d/mixed-beef.jpg"
-                  />
-                  <Text className="text-xl font-semibold"></Text>
-                </Box>
+              <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12 cursor-pointer overflow-hidden">
+                {data?.data?.result?.data?.map((item: any, index: number) => {
+                  return (
+                    <Box
+                      className="flex gap-4 px-2 py-1.5"
+                      style={{ backgroundColor: isActive(item?.id) }}
+                      key={index}
+                      onClick={() => push('?id=' + item?.id)}
+                      // onClick={() => handleSet(item?.id)}
+                    >
+                      <Image
+                        width={25}
+                        height={28}
+                        alt={item?.name}
+                        src={item?.img_url}
+                      />
+                      <Text className="text-xl font-semibold">
+                        {item?.name}
+                      </Text>
+                    </Box>
+                  )
+                })}
               </Box>
             </section>
             <section>
-              <Box></Box>
+              <Box className="flex flex-wrap gap-10">
+                {restaurant?.data?.result?.data?.products?.map(
+                  (item: any, index: number) => {
+                    return (
+                      <Box
+                        className="w-60 flex flex-col shadow-lg px-8 pt-3 pb-6 cursor-pointer"
+                        key={index}
+                        onClick={() => {
+                          push('/restaurants/' + query.id)
+                        }}
+                      >
+                        <Image
+                          width={174}
+                          height={160}
+                          alt="card-iamge"
+                          src={item?.img_url}
+                          className="mb-3"
+                        />
+                        <Text className="text-xl font-bold">{item?.name}</Text>
+                        <Text className="mb-5 text-admin-restaurant-card-category">
+                          {restaurant?.data?.result?.data?.cuisine}
+                        </Text>
+                        <Box className="flex justify-between align-middle">
+                          <Text className="font-bold my-auto">
+                            ${restaurant?.data?.result?.data?.delivery_price}{' '}
+                            Delivery
+                          </Text>
+                          <Box className="bg-client-main-red rounded-3xl text-white  px-3 py-1">
+                            {restaurant?.data?.result?.data?.delivery_min} Min
+                          </Box>
+                        </Box>
+                      </Box>
+                    )
+                  },
+                )}
+              </Box>
             </section>
           </main>
           <footer></footer>

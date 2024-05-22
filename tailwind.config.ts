@@ -58,20 +58,19 @@ const config: Config = {
         'admin-cancel-btn': 'rgb(67, 68, 90)',
         'admin-modal-scrollbar': 'rgb(239, 93, 168)',
 
+        'client-login-mainColor': '#EB5757',
+        'client-main-gray1': '#828282',
+        'client-main-gray2': '#4F4F4F',
+        'client-light-red': '#FFE7E7',
+        'client-main-red': '#D63626',
+        'client-fill-gray': '#F3F4F6',
+        'client-zero-black': '#000000',
+        'client-pink': '#F178B6',
+        'client-fill-gray6': '#F2F2F2',
+        'client-white': '#FFFFFF',
+        'client-search-modal-text': '#2B3043',
 
-        'client-login-mainColor':'#EB5757',
-        'client-main-gray1':'#828282',
-        'client-main-gray2':'#4F4F4F',
-        'client-light-red':'#FFE7E7',
-        'client-main-red':'#D63626',
-        'client-fill-gray':'#F3F4F6',
-        'client-zero-black':'#000000',
-        'client-pink':'#F178B6',
-        'client-fill-gray6':'#F2F2F2',
-        'client-white':'#FFFFFF',
-        'client-search-modal-text':'#2B3043'
-
-        
+        'client-rest-grey': '#E0E0E0',
       },
     },
     plugins: [],
