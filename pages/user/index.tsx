@@ -1,4 +1,4 @@
-//@ts-nocheck
+//@ts- nocheck
 
 import ClientHeader from '@/shared/components/clientHeader'
 import {
@@ -18,25 +18,12 @@ function User() {
   const { t } = useTranslation()
   const { push, query, asPath } = useRouter()
   const [quer, setQuer] = useState('')
-  const isActive = (path: string) => (query.id === path ? '#F0E1E1' : 'none')
+  const isActive = (path: string) =>
+    query.page === path ? 'client-rest-purple' : 'none'
+  const isActiveText = (path: string) =>
+    query.page === path ? 'client-main-red' : 'client-main-gray1'
 
-  const { data } = useQuery({
-    queryFn: getRestuarants,
-    queryKey: ['restuarants'],
-  })
-
-  const queryClient = useQueryClient()
-
-  const { data: restaurant } = useQuery({
-    queryFn: () => getRestuarantById(query.id),
-    queryKey: ['restuarant', query.id],
-  })
-
-  function handleSet(id: string) {
-    setQuer(id)
-  }
-
-  console.log(query?.id, 'queryquery')
+  console.log(query?.page, 'queryquery')
 
   return (
     <div>
@@ -53,9 +40,11 @@ function User() {
           </header>
           <main className="flex mx-8 gap-10">
             <section className="">
-              <Box className="w-80 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 pt-15 cursor-pointer overflow-hidden">
+              <Box className="w-80 h-lvh bg-client-fill-gray flex flex-col gap-5 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-10 pt-14 cursor-pointer overflow-hidden">
                 <Box
-                  className="flex gap-4 px-2 py-1.5 "
+                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-50 bg-${isActive(
+                    'profile',
+                  )}`}
                   onClick={() => push('?page=' + 'profile')}
                 >
                   <Image
@@ -64,50 +53,97 @@ function User() {
                     alt="profile"
                     src={'/profile.svg'}
                   />
-                  <Text className="text-xl font-semibold text-client-main-gray1">
+                  <Text
+                    className={`text-xl font-semibold text-${isActiveText(
+                      'profile',
+                    )}  `}
+                  >
                     Profile
+                  </Text>
+                </Box>
+                <Box
+                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
+                    'basket',
+                  )}`}
+                  onClick={() => push('?page=' + 'basket')}
+                >
+                  <Image
+                    width={22}
+                    height={14}
+                    alt="profile"
+                    src={'/basketProfile.svg'}
+                  />
+                  <Text
+                    className={`text-xl font-semibold text-${isActiveText(
+                      'basket',
+                    )}  `}
+                  >
+                    Your Basket
+                  </Text>
+                </Box>
+                <Box
+                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
+                    'orders',
+                  )}`}
+                  onClick={() => push('?page=' + 'orders')}
+                >
+                  <Image
+                    width={22}
+                    height={14}
+                    alt="profile"
+                    src={'/basketProfile.svg'}
+                  />
+                  <Text
+                    className={`text-xl font-semibold text-${isActiveText(
+                      'orders',
+                    )}  `}
+                  >
+                    Your Orders
+                  </Text>
+                </Box>
+                <Box
+                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
+                    'checkout',
+                  )}`}
+                  onClick={() => push('?page=' + 'checkout')}
+                >
+                  <Image
+                    width={22}
+                    height={14}
+                    alt="profile"
+                    src={'/basketProfile.svg'}
+                  />
+                  <Text
+                    className={`text-xl font-semibold text-${isActiveText(
+                      'checkout',
+                    )}  `}
+                  >
+                    Your Checkout
+                  </Text>
+                </Box>
+                <Box
+                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
+                    'basket',
+                  )}`}
+                  onClick={() => push('/')}
+                >
+                  <Image
+                    width={22}
+                    height={14}
+                    alt="profile"
+                    src={'/basketProfile.svg'}
+                  />
+                  <Text
+                    className={`text-xl font-semibold text-${isActiveText(
+                      'basket',
+                    )}  `}
+                  >
+                    Logout
                   </Text>
                 </Box>
               </Box>
             </section>
-            <section>
-              <Box className="flex flex-wrap gap-10">
-                {restaurant?.data?.result?.data?.products?.map(
-                  (item: any, index: number) => {
-                    return (
-                      <Box
-                        className="w-60 flex flex-col shadow-lg px-8 pt-3 pb-6 cursor-pointer"
-                        key={index}
-                        onClick={() => {
-                          push('/restaurants/' + query.id)
-                        }}
-                      >
-                        <Image
-                          width={174}
-                          height={160}
-                          alt="card-iamge"
-                          src={item?.img_url}
-                          className="mb-3"
-                        />
-                        <Text className="text-xl font-bold">{item?.name}</Text>
-                        <Text className="mb-5 text-admin-restaurant-card-category">
-                          {restaurant?.data?.result?.data?.cuisine}
-                        </Text>
-                        <Box className="flex justify-between align-middle">
-                          <Text className="font-bold my-auto">
-                            ${restaurant?.data?.result?.data?.delivery_price}{' '}
-                            Delivery
-                          </Text>
-                          <Box className="bg-client-main-red rounded-3xl text-white  px-3 py-1">
-                            {restaurant?.data?.result?.data?.delivery_min} Min
-                          </Box>
-                        </Box>
-                      </Box>
-                    )
-                  },
-                )}
-              </Box>
-            </section>
+            <section></section>
           </main>
           <footer></footer>
         </Box>
