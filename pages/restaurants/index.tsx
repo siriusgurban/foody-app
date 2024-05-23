@@ -1,5 +1,6 @@
 //@ts-nocheck
 
+import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
 import {
   getRestuarantById,
@@ -116,7 +117,7 @@ function Restaurants() {
               </Box>
             </section>
           </main>
-          <footer></footer>
+          <ClientFooter />
         </Box>
       </div>
     </div>
