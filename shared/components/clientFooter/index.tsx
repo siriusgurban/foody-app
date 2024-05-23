@@ -1,5 +1,5 @@
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Heading, Image, Text } from '@chakra-ui/react'
+import React from 'react'
 
 function ClientFooter() {
   return (
@@ -160,7 +160,7 @@ function ClientFooter() {
         </Box>
       </Box>
     </>
-  );
+  )
 }
 
-export default ClientFooter;
+export default ClientFooter
