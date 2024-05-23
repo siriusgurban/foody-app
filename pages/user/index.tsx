@@ -1,5 +1,6 @@
 //@ts- nocheck
 
+import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
 import { ImageUpload } from '@/shared/components/imageUpload'
 import {
@@ -146,7 +147,7 @@ function User() {
               <ImageUpload />
             </section>
           </main>
-          <footer></footer>
+          <ClientFooter />
         </Box>
       </div>
     </div>

@@ -13,7 +13,10 @@ function ClientFooter() {
         justifyContent="center"
         gap="70px"
         pt="130px"
+        as="footer"
+
         className='sm:ps-[60px] xs:ps-[60px]'
+
       >
         <Box display="flex" flexDir="column" justifyContent="flex-start">
           <Image src="/clientFooter/foody.svg" maxW="92px" maxH="32px" />
