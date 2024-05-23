@@ -12,6 +12,7 @@ function ClientFooter() {
         display="flex"
         justifyContent="space-evenly"
         pt="130px"
+        as="footer"
       >
         <Box display="flex" flexDir="column" justifyContent="flex-start">
           <Image src="/clientFooter/foody.svg" maxW="92px" maxH="32px" />
