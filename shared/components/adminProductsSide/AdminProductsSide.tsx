@@ -30,6 +30,10 @@ import { getProducts } from "../../services/products";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import DeleteModal from "../deleteModal";
+import AdminSecondaryComponent from "../adminSecondaryComponent";
+import AdminModalDropdown from "../adminModalDropdown";
+import AdminModalButton from "../adminModalButton";
+import { AddIcon } from "@chakra-ui/icons";
 
 // const leastDestructiveRef = useRef<HTMLButtonElement | null>(null)
 
@@ -83,70 +87,26 @@ function AdminProductsSide() {
   return (
     <>
       <Box>
-        <Box
-          className="headBox bg-admin-secondary"
-          w="1124px"
-          h="73px"
-          mt="16px"
-          borderRadius="10"
-          display="flex"
-          justifyContent="space-between"
-        >
-          <Text ml="33px" mt="26px" textColor="#C7C7C7">
-            {t("products")}
-          </Text>
-          <Box display="flex">
-            <Box>
-              <Accordion
-                defaultIndex={[0]}
-                allowMultiple
-                bg="#5A5B70"
-                w="199px"
-                h="35px"
-                mr="52px"
-                mt="20px"
-                border="none"
-                borderRadius="30"
-                textAlign="center"
-              >
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton color="#C7C7C7">
-                      <Box
-                        as="span"
-                        flex="1"
-                        textAlign="left"
-                        textColor="#C7C7C7"
-                      >
-                        {t("resturant-type")}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}></AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </Box>
-            <Box>
-              <Button
-                display="flex"
-                justifyContent="space-evenly "
-                bg="#C035A2"
-                w="150px"
-                h="35px"
-                mt="20px"
-                mr="30px"
-                borderRadius="10px"
-                colorScheme="#C035A2"
-              >
-                <Image src="/adminproducts/search.svg" />
-                {t("search")}
-              </Button>
-            </Box>
-          </Box>
-        </Box>
+        <div className="  bg-admin-secondary rounded-2xl flex flex-col sm:flex-row justify-between items-center p-5 mt-5">
+          <div className="   text-admin-secondary-heading text-xl  font-medium  ">
+            {t(`products`)}
+          </div>
+          <div className="mt-3 sm:mt-0 flex flex-col items-center   sm:flex-row gap-5 ">
+            <AdminModalDropdown
+              p={""}
+              className=" flex  width-200  gap-3 "
+              classNameSelect=" rounded-2xl  py-2   px-2   bg-admin-input  rounded-2xl font-medium text-base  text-admin-secondary-heading    w-[170px] overflow-x-auto"
+            />
 
-        <Box display="flex" gap="40px" flexWrap="wrap">
+            <AdminModalButton className="text-admin-secondary-add bg-admin-add-button-bg text-sm px-4 py-2  rounded-sm  font-bold  sm:rounded-2xl flex gap-2 align-middle">
+              <Image src="/adminproducts/search.svg" />
+
+              {t(`search`)}
+            </AdminModalButton>
+          </div>
+        </div>
+
+        <Box display="flex" gap="40px" flexWrap="wrap" justifyContent="center">
           {products.map((product, index) => (
             <Box
               key={index}
