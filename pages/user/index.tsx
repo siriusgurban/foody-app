@@ -1,6 +1,7 @@
 //@ts- nocheck
 
 import ClientHeader from '@/shared/components/clientHeader'
+import { ImageUpload } from '@/shared/components/imageUpload'
 import {
   getRestuarantById,
   getRestuarants,
@@ -16,10 +17,8 @@ import { useTranslation } from 'react-i18next'
 
 function User() {
   const { t } = useTranslation()
-  const { push, query, asPath } = useRouter()
-  const [quer, setQuer] = useState('')
-  const isActive = (path: string) =>
-    query.page === path ? 'client-rest-purple' : 'none'
+  const { push, query } = useRouter()
+  const isActive = (path: string) => (query.page === path ? '#F0E1E1' : 'none')
   const isActiveText = (path: string) =>
     query.page === path ? 'client-main-red' : 'client-main-gray1'
 
@@ -123,7 +122,7 @@ function User() {
                 </Box>
                 <Box
                   className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
-                    'basket',
+                    'logout',
                   )}`}
                   onClick={() => push('/')}
                 >
@@ -135,7 +134,7 @@ function User() {
                   />
                   <Text
                     className={`text-xl font-semibold text-${isActiveText(
-                      'basket',
+                      'logout',
                     )}  `}
                   >
                     Logout
@@ -143,7 +142,9 @@ function User() {
                 </Box>
               </Box>
             </section>
-            <section></section>
+            <section>
+              <ImageUpload />
+            </section>
           </main>
           <footer></footer>
         </Box>
