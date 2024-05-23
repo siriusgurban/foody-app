@@ -14,9 +14,7 @@ function ClientFooter() {
         gap="70px"
         pt="130px"
         as="footer"
-
-        className='sm:ps-[60px] xs:ps-[60px]'
-
+        className="sm:ps-[60px] xs:ps-[60px]"
       >
         <Box display="flex" flexDir="column" justifyContent="flex-start">
           <Image src="/clientFooter/foody.svg" maxW="92px" maxH="32px" />
@@ -59,7 +57,7 @@ function ClientFooter() {
             </Box>
           </Box>
         </Box>
-        <Box  className='xl:flex gap-[100px] md:flex sm:hidden xs:hidden'>
+        <Box className="xl:flex gap-[100px] md:flex sm:hidden xs:hidden">
           <Box
             display="flex"
             flexDir="column"
@@ -165,7 +163,9 @@ function ClientFooter() {
         </Box>
       </Box>
       <Box bg="#181617" textAlign="center" textColor="white">
-      <Text>All rights reserved © 2003-2022 Foody TERMS OF USE | Privacy Policy</Text>
+        <Text>
+          All rights reserved © 2003-2022 Foody TERMS OF USE | Privacy Policy
+        </Text>
       </Box>
     </>
   )
