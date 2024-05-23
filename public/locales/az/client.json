@@ -1,4 +1,8 @@
 {
     "Login": "Giriş",
-    "Register":"Qeydiyyatdan keç"
+    "Register":"Qeydiyyatdan keç",
+
+    "OrderNow":"İndi Sifariş Et",
+    "homeHeading":"Bizim yemək saytımız yerli yeməkləri tapmağı asanlaşdırır",
+    "features":"Yenilikler"
 }

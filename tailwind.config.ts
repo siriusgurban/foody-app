@@ -59,7 +59,7 @@ const config: Config = {
         'admin-modal-scrollbar': 'rgb(239, 93, 168)',
 
         'client-login-mainColor': '#EB5757',
-        'client-main-gray1': '#828282',
+        'client-main-gray1': '#828282', //gray3
         'client-main-gray2': '#4F4F4F',
         'client-light-red': '#FFE7E7',
         'client-main-red': '#D63626',
@@ -69,6 +69,10 @@ const config: Config = {
         'client-fill-gray6': '#F2F2F2',
         'client-white': '#FFFFFF',
         'client-search-modal-text': '#2B3043',
+        'client-manin-black':'#181617',
+        'client-main-orange':'#FB9300',
+        'client-black27':'#272727',
+        
 
         'client-rest-grey': '#E0E0E0',
         'client-rest-grey1': '#BDBDBD',

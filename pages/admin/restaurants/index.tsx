@@ -12,14 +12,7 @@ import AdminAddUpdateModal from '../../../shared/components/adminAddUpdateModal'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 
-const data = [
-  { id: 'javascript', label: 'JavaScript', value: 29 },
-  { id: 'python', label: 'Python', value: 23 },
-  { id: 'java', label: 'Java', value: 15 },
-  { id: 'ruby', label: 'Ruby', value: 12 },
-  { id: 'c', label: 'C', value: 10 },
-  { id: 'go', label: 'Go', value: 11 }
-];
+
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
