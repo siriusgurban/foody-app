@@ -6,10 +6,15 @@ import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
 import AdminHeader from '@/shared/components/AdminHeader'
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
-import { Box } from '@chakra-ui/react'
+import { Box, Toast } from '@chakra-ui/react'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminAddUpdateModal from '../../../shared/components/adminAddUpdateModal'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
+
+import { deleteRestuarant } from '@/shared/services/restaurants'
+
 
 
 
@@ -18,9 +23,36 @@ const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(true)
 
+
+  // delete
+  const QueryClient = useQueryClient()
+  const { mutate } = useMutation({
+    mutationFn: deleteRestuarant,
+    onSuccess(data, variables, context) {
+      console.log(data, 'success')
+      Toast({
+        title: 'Restaurant deleted',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    },
+    onError(data, variables, context) {
+      console.log(data, 'error')
+    },
+    onSettled: () => {
+      QueryClient.invalidateQueries({ queryKey: ['restaurants'] })
+    },
+  })
+
+  function handleDelete(id: any) {
+    console.log('deleting restaurant :', id);
+    mutate(id)
+  }
   function showHideModal() {
     setHideModal((prev) => !prev)
   }
+
   return (
     <>
       <Head>
@@ -50,7 +82,7 @@ const Restaurants: React.FC = () => {
                 />
               </div>
               <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
-                <AdminRestaurantsCard />
+                <AdminRestaurantsCard onClick={handleDelete} />
               </div>
             </div>
           </main>
