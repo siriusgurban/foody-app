@@ -1,11 +1,14 @@
-//@ts-nocheck
+//@ts- nocheck
 
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
+import ClientRestaurantAsideMenu from '@/shared/components/clientRestaurantAsideMenu'
+import ClientRestaurantCard from '@/shared/components/clientRestaurantCard'
 import {
   getRestuarantById,
   getRestuarants,
 } from '@/shared/services/restaurants'
+import { Product, Restaurant } from '@/shared/types/admin'
 import {
   Box,
   Button,
@@ -23,14 +26,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function Restaurants() {
   const { t } = useTranslation()
   const { push, query, asPath } = useRouter()
-  const [quer, setQuer] = useState('')
-  const isActive = (path: string) => (query.id === path ? '#F0E1E1' : 'none')
+  const isActive = (path: string) => (query.id === path ? '[#F0E1E1]' : 'none')
+  const isActiveText = (path: string) =>
+    query.id === path ? 'client-main-red' : 'client-main-gray1'
   const [size, setSize] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -39,16 +43,10 @@ function Restaurants() {
     queryKey: ['restuarants'],
   })
 
-  const queryClient = useQueryClient()
-
   const { data: restaurant } = useQuery({
-    queryFn: () => getRestuarantById(query.id),
+    queryFn: () => getRestuarantById(query.id as string),
     queryKey: ['restuarant', query.id],
   })
-
-  function handleSet(id: string) {
-    setQuer(id)
-  }
 
   console.log(query?.id, 'queryquery')
 
@@ -65,36 +63,17 @@ function Restaurants() {
           <header>
             <ClientHeader />
           </header>
-          <main className="flex mx-8 gap-10">
+          <main className="flex md:mx-8 mx-0 md:gap-8 gap-0 md:justify-normal justify-center">
             <section className="md:block hidden">
-              <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12 cursor-pointer overflow-hidden">
-                {data?.data?.result?.data?.map((item: any, index: number) => {
-                  return (
-                    <Box
-                      className="flex gap-4 px-2 py-1.5"
-                      style={{ backgroundColor: isActive(item?.id) }}
-                      key={index}
-                      onClick={() => push('?id=' + item?.id)}
-                      // onClick={() => handleSet(item?.id)}
-                    >
-                      <Image
-                        width={25}
-                        height={28}
-                        alt={item?.name}
-                        src={item?.img_url}
-                      />
-                      <Text className="text-xl font-semibold">
-                        {item?.name}
-                      </Text>
-                    </Box>
-                  )
-                })}
+              <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12  overflow-hidden">
+                {data?.data?.result?.data?.map(
+                  (item: Restaurant, index: number) => {
+                    return <ClientRestaurantAsideMenu key={index} item={item} />
+                  },
+                )}
               </Box>
             </section>
-            <section className="md:hidden block">
-              <Button onClick={() => onOpen()} m={4}>
-                Filter
-              </Button>
+            <section>
               <Drawer
                 placement="bottom"
                 onClose={onClose}
@@ -102,29 +81,34 @@ function Restaurants() {
                 size="lg"
               >
                 <DrawerOverlay />
-                <DrawerContent>
-                  <DrawerCloseButton />
-                  <DrawerHeader>{`${size} drawer contents`}</DrawerHeader>
+                <DrawerContent className="rounded-t-[20px]">
+                  <DrawerHeader>
+                    <Box
+                      className="flex justify-center cursor-pointer"
+                      onClick={onClose}
+                    >
+                      <Image
+                        src={'/closeIcon.svg'}
+                        width={36}
+                        height={36}
+                        alt="close"
+                      />
+                    </Box>
+                  </DrawerHeader>
                   <DrawerBody>
                     {data?.data?.result?.data?.map(
                       (item: any, index: number) => {
                         return (
                           <Box
-                            className="flex gap-4 px-2 py-1.5"
-                            style={{ backgroundColor: isActive(item?.id) }}
+                            className={`flex gap-4 cursor-pointer px-2  py-1 border-b-2 border-client-rest-grey w-full bg-${isActive(
+                              item?.id,
+                            )}`}
                             key={index}
                             onClick={() => {
                               push('?id=' + item?.id), onClose()
                             }}
-                            // onClick={() => handleSet(item?.id)}
                           >
-                            <Image
-                              width={25}
-                              height={28}
-                              alt={item?.name}
-                              src={item?.img_url}
-                            />
-                            <Text className="text-xl font-semibold">
+                            <Text className={`text-lg font-medium text-black`}>
                               {item?.name}
                             </Text>
                           </Box>
@@ -136,43 +120,28 @@ function Restaurants() {
               </Drawer>
             </section>
             <section>
-              <Box className="flex flex-wrap gap-10">
+              <Box>
+                <Box
+                  onClick={() => onOpen()}
+                  m={4}
+                  className="md:hidden flex gap-2 justify-center cursor-pointer shadow-lg py-2 min-w-64 "
+                >
+                  <Image
+                    src={'/filterIcon.svg'}
+                    width={18}
+                    height={12}
+                    alt="filter"
+                  />
+                  <Text className="text-client-main-gray2 font-medium">
+                    Filters
+                  </Text>
+                </Box>
+              </Box>
+
+              <Box className="flex flex-wrap md:gap-7 gap-5 justify-center md:justify-start">
                 {restaurant?.data?.result?.data?.products?.map(
-                  (item: any, index: number) => {
-                    return (
-                      <Box
-                        className="w-60 flex flex-col shadow-lg px-8 pt-3 pb-6 cursor-pointer"
-                        key={index}
-                        onClick={() => {
-                          push('/restaurants/' + query.id)
-                        }}
-                      >
-                        <Image
-                          width={174}
-                          height={160}
-                          alt="card-iamge"
-                          src={item?.img_url}
-                          className="mb-3"
-                        />
-                        <Text className="text-xl font-bold overflow-hidden w-44 h-8">
-                          {item?.name}
-                        </Text>
-                        <Box className="h-20">
-                          <Text className="mb-5 text-admin-restaurant-card-category">
-                            {restaurant?.data?.result?.data?.cuisine}
-                          </Text>
-                        </Box>
-                        <Box className="flex justify-between align-middle flex-wrap">
-                          <Text className="font-bold my-auto">
-                            ${restaurant?.data?.result?.data?.delivery_price}{' '}
-                            Delivery
-                          </Text>
-                          <Box className="bg-client-main-red rounded-3xl text-white  px-3 py-1">
-                            {restaurant?.data?.result?.data?.delivery_min} Min
-                          </Box>
-                        </Box>
-                      </Box>
-                    )
+                  (item: Product, index: number) => {
+                    return <ClientRestaurantCard key={index} item={item} />
                   },
                 )}
               </Box>

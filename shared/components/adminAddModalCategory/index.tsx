@@ -5,7 +5,14 @@ import AdminModalUploadImage from '../adminModalUploadImage'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
-import { FormControl, FormHelperText, Input, useToast } from '@chakra-ui/react'
+import {
+  DrawerOverlay,
+  FormControl,
+  FormHelperText,
+  Input,
+  Modal,
+  useToast,
+} from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import { postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -133,6 +140,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
       >
         <IoClose className=" fill-admin-white h-4 w-6 pl-1" />
       </button>
+
       <div className="  bg-admin-main   flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14  max-h-screen  overflow-y-auto">
         <div>
           <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
