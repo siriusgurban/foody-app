@@ -158,6 +158,24 @@ function AdminAsideMenuResponsive() {
               {t('orders')}
             </Button>
             <Button
+              onClick={() => push('/admin/order-history')}
+              className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
+              colorScheme="none"
+              style={{
+                justifyContent: 'flex-start',
+                backgroundColor: isActive('/admin/order-history'),
+              }}
+              as="li"
+            >
+              <Image
+                width={18}
+                alt="products"
+                height={18}
+                src="/adminasidemenu/offer.svg"
+              />
+              {t('history')}
+            </Button>
+            <Button
               onClick={() => push('/admin/offers')}
               className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
               colorScheme="none"
