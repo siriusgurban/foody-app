@@ -14,6 +14,8 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { fileStorage } from '../../../server/configs/firebase'
 import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
+import { ImageUpload } from '../imageUpload'
+import ImageUploading from 'react-images-uploading'
 
 interface Props {
   show?: boolean
@@ -37,7 +39,14 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const imgRef = useRef<any>(null)
   const [imgOnload, setImgOnload] = useState(false)
 
-  const { values, handleChange, handleSubmit, errors, resetForm } = useFormik({
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    errors,
+    resetForm,
+    setFieldValue,
+  } = useFormik({
     initialValues,
     onSubmit: handleForm,
     validate: (form) => {
@@ -80,34 +89,37 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
 
   console.log(values, 'values')
 
-  // function getImgUrl(url: string): void {
-  //   console.log(url)
-  //   setImgUrl(url)
-  //   console.log(imgUrl, 'imgUrlimgUrlimgUrl')
-  // }
+  const [images, setImages] = React.useState(initialValues.images)
+  const maxNumber = 1
 
-  function getImage(e: React.ChangeEvent<HTMLInputElement>) {
-    const name = e?.target?.files?.[0]?.name
-    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
-
-    if (!name) {
-      return
-    }
-    const imageRef = ref(fileStorage, `files/images/${name}`)
-
-    const file = e?.target?.files?.[0]
-    if (!file) {
-      return
-    }
-    uploadBytes(imageRef, file).then((snapshot) => {
-      setImgOnload(true)
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImgOnload(false)
-        setImgUrl(url)
-        // getImgUrl(url)
-      })
-    })
+  const onChange = (imageList: any, addUpdateIndex: any) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex)
+    setImages(imageList)
   }
+
+  // function getImage(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const name = e?.target?.files?.[0]?.name
+  //   console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
+
+  //   if (!name) {
+  //     return
+  //   }
+  //   const imageRef = ref(fileStorage, `files/images/${name}`)
+
+  //   const file = e?.target?.files?.[0]
+  //   if (!file) {
+  //     return
+  //   }
+  //   uploadBytes(imageRef, file).then((snapshot) => {
+  //     setImgOnload(true)
+  //     getDownloadURL(snapshot.ref).then((url) => {
+  //       setImgOnload(false)
+  //       setImgUrl(url)
+  //       // getImgUrl(url)
+  //     })
+  //   })
+  // }
 
   return (
     <div
@@ -130,6 +142,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             <p className="font-medium text-lg text-admin-text">
               {t('Upload Image')}
             </p>
+
             <Image
               width={118}
               height={122}
@@ -148,9 +161,12 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             {/* <AdminModalUploadImage /> */}
             <div className=" cursor-pointer bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
+                <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
+
                 <input
                   onChange={(e) => {
-                    getImage(e), handleChange(e)
+                    handleChange(e),
+                      setFieldValue('img_url', e.target.files?.[0]?.name)
                   }}
                   value={values?.img_url}
                   id="img_url"
@@ -158,10 +174,47 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
                   type="file"
                   className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
                 />
-                <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
-                <p className=" text-admin-text font-medium text-lg font-display">
-                  Upload
-                </p>
+                {/* <ImageUploading
+                  file
+                  value={values?.img_url}
+                  onChange={(e) => {
+                    handleChange(e), onChange
+                  }}
+                  maxNumber={maxNumber}
+                  dataURLKey="data_url"
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageUpdate,
+                    onImageRemove,
+                  }) => (
+                    // write your building UI
+                    <div className="upload__image-wrapper">
+                      <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
+                      <p
+                        onClick={onImageUpload}
+                        className=" text-admin-text font-medium text-lg font-display"
+                      >
+                        Upload
+                      </p>
+                      &nbsp;
+                      {imageList.map((image, index) => (
+                        <div key={index} className="image-item">
+                          <img src={image['data_url']} alt="asd" width="100" />
+                          <div className="image-item__btn-wrapper">
+                            <button onClick={() => onImageUpdate(index)}>
+                              Update
+                            </button>
+                            <button onClick={() => onImageRemove(index)}>
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ImageUploading> */}
               </div>
             </div>
           </div>

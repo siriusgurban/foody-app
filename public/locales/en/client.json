@@ -1,4 +1,8 @@
 {
     "Login": "Login",
-    "Register":"Register"
+    "Register":"Register",
+
+    "OrderNow":"Order Now",
+    "homeHeading":"Our Food site makes it easy to find local food",
+    "features":"Features"
 }

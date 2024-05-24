@@ -38,12 +38,14 @@ const nextConfig = {
 
       {
         protocol: "https",
-        hostname: "encrypted-tbn0.gstatic.com",
+        hostname: "hips.hearstapps.com",
+
         port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
+
         hostname: " media-cdn.tripadvisor.com",
         port: "",
         pathname: "/**",
@@ -51,6 +53,9 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "encrypted-tbn0.gstatic.com",
+
+        hostname: "s3-media0.fl.yelpcdn.com",
+
         port: "",
         pathname: "/**",
       },

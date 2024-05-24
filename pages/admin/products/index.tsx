@@ -20,6 +20,8 @@ import AdminHeader from "@/shared/components/AdminHeader";
 import AdminAsideMenu from "@/shared/components/AdminAsideMenu";
 
 import AdminProductsSide from "@/shared/components/adminProductsSide/AdminProductsSide";
+import AdminAsideMenuResponsive from "@/shared/components/AdminAsideMenuResponsive";
+import AdminSecondaryComponent from "@/shared/components/adminSecondaryComponent";
 
 const newPost = {
   img_url:
@@ -74,7 +76,7 @@ function Login() {
   return (
     <div>
       <Head>
-        <title>Admin | {t("Products")}</title>
+        <title>Admin | {t("products")}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
 
@@ -83,6 +85,7 @@ function Login() {
           <AdminHeader />
           <Box display="flex" gap="28px">
             <AdminAsideMenu />
+            <AdminAsideMenuResponsive/>
             <AdminProductsSide />
           </Box>
         </Box>

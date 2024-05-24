@@ -12,7 +12,12 @@ import AdminAddUpdateModal from '../../../shared/components/adminAddUpdateModal'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+
 import { deleteRestuarant } from '@/shared/services/restaurants'
+
+
+
+
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')

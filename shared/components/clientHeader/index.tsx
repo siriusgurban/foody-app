@@ -42,7 +42,7 @@ const ClientHeader = () => {
     }
 
     return (
-        <nav className='flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer  bg-client-fill-gray sm:p-11'>
+        <nav className='flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer   bg-client-fill-gray sm:p-11'>
             <h1 className='f flex items-center text-4xl ont-extrabold text-client-zero-black' onClick={toggleAvatars}>
                 <button onClick={showHideModal} className='sm:hidden block mr-5'>
                     <Image width={40} height={0} src="/hamburger.svg" alt="hamburger" />
