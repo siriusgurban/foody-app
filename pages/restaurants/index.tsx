@@ -6,7 +6,18 @@ import {
   getRestuarantById,
   getRestuarants,
 } from '@/shared/services/restaurants'
-import { Box, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
@@ -20,6 +31,8 @@ function Restaurants() {
   const { push, query, asPath } = useRouter()
   const [quer, setQuer] = useState('')
   const isActive = (path: string) => (query.id === path ? '#F0E1E1' : 'none')
+  const [size, setSize] = React.useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { data } = useQuery({
     queryFn: getRestuarants,
@@ -53,7 +66,7 @@ function Restaurants() {
             <ClientHeader />
           </header>
           <main className="flex mx-8 gap-10">
-            <section className="">
+            <section className="md:block hidden">
               <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12 cursor-pointer overflow-hidden">
                 {data?.data?.result?.data?.map((item: any, index: number) => {
                   return (
@@ -78,6 +91,50 @@ function Restaurants() {
                 })}
               </Box>
             </section>
+            <section className="md:hidden block">
+              <Button onClick={() => onOpen()} m={4}>
+                Filter
+              </Button>
+              <Drawer
+                placement="bottom"
+                onClose={onClose}
+                isOpen={isOpen}
+                size="lg"
+              >
+                <DrawerOverlay />
+                <DrawerContent>
+                  <DrawerCloseButton />
+                  <DrawerHeader>{`${size} drawer contents`}</DrawerHeader>
+                  <DrawerBody>
+                    {data?.data?.result?.data?.map(
+                      (item: any, index: number) => {
+                        return (
+                          <Box
+                            className="flex gap-4 px-2 py-1.5"
+                            style={{ backgroundColor: isActive(item?.id) }}
+                            key={index}
+                            onClick={() => {
+                              push('?id=' + item?.id), onClose()
+                            }}
+                            // onClick={() => handleSet(item?.id)}
+                          >
+                            <Image
+                              width={25}
+                              height={28}
+                              alt={item?.name}
+                              src={item?.img_url}
+                            />
+                            <Text className="text-xl font-semibold">
+                              {item?.name}
+                            </Text>
+                          </Box>
+                        )
+                      },
+                    )}
+                  </DrawerBody>
+                </DrawerContent>
+              </Drawer>
+            </section>
             <section>
               <Box className="flex flex-wrap gap-10">
                 {restaurant?.data?.result?.data?.products?.map(
@@ -97,11 +154,15 @@ function Restaurants() {
                           src={item?.img_url}
                           className="mb-3"
                         />
-                        <Text className="text-xl font-bold">{item?.name}</Text>
-                        <Text className="mb-5 text-admin-restaurant-card-category">
-                          {restaurant?.data?.result?.data?.cuisine}
+                        <Text className="text-xl font-bold overflow-hidden w-44 h-8">
+                          {item?.name}
                         </Text>
-                        <Box className="flex justify-between align-middle">
+                        <Box className="h-20">
+                          <Text className="mb-5 text-admin-restaurant-card-category">
+                            {restaurant?.data?.result?.data?.cuisine}
+                          </Text>
+                        </Box>
+                        <Box className="flex justify-between align-middle flex-wrap">
                           <Text className="font-bold my-auto">
                             ${restaurant?.data?.result?.data?.delivery_price}{' '}
                             Delivery
@@ -117,9 +178,9 @@ function Restaurants() {
               </Box>
             </section>
           </main>
-          <ClientFooter />
         </Box>
       </div>
+      <ClientFooter />
     </div>
   )
 }
