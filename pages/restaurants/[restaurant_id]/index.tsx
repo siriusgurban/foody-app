@@ -2,17 +2,19 @@
 
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
+import { getBasket, postBasket } from '@/shared/services/basket'
 import {
   getRestuarantById,
   getRestuarants,
 } from '@/shared/services/restaurants'
+import { Product } from '@/shared/types/admin'
 import { Box, Heading, Text } from '@chakra-ui/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function RestaurantId() {
@@ -20,9 +22,25 @@ function RestaurantId() {
   const { push, query, asPath } = useRouter()
 
   const { data: restaurant } = useQuery({
-    queryFn: () => getRestuarantById(query.restaurant_id),
+    queryFn: () => getRestuarantById(query.restaurant_id as string),
     queryKey: ['restuarant'],
   })
+  const [inBasket, setInBasket] = useState(false)
+
+  const { data: basket } = useQuery({
+    queryFn: () => getBasket(),
+    queryKey: ['basket', inBasket],
+  })
+
+  console.log(basket?.data?.result?.data?.items, 'basketbasketbasket')
+
+  function handleBasketFilter(id) {
+    let newBasket = basket?.data?.result?.data?.items.includes(
+      (item) => item?.id == id,
+    )
+    console.log(newBasket, 'newBasketnewBasketnewBasket')
+    setInBasket(newBasket)
+  }
 
   console.log(restaurant, 'queryquery')
   console.log(query, 'query')
@@ -43,12 +61,13 @@ function RestaurantId() {
           <main className="flex mx-8 gap-10">
             <section className="">
               <Box>
-                <Box className="w-full">
+                <Box className="w-full h-[448px] border border-red-600 overflow-hidden object-contain">
                   <Image
                     width={1400}
-                    height={100}
-                    alt="cover image"
+                    height={448}
+                    alt="coverimage"
                     src={restaurant?.data?.result?.data?.img_url}
+                    className=""
                   />
                 </Box>
                 <Box className="flex px-8 border border-b-client-rest-grey py-5">
@@ -80,12 +99,16 @@ function RestaurantId() {
                 </Box>
                 <Box className="flex justify-between py-12 px-12">
                   <Box className=" bg-client-fill-gray w-[846px]">
-                    <Text className="text-2xl font-bold text-center py-10">
+                    <Text
+                      className="text-2xl font-bold text-center py-10"
+                      onClick={() => getBasket()}
+                    >
                       Products
+                      {console.log(inBasket, 'inBasketinBasketinBasket')}
                     </Text>
                     <Box>
                       {restaurant?.data?.result?.data?.products?.map(
-                        (item: any, index: number) => {
+                        (item: Product, index: number) => {
                           return (
                             <Box
                               key={index}
@@ -114,15 +137,26 @@ function RestaurantId() {
                                   </Text>
                                   <Text>${item?.price}</Text>
                                 </Box>
-                                <Box>
+                                <Box
+                                  onClick={() => {
+                                    postBasket({ product_id: item?.id }),
+                                      handleBasketFilter(item?.id)
+                                  }}
+                                >
                                   <Image
                                     width={40}
                                     height={40}
                                     alt="plus image"
-                                    src={'/plus.svg'}
+                                    src={`${
+                                      inBasket ? '/plusgreen.svg' : '/plus.svg'
+                                    }`}
                                     className="cursor-pointer"
                                   />
                                 </Box>
+                                {console.log(
+                                  item?.id,
+                                  'item?.iditem?.iditem?.id',
+                                )}
                               </Box>
                             </Box>
                           )
