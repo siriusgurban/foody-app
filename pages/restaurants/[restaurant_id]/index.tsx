@@ -2,14 +2,19 @@
 
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
-import { getBasket, postBasket } from '@/shared/services/basket'
+import {
+  getBasket,
+  postBasket,
+  deleteBasket,
+  clearBasket,
+} from '@/shared/services/basket'
 import {
   getRestuarantById,
   getRestuarants,
 } from '@/shared/services/restaurants'
 import { Product } from '@/shared/types/admin'
-import { Box, Heading, Text } from '@chakra-ui/react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Box, Heading, Text, useToast } from '@chakra-ui/react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -19,31 +24,98 @@ import { useTranslation } from 'react-i18next'
 
 function RestaurantId() {
   const { t } = useTranslation()
-  const { push, query, asPath } = useRouter()
+  const { push, query } = useRouter()
+  const toast = useToast()
+
+  const queryClient = useQueryClient()
 
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.restaurant_id as string),
     queryKey: ['restuarant'],
   })
-  const [inBasket, setInBasket] = useState(false)
+  const [inBasket, setInBasket] = useState(true)
 
   const { data: basket } = useQuery({
     queryFn: () => getBasket(),
-    queryKey: ['basket', inBasket],
+    queryKey: ['basket'],
   })
 
-  console.log(basket?.data?.result?.data?.items, 'basketbasketbasket')
+  const { mutate: clear } = useMutation({
+    mutationFn: (data) => clearBasket(data),
+    queryKey: ['basket'],
+    onSuccess(data, variables, context) {
+      console.log(data, 'success')
+      toast({
+        title: 'Item cleared',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['basket'] })
+    },
+  })
+
+  function handleBasketClear(id: string) {
+    const newData = { basket_id: id }
+    clear(newData)
+  }
+
+  const { mutate: delet } = useMutation({
+    mutationFn: (data) => deleteBasket(data),
+    queryKey: ['basket'],
+    onSuccess(data, variables, context) {
+      console.log(data, 'success')
+      toast({
+        title: 'Item deleted',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['basket'] })
+    },
+  })
+
+  function handleBasketDelete(id: string) {
+    const newData = { product_id: id }
+    delet(newData)
+  }
+
+  const { mutate: add } = useMutation({
+    mutationFn: (data) => postBasket(data),
+    queryKey: ['basket'],
+    onSuccess(data, variables, context) {
+      console.log(data, 'success')
+      toast({
+        title: 'Item added',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['basket'] })
+    },
+  })
+
+  function handleAddBasket(id: string) {
+    console.log('added')
+    const newData = { product_id: id }
+    add(newData)
+  }
+
+  console.log(basket?.data.result, 'basket')
 
   function handleBasketFilter(id) {
     let newBasket = basket?.data?.result?.data?.items.includes(
-      (item) => item?.id == id,
+      (item) => item?.id === id,
     )
     console.log(newBasket, 'newBasketnewBasketnewBasket')
     setInBasket(newBasket)
   }
-
-  console.log(restaurant, 'queryquery')
-  console.log(query, 'query')
 
   return (
     <div>
@@ -99,12 +171,8 @@ function RestaurantId() {
                 </Box>
                 <Box className="flex justify-between py-12 px-12">
                   <Box className=" bg-client-fill-gray w-[846px]">
-                    <Text
-                      className="text-2xl font-bold text-center py-10"
-                      onClick={() => getBasket()}
-                    >
+                    <Text className="text-2xl font-bold text-center py-10">
                       Products
-                      {console.log(inBasket, 'inBasketinBasketinBasket')}
                     </Text>
                     <Box>
                       {restaurant?.data?.result?.data?.products?.map(
@@ -137,12 +205,7 @@ function RestaurantId() {
                                   </Text>
                                   <Text>${item?.price}</Text>
                                 </Box>
-                                <Box
-                                  onClick={() => {
-                                    postBasket({ product_id: item?.id }),
-                                      handleBasketFilter(item?.id)
-                                  }}
-                                >
+                                <Box onClick={() => handleAddBasket(item?.id)}>
                                   <Image
                                     width={40}
                                     height={40}
@@ -153,10 +216,6 @@ function RestaurantId() {
                                     className="cursor-pointer"
                                   />
                                 </Box>
-                                {console.log(
-                                  item?.id,
-                                  'item?.iditem?.iditem?.id',
-                                )}
                               </Box>
                             </Box>
                           )
@@ -167,32 +226,113 @@ function RestaurantId() {
                   {/* basket */}
                   <Box className="bg-client-fill-gray w-[400px] h-[548px] border border-dashed border-client-rest-grey relative">
                     <Box className="flex p-3 flex-col ">
-                      <Box className="flex gap-1 align-middle">
+                      <Box className="flex gap-1.5 pb-4">
                         <Image
                           width={25}
                           height={22}
                           alt="basket"
-                          src={'/basket.svg'}
+                          src={`${
+                            basket?.data?.result?.data?.items.length == 0
+                              ? '/basket.svg'
+                              : '/basketRed.svg'
+                          }`}
                           className="text-client-rest-grey"
                         />
-                        <Text className="text-client-rest-grey">0 items</Text>
-                      </Box>
-                      <Box className="w-72 flex flex-col justify-center align-middle m-auto ">
-                        <Image
-                          width={200}
-                          height={200}
-                          alt="empty basket"
-                          src={'/basketEmpty.svg'}
-                          className="mx-auto"
-                        />
-                        <Text className="text-client-rest-grey1 text-4xl text-center">
-                          Opps! Basket empty
+                        <Text
+                          className={`text-${
+                            basket?.data?.result?.data?.items.length == 0
+                              ? 'client-rest-grey'
+                              : 'client-main-red'
+                          } font-bold`}
+                        >
+                          {basket?.data?.result?.data?.items.length} items
                         </Text>
                       </Box>
-                      <Box className="w-[372px] mx-auto h-12 bg-client-rest-grey1 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3">
+                      {basket?.data?.result?.data?.items.length == 0 ? (
+                        <Box className="w-72 flex flex-col justify-center align-middle m-auto ">
+                          <Image
+                            width={200}
+                            height={200}
+                            alt="empty basket"
+                            src={'/basketEmpty.svg'}
+                            className="mx-auto"
+                          />
+                          <Text className="text-client-rest-grey1 text-4xl text-center">
+                            Opps! Basket empty
+                          </Text>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {basket?.data?.result?.data?.items.map(
+                            (item, index) => {
+                              return (
+                                <Box className="py-9 border-t-2" key={index}>
+                                  <Box className="flex gap-2 relative">
+                                    <Image
+                                      width={21}
+                                      height={17}
+                                      alt="delete basket"
+                                      src={'/basketDelete.svg'}
+                                      className="absolute -top-4 right-1 cursor-pointer"
+                                      onClick={() =>
+                                        handleBasketClear(
+                                          basket?.data?.result?.data?.id,
+                                        )
+                                      }
+                                    />
+                                    <Image
+                                      width={45}
+                                      height={45}
+                                      src={`${item.img_url}`}
+                                      alt="meal image"
+                                      className="object-contain"
+                                    />
+                                    <Box className="flex flex-col gap-0.5">
+                                      <Text>{item.name}</Text>
+                                      <Text>${item.price}</Text>
+                                    </Box>
+                                    <Box className="flex flex-col bg-white rounded-lg h-16 w-7 justify-center text-center align-middle ">
+                                      <Box
+                                        className="cursor-pointer pt-3"
+                                        onClick={() => handleAddBasket(item.id)}
+                                      >
+                                        +
+                                      </Box>
+                                      <Box>{item.count}</Box>
+                                      <Box
+                                        className="cursor-pointer pb-3"
+                                        onClick={() =>
+                                          handleBasketDelete(item.id)
+                                        }
+                                      >
+                                        --
+                                      </Box>
+                                    </Box>
+                                  </Box>
+                                </Box>
+                              )
+                            },
+                          )}
+                        </Box>
+                      )}
+                      {/* checkout */}
+                      <Box
+                        onClick={() => push('/user?page=checkout')}
+                        className={`bg-${
+                          basket?.data?.result?.data?.items.length == 0
+                            ? 'client-rest-grey1'
+                            : 'client-main-red'
+                        } w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3  cursor-pointer`}
+                      >
                         <Text className="text-white my-auto">Checkout</Text>
-                        <Box className="text-client-rest-grey w-32 h-11 bg-white rounded-full my-auto text-center pt-3 ">
-                          $0.00
+                        <Box
+                          className={`text-${
+                            basket?.data?.result?.data?.items.length == 0
+                              ? 'client-rest-grey'
+                              : 'client-main-red'
+                          } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
+                        >
+                          ${basket?.data?.result?.data?.total_amount}
                         </Box>
                       </Box>
                     </Box>

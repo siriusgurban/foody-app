@@ -8,7 +8,6 @@ let tokenObj: any = JSON.parse(
 
 console.log(tokenObj.access_token, 'tokenObjtokenObjtokenObj')
 
-const token = 'my_token'
 const config = {
   headers: { Authorization: `Bearer ${tokenObj.access_token}` },
 }
@@ -34,8 +33,10 @@ export const postBasket = async (data: string) => {
       method: 'POST',
       url: 'basket/add',
       data,
-      headers: config.headers,
+      headers: { Authorization: `Bearer ${tokenObj.access_token}` },
     })
+    console.log(tokenObj.access_token, 'tokenObjtokenObjtokenObj')
+
     return response
   } catch (err) {
     console.log(err)
