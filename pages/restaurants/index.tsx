@@ -33,8 +33,6 @@ function Restaurants() {
   const { t } = useTranslation()
   const { push, query, asPath } = useRouter()
   const isActive = (path: string) => (query.id === path ? '[#F0E1E1]' : 'none')
-  const isActiveText = (path: string) =>
-    query.id === path ? 'client-main-red' : 'client-main-gray1'
   const [size, setSize] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -156,8 +154,8 @@ function Restaurants() {
 
 export default Restaurants
 
-export async function getStaticProps({ locale }: { locale: any }) {
-  return {
-    props: { ...(await serverSideTranslations(locale, ['admin'])) },
-  }
-}
+// export async function getStaticProps({ locale }: { locale: any }) {
+//   return {
+//     props: { ...(await serverSideTranslations(locale, ['admin'])) },
+//   }
+// }

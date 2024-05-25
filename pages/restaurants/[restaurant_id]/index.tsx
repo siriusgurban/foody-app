@@ -13,7 +13,18 @@ import {
   getRestuarants,
 } from '@/shared/services/restaurants'
 import { Product } from '@/shared/types/admin'
-import { Box, Heading, Text, useToast } from '@chakra-ui/react'
+import {
+  Box,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Heading,
+  Text,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
@@ -26,6 +37,7 @@ function RestaurantId() {
   const { t } = useTranslation()
   const { push, query } = useRouter()
   const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const queryClient = useQueryClient()
 
@@ -130,10 +142,10 @@ function RestaurantId() {
           <header>
             <ClientHeader />
           </header>
-          <main className="flex mx-8 gap-10">
+          <main className="flex xl:mx-8 md:mx-6 xs:mx-3 xl:gap-10 lg:gap-0 md:gap-0 xs:gap-0">
             <section className="">
               <Box>
-                <Box className="w-full h-[448px] border border-red-600 overflow-hidden object-contain">
+                <Box className="xs:w-72 md:w-2/3 xl:w-full xs:h-40 xl:h-[448px] border border-red-600 overflow-hidden object-cover mx-auto">
                   <Image
                     width={1400}
                     height={448}
@@ -142,70 +154,79 @@ function RestaurantId() {
                     className=""
                   />
                 </Box>
-                <Box className="flex px-8 border border-b-client-rest-grey py-5">
-                  <Box className="flex flex-col justify-start w-3/5">
-                    <Text className="text-2xl font-bold text">
+                <Box className="flex xl:flex-row md:flex-col xs:flex-col xl:px-8 md:px-4 xs:px-2 border border-b-client-rest-grey py-5">
+                  <Box className="flex flex-col justify-start xl:w-3/5 md:w-full xs:w-full ">
+                    <Text className="xs:text-base md:text-xl xl:text-2xl font-bold text">
                       {restaurant?.data?.result?.data?.name}
                     </Text>
-                    <Text className="text-client-main-gray1 text-sm">
+                    <Text className="text-client-main-gray1 xs:text-xs md:text-sm xl:text-sm ">
                       {restaurant?.data?.result?.data?.address}
                     </Text>
                   </Box>
-                  <Box className="flex justify-start gap-7 w-2/5">
-                    <Box className="text-client-main-gray1">
-                      <Text className="text-lg">Cuisine</Text>
-                      <Text className="text-sm">
+                  <Box className="flex justify-start gap-7 xl:w-2/5 md:w-full xs:w-full">
+                    <Box className="">
+                      <Text className=" xs:text-xs md:text-base xl:text-lg text-client-main-gray1">
+                        Cuisine
+                      </Text>
+                      <Text className="xs:text-xs md:text-sm xl:text-sm text-text-client-main-gray2">
                         {restaurant?.data?.result?.data?.cuisine}
                       </Text>
                     </Box>
-                    <Box className="text-sm w-20 h-12 border border-client-main-red text-client-main-red rounded-md ">
+                    <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border border-client-main-red text-client-main-red rounded-md py-1 px-2">
                       ${restaurant?.data?.result?.data?.delivery_price} Delivery
                     </Box>
                     <Box
-                      className="text-sm w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer"
+                      className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer  justify-center pt-3"
                       onClick={() => push('/restaurants')}
                     >
                       Go Back
                     </Box>
                   </Box>
                 </Box>
-                <Box className="flex justify-between py-12 px-12">
-                  <Box className=" bg-client-fill-gray w-[846px]">
-                    <Text className="text-2xl font-bold text-center py-10">
+                <Box className="flex justify-between xl:py-12 xl:px-12 md:py-8 md:px-6 xs:py-4 xs:px-0">
+                  <Box className=" bg-client-fill-gray max-w-[846px]">
+                    <Text className="xs:text-lg md:text-xl xl:text-2xl font-bold text-center xl:py-10 md:py-7 xs:py-4">
                       Products
                     </Text>
-                    <Box>
+                    <Box className="">
                       {restaurant?.data?.result?.data?.products?.map(
                         (item: Product, index: number) => {
                           return (
                             <Box
                               key={index}
-                              className="flex justify-between align-middle gap-8 py-6 px-8 border-t border-t-client-rest-grey"
+                              className="flex justify-between align-middle xl:gap-8 md:gap-4 xs:gap-2 xl:py-6 md:py-3 xs:py-1 xl:px-8 md:px-4 xs:px-2 border-t border-t-client-rest-grey"
                             >
-                              <Box className="flex gap-9">
+                              <Box className="flex xl:gap-9 md:gap-7 xs:gap-5">
                                 <Image
                                   width={57}
                                   height={53}
                                   alt="cover image"
                                   src={item?.img_url}
+                                  className="xl:block
+                                  block md:hidden xs:hidden"
                                 />
                                 <Box className="flex flex-col ">
-                                  <Text className="text-lg my-auto">
+                                  <Text className="xs:text-sm md:text-base xl:text-lg my-auto">
                                     {item?.name}
                                   </Text>
-                                  <Text className="text-client-rest-grey text-sm">
+                                  <Text className="text-client-rest-grey xs:text-xs md:text-sm xl:text-sm">
                                     {item?.description}
                                   </Text>
                                 </Box>
                               </Box>
-                              <Box className="flex gap-9 align-middle justify-center">
-                                <Box className="flex gap-1.5 align-middle pt-2">
-                                  <Text className="text-xs text-client-main-gray1 pt-1.5">
+                              <Box className="flex xl:gap-9 md:gap-7 xs:gap-3 align-middle justify-center">
+                                <Box className="flex gap-1.5 align-middle">
+                                  <Text className="text-xs text-client-main-gray1 my-auto xs:hidden md:hidden xl:block">
                                     From
                                   </Text>
-                                  <Text>${item?.price}</Text>
+                                  <Text className=" xs:text-sm md:text-sm xl:text-base my-auto">
+                                    ${item?.price}
+                                  </Text>
                                 </Box>
-                                <Box onClick={() => handleAddBasket(item?.id)}>
+                                <Box
+                                  onClick={() => handleAddBasket(item?.id)}
+                                  className="xl:w-10 md:w-8 xs:w-5 my-auto"
+                                >
                                   <Image
                                     width={40}
                                     height={40}
@@ -221,10 +242,32 @@ function RestaurantId() {
                           )
                         },
                       )}
+                      <Box
+                        onClick={() => onOpen()}
+                        className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
+                          basket?.data?.result?.data?.items.length == 0
+                            ? 'client-rest-grey1'
+                            : 'client-main-red'
+                        } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                      >
+                        <Text className="text-white my-auto">Checkout</Text>
+                        <Box
+                          className={`text-${
+                            basket?.data?.result?.data?.items.length == 0
+                              ? 'client-rest-grey'
+                              : 'client-main-red'
+                          } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
+                        >
+                          ${basket?.data?.result?.data?.total_amount}
+                        </Box>
+                      </Box>
                     </Box>
                   </Box>
                   {/* basket */}
-                  <Box className="bg-client-fill-gray w-[400px] h-[548px] border border-dashed border-client-rest-grey relative">
+                  <Box
+                    as="section"
+                    className="bg-client-fill-gray w-[400px] h-[548px] border border-dashed border-client-rest-grey relative xl:block lg:block md:hidden xs:hidden"
+                  >
                     <Box className="flex p-3 flex-col ">
                       <Box className="flex gap-1.5 pb-4">
                         <Image
@@ -262,12 +305,12 @@ function RestaurantId() {
                           </Text>
                         </Box>
                       ) : (
-                        <Box>
+                        <Box className="overflow-y-auto">
                           {basket?.data?.result?.data?.items.map(
                             (item, index) => {
                               return (
                                 <Box className="py-9 border-t-2" key={index}>
-                                  <Box className="flex gap-2 relative">
+                                  <Box className="flex gap-2 align-middle relative">
                                     <Image
                                       width={21}
                                       height={17}
@@ -287,20 +330,20 @@ function RestaurantId() {
                                       alt="meal image"
                                       className="object-contain"
                                     />
-                                    <Box className="flex flex-col gap-0.5">
+                                    <Box className="flex flex-col gap-0.5 my-auto w-60">
                                       <Text>{item.name}</Text>
                                       <Text>${item.price}</Text>
                                     </Box>
                                     <Box className="flex flex-col bg-white rounded-lg h-16 w-7 justify-center text-center align-middle ">
                                       <Box
-                                        className="cursor-pointer pt-3"
+                                        className="cursor-pointer"
                                         onClick={() => handleAddBasket(item.id)}
                                       >
                                         +
                                       </Box>
                                       <Box>{item.count}</Box>
                                       <Box
-                                        className="cursor-pointer pb-3"
+                                        className="cursor-pointer"
                                         onClick={() =>
                                           handleBasketDelete(item.id)
                                         }
@@ -322,7 +365,7 @@ function RestaurantId() {
                           basket?.data?.result?.data?.items.length == 0
                             ? 'client-rest-grey1'
                             : 'client-main-red'
-                        } w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3  cursor-pointer`}
+                        } w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
                       >
                         <Text className="text-white my-auto">Checkout</Text>
                         <Box
@@ -337,6 +380,108 @@ function RestaurantId() {
                       </Box>
                     </Box>
                   </Box>
+                  {/* basket responsive */}
+                  {/* xl:block lg:block md:hidden xs:hidden */}
+
+                  <section>
+                    <Drawer
+                      placement="bottom"
+                      onClose={onClose}
+                      isOpen={isOpen}
+                      size="lg"
+                    >
+                      <DrawerOverlay />
+                      <DrawerContent className="rounded-t-[20px]">
+                        <DrawerHeader>
+                          <Box
+                            className="flex justify-center cursor-pointer"
+                            onClick={onClose}
+                          >
+                            <Image
+                              src={'/closeIcon.svg'}
+                              width={36}
+                              height={36}
+                              alt="close"
+                            />
+                          </Box>
+                        </DrawerHeader>
+                        <DrawerBody>
+                          {basket?.data?.result?.data?.items.length == 0 ? (
+                            <Box className="w-72 flex flex-col justify-center align-middle m-auto ">
+                              <Image
+                                width={200}
+                                height={200}
+                                alt="empty basket"
+                                src={'/basketEmpty.svg'}
+                                className="mx-auto"
+                              />
+                              <Text className="text-client-rest-grey1 text-4xl text-center">
+                                Opps! Basket empty
+                              </Text>
+                            </Box>
+                          ) : (
+                            <Box className="overflow-y-auto">
+                              {basket?.data?.result?.data?.items.map(
+                                (item, index) => {
+                                  return (
+                                    <Box
+                                      className="py-9 border-t-2"
+                                      key={index}
+                                    >
+                                      <Box className="flex gap-2 align-middle relative">
+                                        <Image
+                                          width={21}
+                                          height={17}
+                                          alt="delete basket"
+                                          src={'/basketDelete.svg'}
+                                          className="absolute -top-4 right-1 cursor-pointer"
+                                          onClick={() =>
+                                            handleBasketClear(
+                                              basket?.data?.result?.data?.id,
+                                            )
+                                          }
+                                        />
+                                        <Image
+                                          width={45}
+                                          height={45}
+                                          src={`${item.img_url}`}
+                                          alt="meal image"
+                                          className="object-contain"
+                                        />
+                                        <Box className="flex flex-col gap-0.5 my-auto w-60">
+                                          <Text>{item.name}</Text>
+                                          <Text>${item.price}</Text>
+                                        </Box>
+                                        <Box className="flex flex-col bg-white rounded-lg h-16 w-7 justify-center text-center align-middle ">
+                                          <Box
+                                            className="cursor-pointer"
+                                            onClick={() =>
+                                              handleAddBasket(item.id)
+                                            }
+                                          >
+                                            +
+                                          </Box>
+                                          <Box>{item.count}</Box>
+                                          <Box
+                                            className="cursor-pointer"
+                                            onClick={() =>
+                                              handleBasketDelete(item.id)
+                                            }
+                                          >
+                                            --
+                                          </Box>
+                                        </Box>
+                                      </Box>
+                                    </Box>
+                                  )
+                                },
+                              )}
+                            </Box>
+                          )}
+                        </DrawerBody>
+                      </DrawerContent>
+                    </Drawer>
+                  </section>
                 </Box>
               </Box>
             </section>
@@ -353,5 +498,12 @@ export default RestaurantId
 // export async function getStaticProps({ locale }: { locale: any }) {
 //   return {
 //     props: { ...(await serverSideTranslations(locale, ['admin'])) },
+//   }
+// }
+
+// export async function getStaticPaths() {
+//   return {
+//     paths: Array<string | { params: { ["restaurant_id": string]: string } }>,
+//     fallback: true
 //   }
 // }

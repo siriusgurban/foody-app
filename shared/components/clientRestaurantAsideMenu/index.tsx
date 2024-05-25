@@ -12,7 +12,8 @@ function ClientRestaurantAsideMenu({
   key: number
 }) {
   const { push, query } = useRouter()
-  const isActive = (path: string) => (query.id === path ? '[#F0E1E1]' : 'none')
+  const isActive = (path: string) =>
+    query.id === path ? 'client-light-red' : 'none'
   const isActiveText = (path: string) =>
     query.id === path ? 'client-main-red' : 'client-main-gray1'
 
