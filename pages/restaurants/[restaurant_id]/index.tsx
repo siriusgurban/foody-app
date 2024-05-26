@@ -142,7 +142,7 @@ function RestaurantId() {
           <header>
             <ClientHeader />
           </header>
-          <main className="flex xl:mx-8 md:mx-6 xs:mx-3 xl:gap-10 lg:gap-0 md:gap-0 xs:gap-0">
+          <main className="flex xl:mx-8 md:mx-6 xs:mx-3 xl:gap-10 lg:gap-0 md:gap-0 xs:gap-0 justify-center">
             <section className="">
               <Box>
                 <Box className="xs:w-72 md:w-2/3 xl:w-full xs:h-40 xl:h-[448px] border border-red-600 overflow-hidden object-cover mx-auto">
@@ -360,6 +360,7 @@ function RestaurantId() {
                       )}
                       {/* checkout */}
                       <Box
+                        as="button"
                         onClick={() => push('/user?page=checkout')}
                         className={`bg-${
                           basket?.data?.result?.data?.items.length == 0
@@ -381,7 +382,6 @@ function RestaurantId() {
                     </Box>
                   </Box>
                   {/* basket responsive */}
-                  {/* xl:block lg:block md:hidden xs:hidden */}
 
                   <section>
                     <Drawer
@@ -478,6 +478,25 @@ function RestaurantId() {
                               )}
                             </Box>
                           )}
+                          <Box
+                            onClick={() => push('/user?page=checkout')}
+                            className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
+                              basket?.data?.result?.data?.items.length == 0
+                                ? 'client-rest-grey1'
+                                : 'client-main-red'
+                            } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                          >
+                            <Text className="text-white my-auto">Checkout</Text>
+                            <Box
+                              className={`text-${
+                                basket?.data?.result?.data?.items.length == 0
+                                  ? 'client-rest-grey'
+                                  : 'client-main-red'
+                              } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
+                            >
+                              ${basket?.data?.result?.data?.total_amount}
+                            </Box>
+                          </Box>
                         </DrawerBody>
                       </DrawerContent>
                     </Drawer>
