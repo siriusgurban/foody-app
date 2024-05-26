@@ -18,6 +18,7 @@ import{
  
 } from '@chakra-ui/react';
 import { ViewIcon, DeleteIcon } from '@chakra-ui/icons';
+import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
 function Orders() {
   const { t } = useTranslation('admin')
   const deliveryAddressWidth = "100px";
@@ -35,9 +36,14 @@ function Orders() {
           <Box className="flex gap-7">
             <AdminAsideMenu />
             <AdminAsideMenuResponsive />
-            <Box className=" w-[1080px]   mt-5 ">
-
-                <table   className="bg-white "  >
+            <Box className=" w-[1080px]   mt-2 ">
+            <div className="m-5">
+                <AdminSecondaryComponent
+                  p={t('Orders')}
+                  visible={false}
+                />
+              </div>
+                <table   className="bg-white m-5"  >
                   <thead className='h-[50px] border-b-2'>
                     <tr className='p-8'>
                       <th className='w-[100px] text-center'>ID</th>
