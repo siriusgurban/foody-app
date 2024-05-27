@@ -72,6 +72,9 @@ const config: Config = {
         'client-manin-black':'#181617',
         'client-main-orange':'#FB9300',
         'client-black27':'#272727',
+        'client-gray7':'#F3F4F6',
+        'client-gray5':'#E0E0E0',
+        'client-gray7':'#F3F4F6',
         
 
         'client-rest-grey': '#E0E0E0',

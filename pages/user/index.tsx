@@ -71,6 +71,7 @@ function User() {
           <header>
             <ClientHeader />
           </header>
+
           <main className="flex mx-8 gap-10">
             <UserAsideMenu />
             <section>{rightComponent}</section>
