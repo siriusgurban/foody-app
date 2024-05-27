@@ -19,6 +19,7 @@ import { deleteRestuarant } from '@/shared/services/restaurants'
 
 
 
+
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(true)
