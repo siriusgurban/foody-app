@@ -1,5 +1,5 @@
-import { Restaurant } from '@/shared/types/admin'
-import { Box, Text } from '@chakra-ui/react'
+import { Restaurant, token } from '@/shared/types/admin'
+import { Box, Text, useToast } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
