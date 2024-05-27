@@ -69,13 +69,11 @@ const config: Config = {
         'client-fill-gray6': '#F2F2F2',
         'client-white': '#FFFFFF',
         'client-search-modal-text': '#2B3043',
-        'client-manin-black':'#181617',
-        'client-main-orange':'#FB9300',
-        'client-black27':'#272727',
-        'client-gray7':'#F3F4F6',
-        'client-gray5':'#E0E0E0',
-        'client-gray7':'#F3F4F6',
-        
+        'client-manin-black': '#181617',
+        'client-main-orange': '#FB9300',
+        'client-black27': '#272727',
+        'client-gray7': '#F3F4F6',
+        'client-gray5': '#E0E0E0',
 
         'client-rest-grey': '#E0E0E0',
         'client-rest-grey1': '#BDBDBD',
