@@ -1,35 +1,22 @@
-//@ts-nocheck
-
-import React, { useEffect, useLayoutEffect } from 'react'
-import AdminModalUploadImage from '../adminModalUploadImage'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
-import { FormControl, FormHelperText, useToast } from '@chakra-ui/react'
-import { useFormik } from 'formik'
-import {
-  getCategoryById,
-  postCategory,
-  updateCategory,
-} from '@/shared/services/category'
+import { FormControl, useToast } from '@chakra-ui/react'
+import { getCategoryById, postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { fileStorage } from '../../../server/configs/firebase'
+import Image from 'next/image'
+import { IoMdCloudUpload } from 'react-icons/io'
 import { useRouter } from 'next/router'
 
-//
 interface Props {
   show?: boolean
   onClickClose?: () => void
   text: string
 }
 
-const initialValues = {
-  name: '',
-  slug: '',
-  img_url:
-    'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
-}
-
-//
 const AdminUpdateModalCategory = ({
   show = true,
   onClickClose,
@@ -37,43 +24,42 @@ const AdminUpdateModalCategory = ({
 }: Props) => {
   const { t } = useTranslation('admin')
   const toast = useToast()
+  const { query } = useRouter()
   const queryClient = useQueryClient()
+  const [imgUrl, setImgUrl] = useState<any>('')
+  const [imgOnload, setImgOnload] = useState(false)
 
-  const { push, query } = useRouter()
+  const nameRef = useRef<HTMLInputElement>(null)
+  const slugRef = useRef<HTMLInputElement>(null)
+  const imgRef = useRef<any>(null)
 
-  const {
-    values,
-    handleChange,
-    handleSubmit,
-    errors,
-    resetForm,
-    setValues,
-  } = useFormik({
-    initialValues,
-    onSubmit: handleForm,
-    validate: (form) => {
-      const error: any = {}
+  async function addCategory() {
+    const category = nameRef?.current?.value
+    const slug = slugRef?.current?.value
+    const img = imgUrl
 
-      if (!form?.name?.trim()) {
-        error.name = 'Require field'
-      }
-      if (!form?.slug?.trim()) {
-        error.slug = 'Require field'
-      }
+    const form = {
+      name: category,
+      slug: slug,
+      img_url: img,
+    }
 
-      return error
-    },
-  })
-
-  async function handleForm(id: string, data: any) {
-    mutate(id, data)
+    handleForm(form)
   }
 
+  async function handleForm(data: any) {
+    mutate(data)
+  }
+
+  const { data } = useQuery({
+    queryFn: () => getCategoryById(query.id as string),
+    queryKey: ['categories', query.id],
+  })
+
   const { mutate } = useMutation({
-    mutationFn: updateCategory,
+    mutationFn: postCategory,
     onSuccess(data, variables, context) {
       console.log(data, 'success')
-      resetForm()
       toast({
         title: 'Category added',
         status: 'success',
@@ -89,35 +75,27 @@ const AdminUpdateModalCategory = ({
     },
   })
 
-  const { data: category } = useQuery({
-    queryFn: () => getCategoryById(query?.id),
-    queryKey: ['category'],
-    onSuccess: () => {
-      // setValues({
-      //   name: category?.data?.result?.data?.name,
-      //   slug: category?.data?.result?.data?.slug,
-      //   img_url:
-      //     'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
-      // })
-    },
-  })
+  function getImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const name = e?.target?.files?.[0]?.name
+    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
 
-  console.log(category?.data?.result?.data?.name, 'cateq')
+    if (!name) {
+      return
+    }
+    const imageRef = ref(fileStorage, `files/images/${name}`)
 
-  useEffect(() => {
-    console.log(category, 'categorycategorycategory'),
-      setValues(
-        {
-          name: category?.data?.result?.data?.name,
-          slug: category?.data?.result?.data?.slug,
-          img_url:
-            'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
-        },
-        true,
-      )
-  }, [])
-
-  // console.log(values, 'values')
+    const file = e?.target?.files?.[0]
+    if (!file) {
+      return
+    }
+    uploadBytes(imageRef, file).then((snapshot) => {
+      setImgOnload(true)
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImgOnload(false)
+        setImgUrl(url)
+      })
+    })
+  }
 
   return (
     <div
@@ -131,6 +109,7 @@ const AdminUpdateModalCategory = ({
       >
         <IoClose className=" fill-admin-white h-4 w-6 pl-1" />
       </button>
+
       <div className="  bg-admin-main   flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14  max-h-screen  overflow-y-auto">
         <div>
           <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
@@ -138,16 +117,38 @@ const AdminUpdateModalCategory = ({
         <div className=" flex flex-col  w-full lg:flex-row mb-16 ">
           <div className=" w-full h-36 lg:w-1/3 ">
             <p className="font-medium text-lg text-admin-text">
-              {t('Upload  Image')}
+              {t('Upload Image')}
             </p>
-            {/* <img
-                    width={118}
-                    height={122}
-                    alt=""
-                /> */}
+
+            <Image
+              width={118}
+              height={122}
+              alt="Upload"
+              // value={data?.img_url}
+              ref={imgRef}
+              src={`${
+                imgOnload
+                  ? '/loadingImage.png'
+                  : imgUrl
+                  ? imgUrl
+                  : '/upload.png'
+              }`}
+            />
           </div>
           <div className=" w-full lg:w-2/3 h-38 ">
-            <AdminModalUploadImage />
+            <div className=" cursor-pointer bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
+              <div className=" relative ">
+                <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
+                <input
+                  id="img_url"
+                  name="img_url"
+                  type="file"
+                  src={imgUrl}
+                  onChange={getImage}
+                  className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex   flex-col   lg:flex-row  w-full  mb-10 ">
@@ -156,7 +157,7 @@ const AdminUpdateModalCategory = ({
               {t('Add Your Category Information')}
             </p>
           </div>
-          <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7   rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
+          <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7    rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
             <FormControl className="p-0">
               <div className="flex flex-col gap-2 ">
                 <p className=" font-medium   text-admin-text  text-base font-display">
@@ -166,14 +167,14 @@ const AdminUpdateModalCategory = ({
                   type="text"
                   id="name"
                   name="name"
-                  value={values?.name}
+                  ref={nameRef}
+                  // value={data?.name}
                   placeholder={t('name')}
-                  onChange={handleChange}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
-                {errors?.slug && (
+                {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )}
+                )} */}
               </div>
               <div className="flex flex-col gap-2 ">
                 <p className=" font-medium   text-admin-text  text-base font-display">
@@ -183,14 +184,14 @@ const AdminUpdateModalCategory = ({
                   type="text"
                   id="slug"
                   name="slug"
-                  value={values?.slug}
                   placeholder={t('slug')}
-                  onChange={handleChange}
+                  ref={slugRef}
+                  // value={data?.slug}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
-                {errors?.slug && (
+                {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
-                )}
+                )} */}
               </div>
             </FormControl>
           </div>
@@ -203,8 +204,8 @@ const AdminUpdateModalCategory = ({
           />
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t(`Update Category`)}
-            onClick={handleSubmit}
+            text={t(`Create Category`)}
+            onClick={addCategory}
           />
         </div>
       </div>

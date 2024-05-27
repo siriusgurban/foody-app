@@ -1,5 +1,3 @@
-//@ts- nocheck
-
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
 import { ImageUpload } from '@/shared/components/imageUpload'

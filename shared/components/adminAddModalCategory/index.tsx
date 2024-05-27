@@ -1,28 +1,14 @@
-//@ts-nocheck
-
 import React, { useEffect, useRef, useState } from 'react'
-import AdminModalUploadImage from '../adminModalUploadImage'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
-import {
-  DrawerOverlay,
-  FormControl,
-  FormHelperText,
-  Input,
-  Modal,
-  useToast,
-} from '@chakra-ui/react'
-import { useFormik } from 'formik'
+import { FormControl, useToast } from '@chakra-ui/react'
 import { postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useRouter } from 'next/router'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { fileStorage } from '../../../server/configs/firebase'
 import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
-import { ImageUpload } from '../imageUpload'
-import ImageUploading from 'react-images-uploading'
 
 interface Props {
   show?: boolean
@@ -30,45 +16,30 @@ interface Props {
   text: string
 }
 
-const initialValues = {
-  name: '',
-  slug: '',
-  img_url: '',
-  // 'https://gujarat.mallsmarket.com/sites/default/files/styles/medium/public/images/brands/McDonalds-Logo.jpg',
-}
-
 const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const { t } = useTranslation('admin')
   const toast = useToast()
   const queryClient = useQueryClient()
-  const { push, query } = useRouter()
-  const [imgUrl, setImgUrl] = useState<any>(initialValues.img_url)
-  const imgRef = useRef<any>(null)
+  const [imgUrl, setImgUrl] = useState<any>('')
   const [imgOnload, setImgOnload] = useState(false)
 
-  const {
-    values,
-    handleChange,
-    handleSubmit,
-    errors,
-    resetForm,
-    setFieldValue,
-  } = useFormik({
-    initialValues,
-    onSubmit: handleForm,
-    validate: (form) => {
-      const error: any = {}
+  const nameRef = useRef<HTMLInputElement>(null)
+  const slugRef = useRef<HTMLInputElement>(null)
+  const imgRef = useRef<any>(null)
 
-      if (!form?.name?.trim()) {
-        error.name = 'Require field'
-      }
-      if (!form?.slug?.trim()) {
-        error.slug = 'Require field'
-      }
+  async function addCategory() {
+    const category = nameRef?.current?.value
+    const slug = slugRef?.current?.value
+    const img = imgUrl
 
-      return error
-    },
-  })
+    const form = {
+      name: category,
+      slug: slug,
+      img_url: img,
+    }
+
+    handleForm(form)
+  }
 
   async function handleForm(data: any) {
     mutate(data)
@@ -78,7 +49,6 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
     mutationFn: postCategory,
     onSuccess(data, variables, context) {
       console.log(data, 'success')
-      resetForm()
       toast({
         title: 'Category added',
         status: 'success',
@@ -94,39 +64,27 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
     },
   })
 
-  console.log(values, 'values')
+  function getImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const name = e?.target?.files?.[0]?.name
+    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
 
-  const [images, setImages] = React.useState(initialValues.images)
-  const maxNumber = 1
+    if (!name) {
+      return
+    }
+    const imageRef = ref(fileStorage, `files/images/${name}`)
 
-  const onChange = (imageList: any, addUpdateIndex: any) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex)
-    setImages(imageList)
+    const file = e?.target?.files?.[0]
+    if (!file) {
+      return
+    }
+    uploadBytes(imageRef, file).then((snapshot) => {
+      setImgOnload(true)
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImgOnload(false)
+        setImgUrl(url)
+      })
+    })
   }
-
-  // function getImage(e: React.ChangeEvent<HTMLInputElement>) {
-  //   const name = e?.target?.files?.[0]?.name
-  //   console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
-
-  //   if (!name) {
-  //     return
-  //   }
-  //   const imageRef = ref(fileStorage, `files/images/${name}`)
-
-  //   const file = e?.target?.files?.[0]
-  //   if (!file) {
-  //     return
-  //   }
-  //   uploadBytes(imageRef, file).then((snapshot) => {
-  //     setImgOnload(true)
-  //     getDownloadURL(snapshot.ref).then((url) => {
-  //       setImgOnload(false)
-  //       setImgUrl(url)
-  //       // getImgUrl(url)
-  //     })
-  //   })
-  // }
 
   return (
     <div
@@ -166,63 +124,17 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             />
           </div>
           <div className=" w-full lg:w-2/3 h-38 ">
-            {/* <AdminModalUploadImage /> */}
             <div className=" cursor-pointer bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
                 <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
-
                 <input
-                  onChange={(e) => {
-                    handleChange(e),
-                      setFieldValue('img_url', e.target.files?.[0]?.name)
-                  }}
-                  value={values?.img_url}
                   id="img_url"
                   name="img_url"
                   type="file"
+                  src={imgUrl}
+                  onChange={getImage}
                   className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
                 />
-                {/* <ImageUploading
-                  file
-                  value={values?.img_url}
-                  onChange={(e) => {
-                    handleChange(e), onChange
-                  }}
-                  maxNumber={maxNumber}
-                  dataURLKey="data_url"
-                >
-                  {({
-                    imageList,
-                    onImageUpload,
-                    onImageUpdate,
-                    onImageRemove,
-                  }) => (
-                    // write your building UI
-                    <div className="upload__image-wrapper">
-                      <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
-                      <p
-                        onClick={onImageUpload}
-                        className=" text-admin-text font-medium text-lg font-display"
-                      >
-                        Upload
-                      </p>
-                      &nbsp;
-                      {imageList.map((image, index) => (
-                        <div key={index} className="image-item">
-                          <img src={image['data_url']} alt="asd" width="100" />
-                          <div className="image-item__btn-wrapper">
-                            <button onClick={() => onImageUpdate(index)}>
-                              Update
-                            </button>
-                            <button onClick={() => onImageRemove(index)}>
-                              Remove
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </ImageUploading> */}
               </div>
             </div>
           </div>
@@ -233,7 +145,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
               {t('Add Your Category Information')}
             </p>
           </div>
-          <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7   rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
+          <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7    rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
             <FormControl className="p-0">
               <div className="flex flex-col gap-2 ">
                 <p className=" font-medium   text-admin-text  text-base font-display">
@@ -243,14 +155,13 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
                   type="text"
                   id="name"
                   name="name"
-                  value={values?.name}
+                  ref={nameRef}
                   placeholder={t('name')}
-                  onChange={handleChange}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
-                {errors?.slug && (
+                {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )}
+                )} */}
               </div>
               <div className="flex flex-col gap-2 ">
                 <p className=" font-medium   text-admin-text  text-base font-display">
@@ -260,14 +171,13 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
                   type="text"
                   id="slug"
                   name="slug"
-                  value={values?.slug}
                   placeholder={t('slug')}
-                  onChange={handleChange}
+                  ref={slugRef}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
-                {errors?.slug && (
+                {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
-                )}
+                )} */}
               </div>
             </FormControl>
           </div>
@@ -281,7 +191,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
             text={t(`Create Category`)}
-            onClick={handleSubmit}
+            onClick={addCategory}
           />
         </div>
       </div>

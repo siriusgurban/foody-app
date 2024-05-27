@@ -1,5 +1,3 @@
-//@ts- nocheck
-
 import BasketEmpty from '@/shared/components/basketEmpty'
 import BasketList from '@/shared/components/basketList'
 import ClientFooter from '@/shared/components/clientFooter'
