@@ -3,27 +3,60 @@
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
 import { ImageUpload } from '@/shared/components/imageUpload'
-import {
-  getRestuarantById,
-  getRestuarants,
-} from '@/shared/services/restaurants'
-import { Box, Text } from '@chakra-ui/react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import UserAsideMenu from '@/shared/components/userAsideMenu'
+import UserBasket from '@/shared/components/userBasket'
+import UserCheckout from '@/shared/components/userCheckout'
+import UserOrders from '@/shared/components/userOrders'
+import UserProfile from '@/shared/components/userProfile'
+import { Box, Text, useToast } from '@chakra-ui/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function User() {
   const { t } = useTranslation()
-  const { push, query } = useRouter()
-  const isActive = (path: string) => (query.page === path ? '#F0E1E1' : 'none')
-  const isActiveText = (path: string) =>
-    query.page === path ? 'client-main-red' : 'client-main-gray1'
+  const { query, push } = useRouter()
+  const toast = useToast()
 
   console.log(query?.page, 'queryquery')
+  let rightComponent
+
+  switch (query?.page) {
+    case 'profile':
+      rightComponent = <UserProfile />
+      break
+    case 'basket':
+      rightComponent = <UserBasket />
+      break
+    case 'orders':
+      rightComponent = <UserOrders />
+      break
+    case 'checkout':
+      rightComponent = <UserCheckout />
+      break
+    default:
+      rightComponent = <div>Choose one on the left menu</div>
+  }
+
+  useLayoutEffect(() => {
+    function checkUser() {
+      if (localStorage.getItem('tokenObj')) {
+        push('/user')
+      } else {
+        toast({
+          description: 'Please, login first',
+          status: 'warning',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        })
+        push('/login')
+      }
+    }
+    checkUser()
+  }, [])
 
   return (
     <div>
@@ -40,113 +73,8 @@ function User() {
           </header>
 
           <main className="flex mx-8 gap-10">
-            <section className="">
-              <Box className="w-80 h-lvh bg-client-fill-gray flex flex-col gap-5 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-10 pt-14 cursor-pointer overflow-hidden">
-                <Box
-                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-50 bg-${isActive(
-                    'profile',
-                  )}`}
-                  onClick={() => push('?page=' + 'profile')}
-                >
-                  <Image
-                    width={22}
-                    height={14}
-                    alt="profile"
-                    src={'/profile.svg'}
-                  />
-                  <Text
-                    className={`text-xl font-semibold text-${isActiveText(
-                      'profile',
-                    )}  `}
-                  >
-                    Profile
-                  </Text>
-                </Box>
-                <Box
-                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
-                    'basket',
-                  )}`}
-                  onClick={() => push('?page=' + 'basket')}
-                >
-                  <Image
-                    width={22}
-                    height={14}
-                    alt="profile"
-                    src={'/basketProfile.svg'}
-                  />
-                  <Text
-                    className={`text-xl font-semibold text-${isActiveText(
-                      'basket',
-                    )}  `}
-                  >
-                    Your Basket
-                  </Text>
-                </Box>
-                <Box
-                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
-                    'orders',
-                  )}`}
-                  onClick={() => push('?page=' + 'orders')}
-                >
-                  <Image
-                    width={22}
-                    height={14}
-                    alt="profile"
-                    src={'/basketProfile.svg'}
-                  />
-                  <Text
-                    className={`text-xl font-semibold text-${isActiveText(
-                      'orders',
-                    )}  `}
-                  >
-                    Your Orders
-                  </Text>
-                </Box>
-                <Box
-                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
-                    'checkout',
-                  )}`}
-                  onClick={() => push('?page=' + 'checkout')}
-                >
-                  <Image
-                    width={22}
-                    height={14}
-                    alt="profile"
-                    src={'/basketProfile.svg'}
-                  />
-                  <Text
-                    className={`text-xl font-semibold text-${isActiveText(
-                      'checkout',
-                    )}  `}
-                  >
-                    Your Checkout
-                  </Text>
-                </Box>
-                <Box
-                  className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink hover:opacity-25 bg-${isActive(
-                    'logout',
-                  )}`}
-                  onClick={() => push('/')}
-                >
-                  <Image
-                    width={22}
-                    height={14}
-                    alt="profile"
-                    src={'/basketProfile.svg'}
-                  />
-                  <Text
-                    className={`text-xl font-semibold text-${isActiveText(
-                      'logout',
-                    )}  `}
-                  >
-                    Logout
-                  </Text>
-                </Box>
-              </Box>
-            </section>
-            <section>
-              <ImageUpload />
-            </section>
+            <UserAsideMenu />
+            <section>{rightComponent}</section>
           </main>
           <ClientFooter />
         </Box>

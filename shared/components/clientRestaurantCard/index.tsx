@@ -1,13 +1,14 @@
 import { getRestuarantById } from '@/shared/services/restaurants'
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Text, useToast } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Product } from '@/shared/types/admin'
+import { Product, token } from '@/shared/types/admin'
 
 function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
   const { push, query } = useRouter()
+  const toast = useToast()
 
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.id as string),
@@ -19,7 +20,7 @@ function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
       className="md:w-60 w-32 flex flex-col shadow-lg px-2 pt-3 pb-2.5 md:px-4 md:pt-3 md:pb-6 cursor-pointer"
       key={key}
       onClick={() => {
-        push('/restaurants/' + query.id)
+        push('/restaurants/' + query?.id)
       }}
     >
       <Box className="md:w-44 md:h-40 w-20 h-20 mx-auto ">

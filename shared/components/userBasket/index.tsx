@@ -1,3 +1,4 @@
+
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image from 'next/image';
 import React, { FC } from 'react';
