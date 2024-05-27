@@ -25,7 +25,6 @@ interface OfferItem {
   img_url: string;
   name: string;
   description: string;
-  // Add more properties if needed
 }
 
 function Offers() {
@@ -63,7 +62,7 @@ function Offers() {
   })
 
   const handleDelete = (id: number) => {
-    mutate(id)
+    mutate(String(id)) 
   }
 
   const newData: OfferItem[] | undefined = data?.data?.result?.data;
