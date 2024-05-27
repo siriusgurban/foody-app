@@ -1,4 +1,3 @@
-
 import ClientFooter from "@/shared/components/clientFooter";
 import ClientHeader from "@/shared/components/clientHeader";
 import { Box, Text, Image } from "@chakra-ui/react";
