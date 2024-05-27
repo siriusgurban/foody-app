@@ -38,6 +38,7 @@ function User() {
           <header>
             <ClientHeader />
           </header>
+
           <main className="flex mx-8 gap-10">
             <section className="">
               <Box className="w-80 h-lvh bg-client-fill-gray flex flex-col gap-5 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-10 pt-14 cursor-pointer overflow-hidden">
