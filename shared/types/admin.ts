@@ -1,3 +1,6 @@
+import { UseMutationOptions } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
+
 export type token = {
   access_token: string
   refresh_token: string
@@ -29,4 +32,15 @@ export interface Product {
   name: string
   description: string
   rest_id: string
+  count?: number
+}
+
+export interface CustomMutationOptions
+  extends UseMutationOptions<
+    AxiosResponse<any, any> | undefined,
+    Error,
+    void,
+    unknown
+  > {
+  queryKey?: string[] // Define the queryKey property
 }

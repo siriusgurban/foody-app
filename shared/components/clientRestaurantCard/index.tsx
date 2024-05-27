@@ -15,26 +15,12 @@ function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
     queryKey: ['restuarant', query.id],
   })
 
-  function checkUser(id: string) {
-    if (localStorage.getItem('tokenObj')) {
-      push('/restaurants/' + id)
-    } else {
-      toast({
-        description: 'Please, login first',
-        status: 'warning',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      })
-    }
-  }
-
   return (
     <Box
       className="md:w-60 w-32 flex flex-col shadow-lg px-2 pt-3 pb-2.5 md:px-4 md:pt-3 md:pb-6 cursor-pointer"
       key={key}
       onClick={() => {
-        checkUser(query?.id as string)
+        push('/restaurants/' + query?.id)
       }}
     >
       <Box className="md:w-44 md:h-40 w-20 h-20 mx-auto ">

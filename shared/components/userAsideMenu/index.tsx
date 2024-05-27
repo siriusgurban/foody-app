@@ -12,6 +12,7 @@ function UserAsideMenu() {
     query.page === path ? 'client-main-red' : 'client-main-gray1'
 
   function deleteUser() {
+    push('/')
     localStorage.removeItem('userInfo')
     localStorage.removeItem('tokenObj')
   }
@@ -98,7 +99,7 @@ function UserAsideMenu() {
         className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink bg-${isActive(
           'logout',
         )}`}
-        onClick={() => push('/')}
+        onClick={deleteUser}
       >
         <Image
           width={22}
@@ -108,7 +109,6 @@ function UserAsideMenu() {
         />
         <Text
           className={`text-xl font-semibold text-${isActiveText('logout')}  `}
-          onClick={() => deleteUser()}
         >
           Logout
         </Text>
