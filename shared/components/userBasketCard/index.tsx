@@ -17,7 +17,7 @@ interface Props {
 const UserBasketCard: FC<Props> = ({ increaseCount, decreaseCount, clearBasket, name, src, price, count, alt }) => {
   return (
     <div className="flex relative sm:pr-9 justify-between items-center border-b-2 border-client-gray5 py-8">
-      <Image width={98} height={98} src={src} />
+      <Image width={98} height={98} src={src || ""} alt={alt || "image"} />
       <div className="flex flex-col w-full pl-7">
         <p className="font-medium text-client-main-gray2 text-2xl">{name}</p>
         <p className="font-medium text-client-main-gray2 text-lg">{price}</p>
