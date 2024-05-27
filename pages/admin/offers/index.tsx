@@ -6,25 +6,67 @@ import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent
 import Foody from '@/shared/components/foody'
 import { getCategories, getCategoryById } from '@/shared/services/category'
 import { Box, Button, useToast } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import{
-  ButtonGroup,IconButton
- 
-} from '@chakra-ui/react';
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import {
+  ButtonGroup,
+  IconButton,
+} from '@chakra-ui/react'
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
+import { DeleteOffer, getOffers } from '@/shared/services/offers'
+
+interface OfferItem {
+  id: number;
+  img_url: string;
+  name: string;
+  description: string;
+  // Add more properties if needed
+}
+
 function Offers() {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(true)
+  const queryClient = useQueryClient()
+  const toast = useToast()
 
   function showHideModal() {
     setHideModal((prev) => !prev)
   }
+
+  const { data } = useQuery({
+    queryFn: getOffers,
+    queryKey: ['offers'],
+  })
+
+  const { mutate } = useMutation({
+    mutationFn: DeleteOffer,
+    onSuccess(data, variables, context) {
+      console.log(data, 'success')
+      toast({
+        title: 'offer deleted',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    },
+    onError(data, variables, context) {
+      console.log(data, 'error')
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['offers'] })
+    },
+  })
+
+  const handleDelete = (id: number) => {
+    mutate(id)
+  }
+
+  const newData: OfferItem[] | undefined = data?.data?.result?.data;
 
   return (
     <div>
@@ -41,7 +83,7 @@ function Offers() {
             show={hideModal}
             text={t('Add Offers ')}
           />
-           <main className="flex">
+          <main className="flex">
             <div className=" hidden sm:block">
               <AdminAsideMenu />
               <AdminAsideMenuResponsive />
@@ -54,47 +96,50 @@ function Offers() {
                   visible={false}
                 />
               </div>
-              <table   className="bg-white  m-5"  >
-                  <thead className='h-[50px] border-b-2'>
-                    <tr className='p-8'>
-                      <th className='w-[100px] text-center'>ID</th>
-                      <th className='w-[100px] text-center'>Image</th>
-                      <th className='w-[120px] text-center'>Name</th>
-                      <th className='w-[200px] text-center'>Slug</th>
-                    </tr>
-                  </thead>
-                  <tbody >
-                    <tr className='h-[60px] border-b-2 p-8'>
+              <table className="bg-white  m-5"  >
+                <thead className='h-[50px] border-b-2'>
+                  <tr className='p-8'>
+                    <th className='w-[100px] text-center'>{t('ID')}</th>
+                    <th className='w-[100px] text-center'>{t('Image')}</th>
+                    <th className='w-[120px] text-center'>{t('Name')}</th>
+                    <th className='w-[200px] text-center'>{t('Slug')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {newData?.map((item: OfferItem) => (
+                    <tr className='h-[60px] border-b-2 p-8' key={item.id}>
                       <td className='w-[100px] text-center'>
-                        9177
+                        {item.id}
                       </td>
                       <td className='w-[100px] text-center'>
-                      <Image src="" alt='d'/>
-                      </td> <td className='w-[100px] text-center'>
-                      Pizza
-                      </td> <td  className='w-[200px] text-center'>
-                      yummy-pizza 
-                      </td> <td className='w-[140px] text-center'>
-                      <ButtonGroup>
-                                        <IconButton
-                                            colorScheme="teal"
-                                            aria-label="Edit"
-                                            icon={<EditIcon />}
-                                        />
-                                        <IconButton
-                                            colorScheme="red"
-                                            aria-label="Delete"
-                                            icon={<DeleteIcon />}
-                                          
-                                        />
-                                    </ButtonGroup>
-                      </td> 
+                        <Image src={item.img_url} alt='Offer Image' width={100} height={100} />
+                      </td>
+                      <td className='w-[100px] text-center'>
+                        {item.name}
+                      </td>
+                      <td className='w-[200px] text-center'>
+                        {item.description}
+                      </td>
+                      <td className='w-[140px] text-center'>
+                        <ButtonGroup>
+                          <IconButton
+                            colorScheme="teal"
+                            aria-label={t('Edit')}
+                            icon={<EditIcon />}
+                          />
+                          <IconButton
+                            colorScheme="red"
+                            aria-label={t('Delete')}
+                            icon={<DeleteIcon />}
+                            onClick={() => handleDelete(item.id)}
+                          />
+                        </ButtonGroup>
+                      </td>
                     </tr>
-                   
-                  </tbody>
-                </table >
+                  ))}
+                </tbody>
+              </table>
             </div>
-        
           </main>
         </Box>
       </Box>
