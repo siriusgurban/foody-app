@@ -56,7 +56,7 @@ function User() {
       }
     }
     checkUser()
-  })
+  }, [])
 
   return (
     <div>
