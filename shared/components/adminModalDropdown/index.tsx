@@ -1,41 +1,54 @@
-
-import React, { useRef } from 'react';
+import { getCategories } from '@/shared/services/category'
+import { useQuery } from '@tanstack/react-query'
+import React, { useRef } from 'react'
 
 interface Props {
-    p?: string;
-    className: string;
-    classNameSelect?: string;
-    getText?: (text: string) => void;
+  p?: string
+  className: string
+  classNameSelect?: string
+  getText?: (text: string) => void
 }
 
-const AdminModalDropdown = ({ p = 'Category', className, classNameSelect, getText }: Props) => {
-    const ref = useRef<HTMLSelectElement>(null);
+const AdminModalDropdown = ({
+  p = 'Category',
+  className,
+  classNameSelect,
+  getText,
+}: Props) => {
+  const { data } = useQuery({
+    queryFn: getCategories,
+    queryKey: ['categories'],
+  })
 
-    const handleChange = () => {
-        if (ref.current && getText) {
-            getText(ref.current.value);
-        }
-    };
+  let categories = data?.data?.result?.data
 
-    return (
-        <div className={className}>
-            <p className="text-base font-medium mb-1 text-admin-text">{p}</p>
-            <select
-                className={classNameSelect}
-                defaultValue=""
-                ref={ref}
-                onChange={handleChange}
-            >
-                <option value="" disabled>
-                    Select a category
-                </option>
-                <option value="fast-food">Fast Food</option>
-                <option value="drink">Drink</option>
-                <option value="ice-cream">Ice Cream</option>
-                <option value="sea-food">Sea Food</option>
-            </select>
-        </div>
-    );
+  const ref = useRef<HTMLSelectElement>(null)
+
+  const handleChange = () => {
+    if (ref.current && getText) {
+      getText(ref.current.value)
+    }
+  }
+
+  return (
+    <div className={className}>
+      <p className="text-base font-medium mb-1 text-admin-text">{p}</p>
+      <select
+        className={classNameSelect}
+        defaultValue=""
+        ref={ref}
+        onChange={handleChange}
+      >
+        {categories?.map((item: any, index: number) => {
+          return (
+            <option key={index} value={item.name}>
+              {item.name}
+            </option>
+          )
+        })}
+      </select>
+    </div>
+  )
 }
 
-export default AdminModalDropdown;
+export default AdminModalDropdown
