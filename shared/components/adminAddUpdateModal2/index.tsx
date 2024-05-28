@@ -1,187 +1,194 @@
-import React, { useState } from 'react';
-import AdminModalUploadImage from '../adminModalUploadImage';
-import AdminModalInput from '../adminModalInput';
-import AdminModalTextArea from '../adminModalText';
-import AdminModalDropdown from '../adminModalDropdown';
-import { IoClose } from "react-icons/io5";
-import AdminModalButton from '../adminModalButton';
-import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
-import { nanoid } from "nanoid";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { fileStorage } from "../../../server/configs/firebase";
-import { postRestuarant } from '@/shared/services/restaurants';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useToast } from '@chakra-ui/react';
-import { AddOffers } from '@/shared/services/offers';
+import React, { useRef, useState } from 'react'
+import AdminModalUploadImage from '../adminModalUploadImage'
+import AdminModalInput from '../adminModalInput'
+import AdminModalTextArea from '../adminModalText'
+import AdminModalDropdown from '../adminModalDropdown'
+import { IoClose } from 'react-icons/io5'
+import AdminModalButton from '../adminModalButton'
+import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
+import { nanoid } from 'nanoid'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { fileStorage } from '../../../server/configs/firebase'
+import { postRestuarant } from '@/shared/services/restaurants'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useToast } from '@chakra-ui/react'
+import { AddOffers } from '@/shared/services/offers'
+import { useImageUpload } from '@/shared/hooks/useImageUpload'
+import Image from 'next/image'
+import { getCategories } from '@/shared/services/category'
 
 interface Props {
-    show?: boolean;
-    onClickClose?: () => void;
-    text: string;
+  show?: boolean
+  onClickClose?: () => void
+  text: string
 }
 
 const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
-    const [addProductImage, setAddProductImage] = useState<string | null>(null);
-    const [lastProductImage, setLastProductImage] = useState<string | null>(null);
-    const [name, setName] = useState<string | null>(null);
-    const [cuisine, setCuisine] = useState<string | null>(null);
-    const [deliveryMin, setDeliveryMin] = useState<number | null>(null);
-    const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
-    const [address, setAddress] = useState<string | null>(null);
-    const [category, setCategory] = useState<string | null>(null);
-    const queryClient = useQueryClient();
-    const toast = useToast();
-    const { t } = useTranslation('admin');
-    const { pathname } = useRouter();
-    const isTrue = pathname === "/admin/offers";
+  //   const nameRef = useRef<any>(null)
+  //   const cuisineRef = useRef<any>(null)
+  //   const deliveryPriceRef = useRef<any>(null)
+  //   const deliveryMinRef = useRef<any>(null)
+  //   const addressRef = useRef<any>(null)
+  //   const categoryRef = useRef<any>(null)
+  const imgRef = useRef<any>(null)
 
-    const { mutate: addRestaurant } = useMutation({
-        mutationFn: postRestuarant,
-        onSuccess: () => {
-            toast({
-                title: 'Restaurant added',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-            });
-            queryClient.invalidateQueries({ queryKey: ['restuarants'] });
+  const { loading, imgUrl, getImage } = useImageUpload()
 
-        },
-        onError: (error) => {
-            console.error("Error adding restaurant:", error);
-        },
-    });
+  const [name, setName] = useState<string | null>(null)
+  const [cuisine, setCuisine] = useState<string | null>(null)
+  const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null)
+  const [deliveryMin, setDeliveryMin] = useState<number | null>(null)
+  const [address, setAddress] = useState<string | null>(null)
+  const [category, setCategory] = useState<string | null>(null)
+  const img = imgUrl
 
-    const { mutate: addOffer } = useMutation({
-        mutationFn: AddOffers,
-        onSuccess: () => {
-            toast({
-                title: 'Offer added',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-            });
-            queryClient.invalidateQueries({ queryKey: ['offers'] });
+  const queryClient = useQueryClient()
+  const toast = useToast()
+  const { t } = useTranslation('admin')
 
-        },
-        onError: (error) => {
-            console.error("Error adding offer:", error);
-        },
-    });
+  async function addRestaurant() {
+    // const name = nameRef?.current?.value
+    // const cuisine = cuisineRef?.current?.value
+    // const deliveryPrice = deliveryPriceRef?.current?.value
+    // const deliveryMin = deliveryMinRef?.current?.value
+    // const address = addressRef?.current?.value
+    // const category = categoryRef?.current?.value
+    console.log('clicked')
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-            const selectedFile = files[0];
-            setAddProductImage(URL.createObjectURL(selectedFile));
+    const form = {
+      name: name,
+      cuisine: cuisine,
+      delivery_price: deliveryPrice,
+      delivery_min: deliveryMin,
+      address: address,
+      category_id: category,
+      img_url: img,
+    }
 
-            const newUUID = nanoid();
-            const imageRef = ref(fileStorage, `images/${selectedFile.name + newUUID}`);
+    console.log(form, 'form')
 
-            uploadBytes(imageRef, selectedFile)
-                .then((snapshot) => {
-                    getDownloadURL(snapshot.ref)
-                        .then((downloadURL) => {
-                            setLastProductImage(downloadURL);
-                        })
-                        .catch((error) => {
-                            console.error("Error getting download URL", error);
-                        });
-                })
-                .catch((error) => {
-                    console.error("Error uploading file", error);
-                });
-        }
-    };
+    mutate(form)
+  }
 
-    const handleSubmit = () => {
-        if (isTrue) {
-            const newOffer = {
-                name,
-                description: cuisine,
-                img_url: lastProductImage,
-            };
-            addOffer(newOffer);
-        } else {
-            const newRestaurant = {
-                name,
-                cuisine,
-                img_url: lastProductImage,
-                delivery_min: deliveryMin,
-                delivery_price: deliveryPrice,
-                address,
-                category,
-            };
-            addRestaurant(newRestaurant);
-        }
-    };
+  const { mutate } = useMutation({
+    mutationFn: postRestuarant,
+    onSuccess: () => {
+      toast({
+        title: 'Restaurant added',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+      queryClient.invalidateQueries({ queryKey: ['restuarants'] })
+    },
+    onError: (error) => {
+      console.error('Error adding restaurant:', error)
+    },
+  })
 
-    return (
-        <div className={`fixed z-10 w-full sm:w-3/4 sm:pl-10 ${show ? "right-0" : "-right-full"} h-screen top-0 transition-all duration-700`}>
-            <button
-                onClick={onClickClose}
-                className="rounded-full bg-admin-modal-upload-icon absolute right-5 sm:left-0 top-7 w-7 h-7 cursor-pointer">
-                <IoClose className='fill-admin-white h-4 w-6 pl-1' />
-            </button>
-            <div className="bg-admin-main flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14 max-h-screen overflow-y-auto">
-                <div>
-                    <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
-                </div>
-                <div className="flex flex-col w-full lg:flex-row mb-16">
-                    <div className="w-full h-36 lg:w-1/3">
-                        <p className="font-medium text-lg text-admin-text mb-3">
-                            {t('Upload Image')}
-                        </p>
-                        {lastProductImage && (
-                            <img
-                                src={lastProductImage}
-                                width={138}
-                                height={132}
-                                alt=""
-                            />
-                        )}
-                    </div>
-                    <div className="w-full lg:w-2/3 h-38">
-                        <AdminModalUploadImage onChange={handleFileChange} />
-                    </div>
-                </div>
-                <div className="flex flex-col lg:flex-row w-full mb-10">
-                    <div className="w-full lg:w-1/3">
-                        <p className="font-medium text-admin-text tracking-wide capitalize text-lg font-display">
-                            {t(`Add Your ${isTrue ? "Offer" : "Restaurant"} Information`)}
-                        </p>
-                    </div>
-                    <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 pt-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
-                        <div>
-                            {isTrue && (
-                                <>
-                                    <AdminModalInput p={t('Title')} className2='flex flex-col gap-2' placeHolder='Do you like Pizza at Papa John’s?' getText={setName} />
-                                    <AdminModalTextArea p={t('Description')} className='mt-6 mb-3' placeHolder="Yes you like pizza,Yummy" getText={setCuisine} />
-                                </>
-                            )}
-
-                            {!isTrue && (
-                                <>
-                                    <AdminModalInput p={t('Name')} className2='flex flex-col gap-2' placeHolder='Mc Donald’s' getText={setName} />
-                                    <AdminModalTextArea p={t('Cuisine')} className='mt-6' placeHolder="Fast Food , Drink, Ice Cream, Sea Food" getText={setCuisine} />
-                                    <AdminModalInput type="number" p={t('Delivery Price $')} className2='flex flex-col gap-2 mt-8' placeHolder='5' getText={(text) => setDeliveryPrice(parseInt(text))} />
-                                    <AdminModalInput type="number" p={t('Delivery Min')} className2='flex flex-col gap-2 mt-6' placeHolder='11' getText={(text) => setDeliveryMin(parseInt(text))} />
-                                    <AdminModalInput p={t('Address')} className2='flex flex-col gap-2 mt-4' placeHolder='Nizami street 45 Baku Azerbaijan' getText={setAddress} />
-                                    <AdminModalDropdown p={t('Category')} className='mt-4 mb-2 placeholder' classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display" getText={setCategory} />
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                <div className="flex justify-around border-t-2 border-t-admin-cancel-btn pt-6 border-admin-main gap-10">
-                    <AdminModalButton onClick={onClickClose} className="text-admin-white bg-admin-cancel-btn py-3 w-1/2 rounded-2xl font-display" text={t('Cancel')} />
-                    {!isTrue && <AdminModalButton onClick={handleSubmit} className="text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display" text={t('Create Restaurant')} />}
-                    {isTrue && <AdminModalButton onClick={handleSubmit} className="text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display" text={t('Add Offer')} />}
-                </div>
-            </div>
+  return (
+    <div
+      className={`fixed z-10 w-full sm:w-3/4 sm:pl-10 ${
+        show ? 'right-0' : '-right-full'
+      } h-screen top-0 transition-all duration-700`}
+    >
+      <button
+        onClick={onClickClose}
+        className="rounded-full bg-admin-modal-upload-icon absolute right-5 sm:left-0 top-7 w-7 h-7 cursor-pointer"
+      >
+        <IoClose className="fill-admin-white h-4 w-6 pl-1" />
+      </button>
+      <div className="bg-admin-main flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14 max-h-screen overflow-y-auto">
+        <div>
+          <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
         </div>
-    );
-};
+        <div className="flex flex-col w-full lg:flex-row mb-16">
+          <div className="w-full h-36 lg:w-1/3">
+            <p className="font-medium text-lg text-admin-text mb-3">
+              {t('Upload Image')}
+            </p>
+            <Image
+              width={118}
+              height={122}
+              alt="Upload"
+              ref={imgRef}
+              src={`${
+                loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
+              }`}
+            />
+          </div>
+          <div className="w-full lg:w-2/3 h-38">
+            <AdminModalUploadImage onChange={getImage} />
+          </div>
+        </div>
+        <div className="flex flex-col lg:flex-row w-full mb-10">
+          <div className="w-full lg:w-1/3">
+            <p className="font-medium text-admin-text tracking-wide capitalize text-lg font-display">
+              {t(`Add Your Restaurant Information`)}
+            </p>
+          </div>
+          <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 pt-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
+            <div>
+              <>
+                <AdminModalInput
+                  p={t('Name')}
+                  className2="flex flex-col gap-2"
+                  placeHolder="Mc Donald’s"
+                  getText={setName}
+                />
+                <AdminModalTextArea
+                  p={t('Cuisine')}
+                  className="mt-6"
+                  placeHolder="Fast Food , Drink, Ice Cream, Sea Food"
+                  getText={setCuisine}
+                />
+                <AdminModalInput
+                  type="number"
+                  p={t('Delivery Price $')}
+                  className2="flex flex-col gap-2 mt-8"
+                  placeHolder="5"
+                  getText={(text) => setDeliveryPrice(parseInt(text))}
+                />
+                <AdminModalInput
+                  type="number"
+                  p={t('Delivery Min')}
+                  className2="flex flex-col gap-2 mt-6"
+                  placeHolder="11"
+                  getText={(text) => setDeliveryMin(parseInt(text))}
+                />
+                <AdminModalInput
+                  p={t('Address')}
+                  className2="flex flex-col gap-2 mt-4"
+                  placeHolder="Nizami street 45 Baku Azerbaijan"
+                  getText={setAddress}
+                />
+                <AdminModalDropdown
+                  p={t('Category')}
+                  className="mt-4 mb-2 placeholder"
+                  classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
+                  getText={setCategory}
+                />
+              </>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-around border-t-2 border-t-admin-cancel-btn pt-6 border-admin-main gap-10">
+          <AdminModalButton
+            onClick={onClickClose}
+            className="text-admin-white bg-admin-cancel-btn py-3 w-1/2 rounded-2xl font-display"
+            text={t('Cancel')}
+          />
 
-export default AdminAddUpdateModal2;
+          <AdminModalButton
+            onClick={addRestaurant}
+            className="text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
+            text={t('Create Restaurant')}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default AdminAddUpdateModal2

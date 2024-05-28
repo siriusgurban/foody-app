@@ -12,18 +12,12 @@ import AdminAddUpdateModal from '../../../shared/components/adminAddUpdateModal'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-
 import { deleteRestuarant } from '@/shared/services/restaurants'
-
-
-
-
-
+import AdminAddUpdateModal2 from '@/shared/components/adminAddUpdateModal2'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(true)
-
 
   // delete
   const QueryClient = useQueryClient()
@@ -47,7 +41,7 @@ const Restaurants: React.FC = () => {
   })
 
   function handleDelete(id: any) {
-    console.log('deleting restaurant :', id);
+    console.log('deleting restaurant :', id)
     mutate(id)
   }
   function showHideModal() {
@@ -64,7 +58,7 @@ const Restaurants: React.FC = () => {
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
 
-          <AdminAddUpdateModal
+          <AdminAddUpdateModal2
             onClickClose={showHideModal}
             show={hideModal}
             text={t('Add Restaurant ')}
