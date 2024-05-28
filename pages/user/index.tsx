@@ -1,6 +1,5 @@
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
-import { ImageUpload } from '@/shared/components/imageUpload'
 import UserAsideMenu from '@/shared/components/userAsideMenu'
 import UserBasket from '@/shared/components/userBasket'
 import UserCheckout from '@/shared/components/userCheckout'

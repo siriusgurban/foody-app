@@ -11,6 +11,12 @@ export type adminLogin = {
   password: string
 }
 
+export type Form = {
+  name: string | undefined
+  slug: string | undefined
+  img_url: string | undefined
+}
+
 export interface Restaurant {
   id: string
   address: string

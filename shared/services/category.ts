@@ -1,4 +1,5 @@
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
+import { Form } from '../types/admin'
 
 export const getCategories = async () => {
   try {
@@ -33,11 +34,11 @@ export const deleteCategory = async (id: string) => {
   }
 }
 
-export const updateCategory = async (id: string, data: any) => {
+export const updateCategory = async (id: string, data: Form) => {
   try {
     const response = await instanceAxios({
       method: 'PUT',
-      url: 'category' + '/' + id,
+      url: 'category/' + id,
       data,
     })
     return response
@@ -46,7 +47,7 @@ export const updateCategory = async (id: string, data: any) => {
   }
 }
 
-export const postCategory = async (data: any) => {
+export const postCategory = async (data: Form) => {
   try {
     const response = await instanceAxios({
       method: 'POST',

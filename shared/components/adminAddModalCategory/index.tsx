@@ -5,23 +5,19 @@ import { useTranslation } from 'react-i18next'
 import { FormControl, useToast } from '@chakra-ui/react'
 import { postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { fileStorage } from '../../../server/configs/firebase'
 import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
+import { useImageUpload } from '@/shared/hooks/useImageUpload'
 
 interface Props {
   show?: boolean
   onClickClose?: () => void
   text: string
 }
-
 const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const { t } = useTranslation('admin')
   const toast = useToast()
   const queryClient = useQueryClient()
-  const [imgUrl, setImgUrl] = useState<any>('')
-  const [imgOnload, setImgOnload] = useState(false)
 
   const nameRef = useRef<HTMLInputElement>(null)
   const slugRef = useRef<HTMLInputElement>(null)
@@ -38,11 +34,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
       img_url: img,
     }
 
-    handleForm(form)
-  }
-
-  async function handleForm(data: any) {
-    mutate(data)
+    mutate(form)
   }
 
   const { mutate } = useMutation({
@@ -64,27 +56,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
     },
   })
 
-  function getImage(e: React.ChangeEvent<HTMLInputElement>) {
-    const name = e?.target?.files?.[0]?.name
-    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
-
-    if (!name) {
-      return
-    }
-    const imageRef = ref(fileStorage, `files/images/${name}`)
-
-    const file = e?.target?.files?.[0]
-    if (!file) {
-      return
-    }
-    uploadBytes(imageRef, file).then((snapshot) => {
-      setImgOnload(true)
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImgOnload(false)
-        setImgUrl(url)
-      })
-    })
-  }
+  const { loading, imgUrl, getImage } = useImageUpload()
 
   return (
     <div
@@ -108,25 +80,22 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             <p className="font-medium text-lg text-admin-text">
               {t('Upload Image')}
             </p>
-
             <Image
               width={118}
               height={122}
               alt="Upload"
               ref={imgRef}
               src={`${
-                imgOnload
-                  ? '/loadingImage.png'
-                  : imgUrl
-                  ? imgUrl
-                  : '/upload.png'
+                loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
               }`}
             />
           </div>
           <div className=" w-full lg:w-2/3 h-38 ">
-            <div className=" cursor-pointer bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
+            <div className="  bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
-                <IoMdCloudUpload className=" h-10 w-14  fill-admin-modal-upload-icon" />
+                <label htmlFor="img_url">
+                  <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />
+                </label>
                 <input
                   id="img_url"
                   name="img_url"
