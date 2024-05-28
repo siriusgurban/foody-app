@@ -81,8 +81,6 @@ function Category() {
     setHideModalAdd((prev) => !prev)
   }
 
-  console.log(data?.data?.result?.data, 'cate')
-
   return (
     <div>
       <Head>

@@ -1,15 +1,22 @@
+//@ts-nocheck
+
 import React, { useEffect, useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
 import { FormControl, useToast } from '@chakra-ui/react'
-import { getCategoryById, postCategory } from '@/shared/services/category'
+import {
+  getCategoryById,
+  postCategory,
+  updateCategory,
+} from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { fileStorage } from '../../../server/configs/firebase'
 import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
 import { useRouter } from 'next/router'
+import { useImageUpload } from '@/shared/hooks/useImageUpload'
 
 interface Props {
   show?: boolean
@@ -26,42 +33,55 @@ const AdminUpdateModalCategory = ({
   const toast = useToast()
   const { query } = useRouter()
   const queryClient = useQueryClient()
-  const [imgUrl, setImgUrl] = useState<any>('')
+  // const [initialUrl, setInitialUrl] = useState<any>()
   const [imgOnload, setImgOnload] = useState(false)
-
-  const nameRef = useRef<HTMLInputElement>(null)
-  const slugRef = useRef<HTMLInputElement>(null)
-  const imgRef = useRef<any>(null)
-
-  async function addCategory() {
-    const category = nameRef?.current?.value
-    const slug = slugRef?.current?.value
-    const img = imgUrl
-
-    const form = {
-      name: category,
-      slug: slug,
-      img_url: img,
-    }
-
-    handleForm(form)
-  }
-
-  async function handleForm(data: any) {
-    mutate(data)
-  }
 
   const { data } = useQuery({
     queryFn: () => getCategoryById(query.id as string),
     queryKey: ['categories', query.id],
   })
 
+  let nameRef = useRef<any>(null)
+  let slugRef = useRef<any>(null)
+  let imgRef = useRef<any>()
+  let initUrl = data?.data.result.data.img_url
+
+  // console.log(nameRef.current.value, 'nameRefnameRefnameRef')
+
+  useEffect(() => {
+    // const userData = await fetchUserData(queryId);
+    if (data) {
+      nameRef.current.value = data?.data.result.data.name
+      slugRef.current.value = data?.data.result.data.slug
+    }
+  }, [query.id])
+  // const initName = data?.data.result.data.name
+  // const initSlug = data?.data.result.data.slug
+
+  function handleCategory() {
+    const name = nameRef?.current?.value
+    const slug = slugRef?.current?.value
+    const img = imgUrl
+
+    const form = {
+      name: name,
+      slug: slug,
+      img_url:
+        'https://firebasestorage.googleapis.com/v0/b/foody-…=media&token=25afa89e-54e7-498d-889a-edde09ba1598',
+    }
+
+    mutate(query?.id, form)
+    console.log(form, 'formformform')
+  }
+
+  // console.log(data?.data.result.data, 'data')
+
   const { mutate } = useMutation({
-    mutationFn: postCategory,
+    mutationFn: updateCategory,
     onSuccess(data, variables, context) {
       console.log(data, 'success')
       toast({
-        title: 'Category added',
+        title: 'Category updated',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -75,27 +95,9 @@ const AdminUpdateModalCategory = ({
     },
   })
 
-  function getImage(e: React.ChangeEvent<HTMLInputElement>) {
-    const name = e?.target?.files?.[0]?.name
-    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
+  const { loading, imgUrl, getImage } = useImageUpload(initUrl)
 
-    if (!name) {
-      return
-    }
-    const imageRef = ref(fileStorage, `files/images/${name}`)
-
-    const file = e?.target?.files?.[0]
-    if (!file) {
-      return
-    }
-    uploadBytes(imageRef, file).then((snapshot) => {
-      setImgOnload(true)
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImgOnload(false)
-        setImgUrl(url)
-      })
-    })
-  }
+  console.log(imgUrl, 'imgUrl')
 
   return (
     <div
@@ -127,11 +129,7 @@ const AdminUpdateModalCategory = ({
               // value={data?.img_url}
               ref={imgRef}
               src={`${
-                imgOnload
-                  ? '/loadingImage.png'
-                  : imgUrl
-                  ? imgUrl
-                  : '/upload.png'
+                loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
               }`}
             />
           </div>
@@ -144,6 +142,7 @@ const AdminUpdateModalCategory = ({
                   name="img_url"
                   type="file"
                   src={imgUrl}
+                  // value={initUrl}
                   onChange={getImage}
                   className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
                 />
@@ -168,7 +167,7 @@ const AdminUpdateModalCategory = ({
                   id="name"
                   name="name"
                   ref={nameRef}
-                  // value={data?.name}
+                  // value={initName}
                   placeholder={t('name')}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
@@ -186,7 +185,7 @@ const AdminUpdateModalCategory = ({
                   name="slug"
                   placeholder={t('slug')}
                   ref={slugRef}
-                  // value={data?.slug}
+                  // value={initSlug}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
                 {/* {errors?.slug && (
@@ -204,8 +203,8 @@ const AdminUpdateModalCategory = ({
           />
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t(`Create Category`)}
-            onClick={addCategory}
+            text={t(`Update Category`)}
+            onClick={handleCategory}
           />
         </div>
       </div>
