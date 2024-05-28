@@ -154,8 +154,8 @@ function Restaurants() {
 
 export default Restaurants
 
-// export async function getStaticProps({ locale }: { locale: any }) {
-//   return {
-//     props: { ...(await serverSideTranslations(locale, ['admin'])) },
-//   }
-// }
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: { ...(await serverSideTranslations(locale, ['admin'])) },
+  }
+}
