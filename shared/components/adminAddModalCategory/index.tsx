@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
-import { FormControl, useToast } from '@chakra-ui/react'
+import { FormControl, Text, useToast } from '@chakra-ui/react'
 import { postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
@@ -62,7 +62,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
     <div
       className={` fixed  z-10  w-full sm:w-3/4   sm:pl-10 ${
         show ? ' -right-full' : 'right-0'
-      }  h-screen  top-0 transition-all duration-700`}
+      }  h-screen   top-0 transition-all duration-700`}
     >
       <button
         onClick={onClickClose}
@@ -94,7 +94,8 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             <div className="  bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
                 <label htmlFor="img_url">
-                  <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />
+                  <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />{' '}
+                  <Text className="text-white text-lg">Upload</Text>
                 </label>
                 <input
                   id="img_url"
@@ -108,7 +109,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
             </div>
           </div>
         </div>
-        <div className="flex   flex-col   lg:flex-row  w-full  mb-10 ">
+        <div className="flex   flex-col  lg:flex-row  w-full  mb-[170px] ">
           <div className="w-full lg:w-1/3 ">
             <p className="  font-medium text-admin-text  tracking-wide capitalize text-lg  font-display ">
               {t('Add Your Category Information')}

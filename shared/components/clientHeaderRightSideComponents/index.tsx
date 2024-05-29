@@ -6,6 +6,7 @@ import HeaderUserList from '../headerUserList'
 import { useQuery } from '@tanstack/react-query'
 import { getBasket } from '@/shared/services/basket'
 import { useRouter } from 'next/router'
+import { getUser } from '@/shared/services/admin'
 
 const ClientHeaderRightSideComponents = () => {
   const [showUserList, setShowUserList] = useState(false)
@@ -19,6 +20,13 @@ const ClientHeaderRightSideComponents = () => {
     queryFn: () => getBasket(),
     queryKey: ['basket'],
   })
+
+  const { data, status, error } = useQuery({
+    queryFn: getUser,
+    queryKey: ['user'],
+  })
+
+  console.log(data, 'user')
 
   return (
     <div className="relative items-center gap-5  hidden sm:flex ">
@@ -44,7 +52,7 @@ const ClientHeaderRightSideComponents = () => {
       </div>
       <AdminModalButton
         className=" w-10 h-10 text-lg text-white rounded-full shadow-md   bg-client-pink font-semibold hover:scale-95 transition-all duration-500"
-        text="MR"
+        text={data?.data?.user?.email[0].toUpperCase()}
         onClick={toggleUserList}
       />
       {showUserList && <HeaderUserList />}

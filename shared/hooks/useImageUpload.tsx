@@ -16,18 +16,18 @@ export function useImageUpload(initUrl: string = '') {
     }
     setSelectedImage(file)
 
-    // const name = e?.target?.files?.[0]?.name
-    // console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
+    const name = e?.target?.files?.[0]?.name
+    console.log(e?.target?.files?.[0]?.name, 'eeeeeeee')
 
-    // if (!name) {
-    //   return
-    // }
+    if (!name) {
+      return
+    }
   }
   useEffect(() => {
     async function uploadImage() {
       if (!selectedImage) return
 
-      const imageRef = ref(fileStorage, `files/images/`)
+      const imageRef = ref(fileStorage, `files/images/${Date.now()}`)
 
       try {
         setLoading(true)
