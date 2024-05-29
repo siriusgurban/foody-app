@@ -17,17 +17,24 @@ import { isOpenFn } from '../../store/responsiveSlice/asideMenuSlice'
 import { Lang } from '../Lang'
 import { useAppSelector } from '../../store/hooks'
 import Foody from '../foody'
+import AdminAddModalCategory from '../adminAddModalCategory'
+import AdminAddModalProduct from '../adminAddModalProduct'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
   // const { isOpen, onOpen, onClose } = useDisclosure()
   const isOpenState = useAppSelector((state) => state.asideMenu.value)
+  const [hideModalAddPro, setHideModalAddPro] = useState<boolean>(true)
 
   const dispatch = useDispatch()
 
   function handleOpen() {
     console.log('cliked', isOpenState)
     dispatch(isOpenFn(true))
+  }
+
+  function showHideModalAdd() {
+    setHideModalAddPro((prev) => !prev)
   }
 
   return (
@@ -44,9 +51,17 @@ function AdminHeader() {
         <Foody role="admin" />
       </Box>
       <Box className="flex gap-5 my-auto">
-        <button className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs">
+        <button
+          className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs"
+          onClick={showHideModalAdd}
+        >
           + <span className="hidden md:inline-block">{t('addproduct')}</span>
         </button>
+        <AdminAddModalProduct
+          onClickClose={showHideModalAdd}
+          show={hideModalAddPro}
+          text={t('addproduct')}
+        />
         <Lang />
         <button>
           <Image

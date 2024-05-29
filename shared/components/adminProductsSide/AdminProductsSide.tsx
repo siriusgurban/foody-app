@@ -24,65 +24,65 @@ import {
   Flex,
   Input,
   Textarea,
-} from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
-import { getProducts } from "../../services/products";
-import { useTranslation } from "react-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import DeleteModal from "../deleteModal";
-import AdminSecondaryComponent from "../adminSecondaryComponent";
-import AdminModalDropdown from "../adminModalDropdown";
-import AdminModalButton from "../adminModalButton";
-import { AddIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { getProducts } from '../../services/products'
+import { useTranslation } from 'react-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import DeleteModal from '../deleteModal'
+import AdminSecondaryComponent from '../adminSecondaryComponent'
+import AdminModalDropdown from '../adminModalDropdown'
+import AdminModalButton from '../adminModalButton'
+import { AddIcon } from '@chakra-ui/icons'
 
 // const leastDestructiveRef = useRef<HTMLButtonElement | null>(null)
 
-const defaultImageUrl = "/adminproducts/pizza.svg";
+const defaultImageUrl = '/adminproducts/pizza.svg'
 
 interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
+  id: number
+  name: string
+  description: string
+  price: number
 }
 
 function AdminProductsSide() {
-  const { t } = useTranslation("admin");
+  const { t } = useTranslation('admin')
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [deleteProductId, setDeleteProductId] = useState<number | null>(null);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([])
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [deleteProductId, setDeleteProductId] = useState<number | null>(null)
+  const [isDrawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProducts();
+        const response = await getProducts()
         if (response && response.data && response.data.result) {
-          setProducts(response.data.result.data);
+          setProducts(response.data.result.data)
         } else {
           console.error(
-            "Error fetching products: Response format is incorrect."
-          );
+            'Error fetching products: Response format is incorrect.',
+          )
         }
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error)
       }
-    };
+    }
 
-    fetchProducts();
-  }, []);
+    fetchProducts()
+  }, [])
 
   const handleDeleteClick = (productId: number) => {
-    setDeleteProductId(productId);
-    onOpen();
-  };
+    setDeleteProductId(productId)
+    onOpen()
+  }
 
   const handleDeleteConfirm = () => {
     // Implement delete logic here using deleteProductId
-    console.log("Deleting product with ID:", deleteProductId);
-    onClose();
-  };
+    console.log('Deleting product with ID:', deleteProductId)
+    onClose()
+  }
 
   return (
     <>
@@ -93,7 +93,7 @@ function AdminProductsSide() {
           </div>
           <div className="mt-3 sm:mt-0 flex flex-col items-center   sm:flex-row gap-5 ">
             <AdminModalDropdown
-              p={""}
+              p={''}
               className=" flex  width-200  gap-3 "
               classNameSelect=" rounded-2xl  py-2   px-2   bg-admin-input  rounded-2xl font-medium text-base  text-admin-secondary-heading    w-[170px] overflow-x-auto"
             />
@@ -321,7 +321,7 @@ function AdminProductsSide() {
 
       <DeleteModal isOpen={isOpen} onClose={onClose} />
     </>
-  );
+  )
 }
 
-export default AdminProductsSide;
+export default AdminProductsSide

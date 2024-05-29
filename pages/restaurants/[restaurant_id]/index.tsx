@@ -125,17 +125,17 @@ function RestaurantId() {
           </header>
           <main className="flex xl:mx-8 md:mx-6 xs:mx-3 xl:gap-10 lg:gap-0 md:gap-0 xs:gap-0 justify-center">
             <section className="">
-              <Box>
-                <Box className="xs:w-72 md:w-2/3 xl:w-full xs:h-40 xl:h-[448px] border border-red-600 overflow-hidden object-cover mx-auto">
+              <Box className="max-w-[1373px]">
+                <Box className="xs:w-72 md:w-2/3 xl:w-full xs:h-40 xl:h-[448px]  overflow-hidden object-cover mx-auto">
                   <Image
                     width={1400}
                     height={448}
                     alt="coverimage"
                     src={restaurant?.data?.result?.data?.img_url}
-                    className=""
+                    className="bg-cover"
                   />
                 </Box>
-                <Box className="flex xl:flex-row md:flex-col xs:flex-col xl:px-8 md:px-4 xs:px-2 border border-b-client-rest-grey py-5">
+                <Box className="max-w-full flex xl:flex-row md:flex-col xs:flex-col xl:px-8 md:px-4 xs:px-2 border-b border-b-client-rest-grey py-5">
                   <Box className="flex flex-col justify-start xl:w-3/5 md:w-full xs:w-full ">
                     <Text className="xs:text-base md:text-xl xl:text-2xl font-bold text">
                       {restaurant?.data?.result?.data?.name}
@@ -164,18 +164,18 @@ function RestaurantId() {
                     </Box>
                   </Box>
                 </Box>
-                <Box className="flex justify-between xl:py-12 xl:px-12 md:py-8 md:px-6 xs:py-4 xs:px-0">
-                  <Box className=" bg-client-fill-gray max-w-[846px]">
+                <Box className="flex gap-12 xl:py-12 xl:px-4 md:py-8 md:px-6 xs:py-4 xs:px-0">
+                  <Box className=" bg-client-fill-gray xl:max-w-[846px] lg:max-w-[750px] md:max-w-[550px]">
                     <Text className="xs:text-lg md:text-xl xl:text-2xl font-bold text-center xl:py-10 md:py-7 xs:py-4">
                       Products
                     </Text>
-                    <Box className="">
+                    <Box className="xl:w-[846px]">
                       {restaurant?.data?.result?.data?.products?.map(
                         (item: Product, index: number) => {
                           return (
                             <Box
                               key={index}
-                              className="flex justify-between align-middle xl:gap-8 md:gap-4 xs:gap-2 xl:py-6 md:py-3 xs:py-1 xl:px-8 md:px-4 xs:px-2 border-t border-t-client-rest-grey"
+                              className="flex justify-between align-middle xl:gap-8 md:gap-4 xs:gap-2 xl:py-6 md:py-3 xs:py-1 xl:px-8 md:px-4 xs:px-2 border-t border-t-client-rest-grey "
                             >
                               <Box className="flex xl:gap-9 md:gap-7 xs:gap-5">
                                 <Image
@@ -247,7 +247,7 @@ function RestaurantId() {
                   {/* basket */}
                   <Box
                     as="section"
-                    className="bg-client-fill-gray w-[400px] h-[548px] border border-dashed border-client-rest-grey relative xl:block lg:block md:hidden xs:hidden"
+                    className="p-2 bg-client-fill-gray w-[400px] h-[548px]  border border-dashed border-client-rest-grey relative xl:block lg:block md:hidden xs:hidden"
                   >
                     <Box className="flex p-3 flex-col ">
                       <Box className="flex gap-1.5 pb-4">
@@ -362,8 +362,8 @@ function RestaurantId() {
               </Box>
             </section>
           </main>
-          <ClientFooter />
         </Box>
+        <ClientFooter />
       </div>
     </div>
   )
