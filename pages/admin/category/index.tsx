@@ -111,7 +111,7 @@ function Category() {
                   <AdminSecondaryComponent
                     p={t('category')}
                     onClick={showHideModalAdd}
-                    visible={true}
+                    visible={false}
                   />
                 </div>
               </div>
