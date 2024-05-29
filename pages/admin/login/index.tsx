@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 import React, { useEffect, useState } from 'react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -56,24 +54,24 @@ function Login() {
     },
   })
 
-  let tokenObj: token = JSON.parse(
-    typeof localStorage !== 'undefined'
-      ? localStorage.getItem('tokenObj') ?? '{}'
-      : '{}',
-  )
+  // let tokenObj: token = JSON.parse(
+  //   typeof localStorage !== 'undefined'
+  //     ? localStorage.getItem('tokenObj') ?? '{}'
+  //     : '{}',
+  // )
   async function handleForm(data: adminLogin) {
     try {
       setDisable(true)
       const res = await postAdmin(data)
       console.log(res, 'res')
 
-      tokenObj = {
-        access_token: res?.data.user.access_token,
-        refresh_token: res?.data.user.refresh_token,
-      }
+      // tokenObj = {
+      //   access_token: res?.data.user.access_token,
+      //   refresh_token: res?.data.user.refresh_token,
+      // }
 
-      localStorage.setItem('tokenObj', JSON.stringify(tokenObj))
-      localStorage.setItem('userInfo', JSON.stringify(res?.data.user))
+      // localStorage.setItem('tokenObj', JSON.stringify(tokenObj))
+      // localStorage.setItem('userInfo', JSON.stringify(res?.data.user))
 
       toast({
         description: "You've entered",
@@ -85,7 +83,7 @@ function Login() {
       push('/admin')
     } catch (error) {
       toast({
-        description: error.message,
+        description: 'Something wrong',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -113,10 +111,7 @@ function Login() {
             maxWidth={424}
             className="flex flex-col justify-center md:bg-admin-main xs:bg-transparent p-10 w-full "
           >
-            <h1
-              className="text-admin-text text-center md:text-4xl xs:text-2xl sm:2xl font-bold xs:mb-5 md:mb-10 "
-              size={24}
-            >
+            <h1 className="text-admin-text text-center md:text-4xl xs:text-2xl sm:2xl font-bold xs:mb-5 md:mb-10 ">
               {t('welcome-admin')}
             </h1>
             <FormControl className="p-0  mx-auto">
@@ -155,7 +150,7 @@ function Login() {
                   variant="danger"
                   type="submit"
                   className="w-full bg-admin-btn hover:bg-admin-btnhover text-white md:p-6 xs:p-3 font-medium"
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit()}
                   isLoading={disable}
                 >
                   {t('signin')}

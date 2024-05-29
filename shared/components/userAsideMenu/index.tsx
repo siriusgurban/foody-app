@@ -6,15 +6,14 @@ import React from 'react'
 function UserAsideMenu() {
   const { push, query } = useRouter()
 
-  const isActive = (path: string) =>
-    query.page === path ? 'client-pink' : 'none'
+  const isActive = (path: string) => (query.page === path ? 'pink-200' : 'none')
   const isActiveText = (path: string) =>
     query.page === path ? 'client-main-red' : 'client-main-gray1'
 
   function deleteUser() {
     push('/')
     localStorage.removeItem('userInfo')
-    localStorage.removeItem('tokenObj')
+    // localStorage.removeItem('tokenObj')
   }
 
   return (
@@ -23,7 +22,7 @@ function UserAsideMenu() {
       className="w-80 h-lvh bg-client-fill-gray flex flex-col gap-5 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-10 pt-14 cursor-pointer overflow-hidden"
     >
       <Box
-        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink bg-${isActive(
+        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md bg- hover:bg-client-pink bg- bg-${isActive(
           'profile',
         )}`}
         onClick={() => push('?page=' + 'profile')}

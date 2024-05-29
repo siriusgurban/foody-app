@@ -1,15 +1,13 @@
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 
-let tokenObj: any = JSON.parse(
+let userInfo: any = JSON.parse(
   typeof localStorage !== 'undefined'
-    ? localStorage.getItem('tokenObj') ?? '{}'
+    ? localStorage.getItem('userInfo') ?? '{}'
     : '{}',
 )
 
-console.log(tokenObj.access_token, 'tokenObjtokenObjtokenObj')
-
 const config = {
-  headers: { Authorization: `Bearer ${tokenObj.access_token}` },
+  headers: { Authorization: `Bearer ${userInfo.access_token}` },
 }
 
 export const getBasket = async () => {
@@ -33,9 +31,9 @@ export const postBasket = async (data: string) => {
       method: 'POST',
       url: 'basket/add',
       data,
-      headers: { Authorization: `Bearer ${tokenObj.access_token}` },
+      headers: config.headers,
     })
-    console.log(tokenObj.access_token, 'tokenObjtokenObjtokenObj')
+    // console.log(tokenObj.access_token, 'tokenObjtokenObjtokenObj')
 
     return response
   } catch (err) {

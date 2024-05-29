@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const Lang = () => {
+export const Lang = ({ bg = 'admin-secondary' }) => {
   const { i18n } = useTranslation()
 
   const { locale, locales, push, pathname } = useRouter()
@@ -41,7 +41,7 @@ export const Lang = () => {
       />
       {langDropdown && (
         <div
-          className={`flex flex-col gap-4 w-max bg-admin-secondary
+          className={`flex flex-col gap-4 w-max bg-${bg}
            px-2 py-4 absolute shadow-lg z-10 top-12 -left-2 `}
         >
           <Image

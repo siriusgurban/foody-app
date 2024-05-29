@@ -54,6 +54,8 @@ function RestaurantId() {
     queryKey: ['basket'],
   })
 
+  console.log(basket, 'basket')
+
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.restaurant_id as string),
     queryKey: ['restuarant'],
@@ -71,7 +73,7 @@ function RestaurantId() {
   // }
 
   function checkUser() {
-    if (localStorage.getItem('tokenObj')) {
+    if (localStorage.getItem('userInfo')) {
       push('/user?page=checkout')
     } else {
       toast({
@@ -254,7 +256,7 @@ function RestaurantId() {
                           height={22}
                           alt="basket"
                           src={`${
-                            basket?.data?.result?.data?.items.length == 0
+                            basket?.data?.result?.data?.total_item == 0
                               ? '/basket.svg'
                               : '/basketRed.svg'
                           }`}
@@ -262,15 +264,15 @@ function RestaurantId() {
                         />
                         <Text
                           className={`text-${
-                            basket?.data?.result?.data?.items.length == 0
+                            basket?.data?.result?.data?.total_item == 0
                               ? 'client-rest-grey'
                               : 'client-main-red'
                           } font-bold`}
                         >
-                          {basket?.data?.result?.data?.items.length} items
+                          {basket?.data?.result?.data?.total_item} items
                         </Text>
                       </Box>
-                      {basket?.data?.result?.data?.items.length == 0 ? (
+                      {basket?.data?.result?.data?.total_item == 0 ? (
                         <BasketEmpty />
                       ) : (
                         <BasketList />
@@ -278,17 +280,22 @@ function RestaurantId() {
                       {/* checkout */}
                       <Box
                         as="button"
+                        disabled={
+                          basket?.data?.result?.data?.total_item == 0
+                            ? true
+                            : false
+                        }
                         onClick={() => checkUser()}
-                        className={`bg-${
-                          basket?.data?.result?.data?.items.length == 0
+                        className={` bg-${
+                          basket?.data?.result?.data?.total_item == 0
                             ? 'client-rest-grey1'
                             : 'client-main-red'
-                        } w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
+                        }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
                       >
                         <Text className="text-white my-auto">Checkout</Text>
                         <Box
                           className={`text-${
-                            basket?.data?.result?.data?.items.length == 0
+                            basket?.data?.result?.data?.total_item == 0
                               ? 'client-rest-grey'
                               : 'client-main-red'
                           } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
@@ -323,7 +330,7 @@ function RestaurantId() {
                           </Box>
                         </DrawerHeader>
                         <DrawerBody>
-                          {basket?.data?.result?.data?.items.length == 0 ? (
+                          {basket?.data?.result?.data?.total_item == 0 ? (
                             <BasketEmpty />
                           ) : (
                             <BasketList />
@@ -331,15 +338,15 @@ function RestaurantId() {
                           <Box
                             onClick={() => push('/user?page=checkout')}
                             className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
-                              basket?.data?.result?.data?.items.length == 0
+                              basket?.data?.result?.data?.total_item == 0
                                 ? 'client-rest-grey1'
                                 : 'client-main-red'
-                            } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                            } bg- max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
                           >
                             <Text className="text-white my-auto">Checkout</Text>
                             <Box
                               className={`text-${
-                                basket?.data?.result?.data?.items.length == 0
+                                basket?.data?.result?.data?.total_item == 0
                                   ? 'client-rest-grey'
                                   : 'client-main-red'
                               } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
