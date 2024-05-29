@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Navbar from '../clientHeaderNavbar'
 import Image from 'next/image'
 import ClientHeaderRightSideComponents from '../clientHeaderRightSideComponents'
@@ -9,15 +9,36 @@ import { GrClose } from 'react-icons/gr'
 import AdminModalButton from '../adminModalButton'
 import { useRouter } from 'next/router'
 import { Lang } from '../Lang'
+import { getUser } from '@/shared/services/admin'
+import { useQuery } from '@tanstack/react-query'
 
 const ClientHeader = () => {
   const { t } = useTranslation()
   const [isModalOpen, setModalOpen] = useState(false)
   const [searchModal, setSearchModal] = useState(false)
-
   const [testState, setTestState] = useState(false)
+  const [userInfo, setUserInfo] = useState({})
 
   const navigate = useRouter()
+
+  const { data, status, error } = useQuery({
+    queryFn: getUser,
+    queryKey: ['user'],
+  })
+
+  console.log(userInfo, 'statusstatus')
+
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userInfoString = localStorage.getItem('userInfo')
+      if (userInfoString) {
+        const parsedUserInfo = JSON.parse(userInfoString)
+        setUserInfo(parsedUserInfo)
+      }
+    }
+  }, [])
+
+  console.log(data, 'UserData')
 
   const toggleAvatars = () => {
     setTestState(!testState)
@@ -52,7 +73,7 @@ const ClientHeader = () => {
         <span className=" text-client-main-red">.</span>
       </h1>
       <>
-        {testState ? (
+        {userInfo !== undefined && data !== undefined ? (
           <>
             <Navbar />
             <div className=" hidden w-1/5 sm:block">
@@ -68,7 +89,7 @@ const ClientHeader = () => {
                 <HeaderSearchRestaurantModal onClose={closeSearchModal} />
               )}
             </div>
-            <Lang />
+            <Lang bg={'white'} />
             <ClientHeaderRightSideComponents />
           </>
         ) : (
@@ -87,7 +108,7 @@ const ClientHeader = () => {
                 <HeaderSearchRestaurantModal onClose={closeSearchModal} />
               )}
             </div>
-            <Lang />
+            <Lang bg={'white'} />
             <ClientHeaderLangLogin />
           </>
         )}

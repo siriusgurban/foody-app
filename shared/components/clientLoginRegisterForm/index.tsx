@@ -6,11 +6,22 @@ import AdminModalButton from '../adminModalButton'
 
 import { LuEye } from 'react-icons/lu'
 import { LuEyeOff } from 'react-icons/lu'
+import { useRouter } from 'next/router'
+import { Button, useToast } from '@chakra-ui/react'
+import { useFormik } from 'formik'
+import { adminLogin, token } from '@/shared/types/admin'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { postAdmin } from '@/shared/services/admin'
+
+const initialValues = {
+  email: '',
+  password: '',
+}
 
 const ClientLoginRegisterForm = () => {
   const { t } = useTranslation()
   const [showLogin, setShowLogin] = useState(true)
-  const [showPassword, setShowPassword] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
   const [password, setPassword] = useState('')
 
   // switch func
@@ -25,6 +36,72 @@ const ClientLoginRegisterForm = () => {
 
   const handlePasswordChange = (e: any) => {
     setPassword(e.target.value)
+  }
+
+  const toast = useToast()
+  const { push } = useRouter()
+  const [disable, setDisable] = useState(false)
+
+  const { values, handleChange, handleSubmit, errors } = useFormik({
+    initialValues,
+    onSubmit: handleForm,
+    validate: (form) => {
+      const error: any = {}
+      const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+      if (!form?.email?.trim()) {
+        error.email = 'Require field'
+      }
+
+      if (!regEmail.test(form?.email?.trim())) {
+        error.email = 'Enter correct email'
+      }
+
+      if (!form?.password?.trim()) {
+        error.password = 'Require field'
+      }
+
+      return error
+    },
+  })
+
+  async function handleForm(data: adminLogin) {
+    try {
+      setDisable(true)
+      const res = await postAdmin(data)
+      console.log(res, 'res')
+
+      if (res === undefined) {
+        return toast({
+          description: 'Try again!',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right',
+        })
+      }
+
+      localStorage.setItem('userInfo', JSON.stringify(res?.data?.user))
+
+      toast({
+        description: "You've entered",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      push('/')
+    } catch (error) {
+      toast({
+        description: 'Something wrong',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      })
+    } finally {
+      setDisable(false)
+    }
   }
 
   return (
@@ -74,6 +151,8 @@ const ClientLoginRegisterForm = () => {
               classNameLabel="font-medium text-client-main-gray2 text-xl"
               classNameInput="outline-none p-4 rounded-md bg-client-light-red w-full"
               type="email"
+              name="email"
+              onChange={handleChange}
             />
             <ClientInput
               p={t('Password')}
@@ -81,7 +160,10 @@ const ClientLoginRegisterForm = () => {
               classNameLabel="font-medium text-client-main-gray2 text-xl"
               classNameInput="outline-none p-4 rounded-md bg-client-light-red w-full"
               type={showPassword ? 'text' : 'password'}
-              onChange={handlePasswordChange}
+              onChange={(e: any) => {
+                handlePasswordChange(e), handleChange(e)
+              }}
+              name="password"
             >
               {showPassword ? (
                 <LuEye
@@ -95,10 +177,16 @@ const ClientLoginRegisterForm = () => {
                 />
               )}
             </ClientInput>
-            <AdminModalButton
-              className="bg-client-login-mainColor w-full font-medium p-4 text-xl rounded-md text-white hover:scale-95 transition-all duration-500"
-              text={t('Log in')}
-            />
+            <Button
+              variant="danger"
+              type="submit"
+              fontSize="20px"
+              onClick={() => handleSubmit()}
+              className="bg-client-login-mainColor w-full font-medium p-7 text-xl rounded-md text-white hover:scale-95 transition-all duration-500"
+              isLoading={disable}
+            >
+              {t('Log in')}
+            </Button>
           </form>
         ) : (
           <form className="w-full flex flex-col items-center gap-6 mx-auto sm:w-4/5">
@@ -153,3 +241,9 @@ const ClientLoginRegisterForm = () => {
 }
 
 export default ClientLoginRegisterForm
+
+// export async function getStaticProps({ locale }: { locale: any }) {
+//   return {
+//     props: { ...(await serverSideTranslations(locale, ['admin'])) },
+//   }
+// }

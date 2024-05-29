@@ -1,12 +1,27 @@
-//@ts- nocheck
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
 
-// const token = 'my_token'
-// const config = {
-//   headers: { Authorization: `Bearer ${token}` },
-// }
+let userInfo: any = JSON.parse(
+  typeof localStorage !== 'undefined'
+    ? localStorage.getItem('userInfo') ?? '{}'
+    : '{}',
+)
 
-// const newPost = { email: 'admin@gmail.com', password: '123456' }
+const config = {
+  headers: { Authorization: `Bearer ${userInfo.access_token}` },
+}
+
+export const getUser = async () => {
+  try {
+    const response = await instanceAxios({
+      method: 'GET',
+      url: 'auth/user',
+      headers: config.headers,
+    })
+    return response
+  } catch (err) {
+    console.log(err, 'userAuth')
+  }
+}
 
 export const postAdmin = async (data: any) => {
   try {
@@ -19,6 +34,8 @@ export const postAdmin = async (data: any) => {
         'Content-Type': 'application/json',
       },
     })
+    localStorage.setItem('userInfo', JSON.stringify(response?.data?.user))
+
     return response
   } catch (err) {
     console.log(err, 'postAuth')
