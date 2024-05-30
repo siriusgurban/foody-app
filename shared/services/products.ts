@@ -21,3 +21,15 @@ export const postProduct = async (data: any) => {
     console.log(err)
   }
 }
+
+export const deleteProduct = async (productId: number) => {
+  try {
+    const response = await instanceAxios({
+      method: 'DELETE',
+      url: `products/${productId}`,
+    })
+    return response
+  } catch (err) {
+    console.log(err)
+  }
+}

@@ -30,7 +30,10 @@
     "Update Restaurant":"Update Restaurant",
     "resturant-type":"Resturant type",
     "search":"Search",
-    "history":"History"
+    "history":"History",
+    "Delete":"Delete",
+    "AreYouSure":"Are you sure? You can not undo this action afterwards.",
+    "DeleteProduct": "Delete Product"
 
 
 

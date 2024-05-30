@@ -8,48 +8,34 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-  useDisclosure,
-} from '@chakra-ui/react'
-import React, { useState } from 'react'
+} from "@chakra-ui/react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
-function DeleteModal({ isOpen, onClose }: any) {
-  //   const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleDeleteClick = (productId: number) => {
-    setDeleteProductId(productId)
-    // onOpen();
-  }
-  const [deleteProductId, setDeleteProductId] = useState<number | null>(null)
-
-  const handleDeleteConfirm = () => {
-    // Implement delete logic here using deleteProductId
-    console.log('Deleting product with ID:', deleteProductId)
-    onClose()
-  }
-
+function DeleteModal({ isOpen, onClose, handleDeleteConfirm }: any) {
+  const { t } = useTranslation("admin");
   return (
     <AlertDialog
       isOpen={isOpen}
-      //   leastDestructiveRef={leastDestructiveRef}
+      // leastDestructiveRef={leastDestructiveRef}
       onClose={onClose}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Delete Product
+            {t("DeleteProduct")}
           </AlertDialogHeader>
-          <AlertDialogBody>
-            Are you sure? You can not undo this action afterwards.
-          </AlertDialogBody>
+          <AlertDialogBody>{t("AreYouSure")}</AlertDialogBody>
           <AlertDialogFooter>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>{t("Cancel")}</Button>
             <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
-              Delete
+              {t("Delete")}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  )
+  );
 }
 
-export default DeleteModal
+export default DeleteModal;
