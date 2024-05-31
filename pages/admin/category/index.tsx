@@ -1,13 +1,7 @@
 import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import AdminHeader from '@/shared/components/AdminHeader'
-
-import {
-  deleteCategory,
-  getCategories,
-  getCategoryById,
-} from '@/shared/services/category'
+import { deleteCategory, getCategories } from '@/shared/services/category'
 import { Box, Button, useDisclosure, useToast } from '@chakra-ui/react'
-
 import {
   Table,
   Thead,
@@ -20,15 +14,12 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import AdminRestaurantsDropdown from '@/shared/components/adminRestaurantsDropdown'
-import { AddIcon } from '@chakra-ui/icons'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'

@@ -7,6 +7,10 @@ export function useImageUpload(initUrl: string = '') {
   const [imgUrl, setImgUrl] = useState<string>(initUrl)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
+  useEffect(() => {
+    setImgUrl(initUrl)
+  }, [initUrl])
+
   function getImage(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e?.target?.files?.[0]
     console.log(e?.target?.files?.[0], 'eeeeeeee')
@@ -31,8 +35,6 @@ export function useImageUpload(initUrl: string = '') {
 
       try {
         setLoading(true)
-        console.log(loading, 'loadingloading')
-
         const snapshot = await uploadBytes(imageRef, selectedImage)
         const url = await getDownloadURL(snapshot.ref)
         setImgUrl(url)
