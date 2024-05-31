@@ -13,6 +13,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useQuery } from '@tanstack/react-query'
 import { getOffers } from '@/shared/services/offers'
 import ClientFooter from '@/shared/components/clientFooter'
+import { useEffect } from 'react'
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 
 const Home: NextPage = () => {
   const { t } = useTranslation('client')
@@ -27,6 +31,11 @@ const Home: NextPage = () => {
   const offersData = data?.data?.result?.data
   console.log(offersData, "offers");
 
+  useEffect(() => {
+    AOS.init({ duration: 2000 });
+  }, []);
+
+
 
   return (
     <div className={styles.container}>
@@ -39,7 +48,7 @@ const Home: NextPage = () => {
       <header className='bg-client-fill-gray m-0 sm:m-8 flex-col rounded-md'>
         <ClientHeader />
         <div className='flex flex-col-reverse sm:flex-row justify-center items-center h-screen px-1 sm:px-11 -mt-24'>
-          <div className='w-full sm:w-1/2 flex flex-col gap-9'>
+          <div data-aos="fade-up" className='w-full sm:w-1/2 flex flex-col gap-9'>
             <h1 className='sm:text-6xl text-center   text-2xl font-black leading-tight sm:text-start text-client-manin-black'>
               {/* {t("homeHeading")} */}Our Food site makes it easy to find local food
             </h1>
@@ -51,7 +60,7 @@ const Home: NextPage = () => {
               <AdminModalButton text={t('OrderNow')} className='rounded-[30px] border-client-main-gray1 border-2 sm:px-8  px-12 py-3 text-client-main-gray1 text-lg sm:text-2xl font-medium shadow-md hover:scale-95 transition-all duration-500' onClick={() => navigate.push("/restaurants")} />
             </div>
           </div>
-          <div className='sm:w-3/5 relative    mt-0 pt-0  flex justify-center '>
+          <div data-aos="fade-right" className='sm:w-3/5 relative    mt-0 pt-0  flex justify-center '>
             <div className={`${styles.bg_black}`}>
               <div className={`${styles.french}`}>
                 <Image width={60} height={0} src='/frenchFries.svg' alt="frenchFries" />
@@ -76,7 +85,7 @@ const Home: NextPage = () => {
       {/* main section */}
       <main>
         <section className='flex flex-col gap-10 justify-center my-14 px-3 sm:px-14'>
-          <div className='flex flex-col items-center gap-4 text-center mb-12'>
+          <div data-aos="flip-up" className='flex flex-col items-center gap-4 text-center mb-12'>
             <h2 className='text-4xl font-extrabold text-client-manin-black'>{t("features")}</h2>
             <p className='text-client-main-gray1 w-full sm:w-2/3 text-2xl'>
               Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
@@ -84,17 +93,17 @@ const Home: NextPage = () => {
           </div>
 
           <div className='flex flex-col sm:flex-row justify-center items-center gap-14'>
-            <div className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
+            <div data-aos="slide-right" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
               <Image width={220} height={0} src='/discountBoucher.svg' alt='discount' className='mx-auto' />
               <p className='text-client-main-gray2 text-3xl font-bold'>Discount Boucher</p>
               <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
             </div>
-            <div className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
+            <div data-aos="slide-up" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
               <Image width={220} height={0} src='/healthyFood.svg' alt='healthyFood' className='mx-auto' />
               <p className='text-client-main-gray2 text-3xl font-bold'>Fresh healthy Food</p>
               <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
             </div>
-            <div className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
+            <div data-aos="slide-left" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
               <Image width={220} height={0} src='/fastHomeDelivery.svg' alt='fastHome' className='mx-auto' />
               <p className='text-client-main-gray2 text-3xl font-bold'>Fast Home Delivery</p>
               <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
@@ -152,7 +161,7 @@ const Home: NextPage = () => {
         {offersData?.map((offer: { name: string, description: string, img_url: string }, index: number) => {
           if (index % 2 === 1) {
             return <section key={`${offer?.name}+${index}`} className='flex flex-col sm:flex-row-reverse gap-0 sm:gap-16 justify-center items-center px-3 sm:px-11 mt-52'>
-              <div className='flex flex-col gap-8 w-full sm:w-1/2'>
+              <div data-aos="slide-left" className='flex flex-col gap-8 w-full sm:w-1/2'>
                 <h3 className='text-5xl font-black text-client-manin-black w-full sm:w-full sm:text-6xl leading-tight text-center mx-auto sm:mx-0 sm:text-start'>
                   {offer?.name}
                 </h3>
@@ -160,7 +169,7 @@ const Home: NextPage = () => {
                   {offer?.description}
                 </p>
               </div>
-              <div className='relative w-full sm:w-1/2 sm:mt-48'>
+              <div data-aos="slide-right" className='relative w-full sm:w-1/2 sm:mt-48'>
                 <Image className='w-full' width={0} height={0} src="/frencHomeRectangle.svg" alt="french" />
                 <Image className=' absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-10/12    rounded-3xl' width={200} height={200} src={offer?.img_url} alt={offer.name} />
                 {/* <img src={offer.img_url} alt={offer.name} className='rounded-xl  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10/12' /> */}
@@ -170,7 +179,7 @@ const Home: NextPage = () => {
           }
 
           return <section key={`${offer?.name}+${index}`} className='flex flex-col sm:flex-row justify-center items-center px-3 sm:px-11 mt-52'>
-            <div className='flex flex-col gap-8 w-full sm:w-1/2'>
+            <div data-aos="slide-right" className='flex flex-col gap-8 w-full sm:w-1/2'>
               <h3 className='text-5xl font-black text-client-manin-black w-full sm:w-full sm:text-6xl leading-tight text-center mx-auto sm:mx-0 sm:text-start'>
                 {offer?.name}
               </h3>
@@ -178,7 +187,7 @@ const Home: NextPage = () => {
                 {offer?.description}
               </p>
             </div>
-            <div className='relative w-full sm:w-1/2 sm:mt-48'>
+            <div data-aos="slide-left" className='relative w-full sm:w-1/2 sm:mt-48'>
               <Image className='w-full' width={0} height={0} src="/frencHomeRectangle.svg" alt="french" />
               <Image className=' absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-10/12    rounded-3xl' width={200} height={200} src={offer.img_url} alt={offer.name} />
               {/* <img src={offer.img_url} alt={offer.name} className='rounded-xl  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10/12' /> */}
@@ -188,24 +197,24 @@ const Home: NextPage = () => {
         })}
 
         <section className='flex flex-col gap-10 justify-center my-14 px-3 sm:px-14'>
-          <div className='flex flex-col items-center gap-4 text-center mb-12'>
+          <div data-aos="flip-up" className='flex flex-col items-center gap-4 text-center mb-12'>
             <h2 className='text-4xl font-extrabold text-client-manin-black'>{t("Our Popular Update New Foods")}</h2>
             <p className='text-client-main-gray1 w-full sm:w-2/3 text-2xl'>
               Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
             </p>
           </div>
           <div className='flex flex-col sm:flex-row justify-center items-center gap-14'>
-            <div className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
+            <div data-aos="slide-right" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
               <Image width={220} height={0} src='/dubbleChees.svg' alt='dubbleChees' className='mx-auto' />
               <p className='text-client-main-gray2 text-3xl font-bold'>Dubble Chees</p>
               <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
             </div>
-            <div className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
+            <div data-aos="slide-up" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
               <Image width={220} height={0} src='/margarita.svg' alt='margarita' className='mx-auto' />
               <p className='text-client-main-gray2 text-3xl font-bold'>Margarita</p>
               <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
             </div>
-            <div className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
+            <div data-aos="slide-left" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
               <Image width={220} height={0} src='/twister.svg' alt='twister' className='mx-auto' />
               <p className='text-client-main-gray2 text-3xl font-bold'>Twister Menu</p>
               <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
@@ -247,7 +256,7 @@ const Home: NextPage = () => {
 
       </footer> */}
       <footer>
-        <section className={` w-7/12 ${styles.footer_to_bg}`}>
+        <section data-aos="flip-down" className={` w-7/12 ${styles.footer_to_bg}`}>
           <Image
             className="hidden sm:block sm:w-4/12"
             width={200}
