@@ -8,9 +8,10 @@ interface Props {
   p?: string
   onClick?: () => void
   visible: boolean
+  getText?: (text: string) => void
 }
 
-const AdminSecondaryComponent = ({ onClick, visible, p }: Props) => {
+const AdminSecondaryComponent = ({ onClick, visible, p, getText }: Props) => {
   const { pathname } = useRouter()
   const isTrue = pathname == "/admin/order-history" || pathname == "/admin/orders"
   const { t } = useTranslation('admin')
@@ -26,6 +27,7 @@ const AdminSecondaryComponent = ({ onClick, visible, p }: Props) => {
               p={''}
               className=" flex  width-200  gap-3 "
               classNameSelect=" rounded-2xl  py-2   px-2   bg-admin-input  rounded-2xl font-medium text-base  text-admin-secondary-heading    w-[170px] overflow-x-auto"
+              getText={getText}
             />
           ) : (
             ''
