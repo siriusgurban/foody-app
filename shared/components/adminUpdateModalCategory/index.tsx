@@ -1,18 +1,10 @@
-//@ts-nocheck
-
 import React, { useEffect, useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
 import { FormControl, useToast } from '@chakra-ui/react'
-import {
-  getCategoryById,
-  postCategory,
-  updateCategory,
-} from '@/shared/services/category'
+import { getCategoryById, updateCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { fileStorage } from '../../../server/configs/firebase'
 import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
 import { useRouter } from 'next/router'
@@ -33,8 +25,6 @@ const AdminUpdateModalCategory = ({
   const toast = useToast()
   const { query } = useRouter()
   const queryClient = useQueryClient()
-  // const [initialUrl, setInitialUrl] = useState<any>()
-  const [imgOnload, setImgOnload] = useState(false)
 
   const { data } = useQuery({
     queryFn: () => getCategoryById(query.id as string),
@@ -44,37 +34,17 @@ const AdminUpdateModalCategory = ({
   let nameRef = useRef<any>(null)
   let slugRef = useRef<any>(null)
   let imgRef = useRef<any>()
-  let initUrl = data?.data.result.data.img_url
 
-  // console.log(nameRef.current.value, 'nameRefnameRefnameRef')
+  let initUrl = data?.data?.result?.data?.img_url
+
+  const { loading, imgUrl, getImage } = useImageUpload(initUrl)
 
   useEffect(() => {
-    // const userData = await fetchUserData(queryId);
     if (data) {
       nameRef.current.value = data?.data.result.data.name
       slugRef.current.value = data?.data.result.data.slug
     }
-  }, [query.id])
-  // const initName = data?.data.result.data.name
-  // const initSlug = data?.data.result.data.slug
-
-  function handleCategory() {
-    const name = nameRef?.current?.value
-    const slug = slugRef?.current?.value
-    const img = imgUrl
-
-    const form = {
-      name: name,
-      slug: slug,
-      img_url:
-        'https://firebasestorage.googleapis.com/v0/b/foody-…=media&token=25afa89e-54e7-498d-889a-edde09ba1598',
-    }
-
-    mutate(query?.id, form)
-    console.log(form, 'formformform')
-  }
-
-  // console.log(data?.data.result.data, 'data')
+  }, [query.id, data])
 
   const { mutate } = useMutation({
     mutationFn: updateCategory,
@@ -91,13 +61,25 @@ const AdminUpdateModalCategory = ({
       console.log(data, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      queryClient.invalidateQueries({
+        queryKey: ['categories'],
+      })
     },
   })
 
-  const { loading, imgUrl, getImage } = useImageUpload(initUrl)
+  function handleCategory() {
+    const name = nameRef?.current?.value
+    const slug = slugRef?.current?.value
+    const img = imgUrl
 
-  console.log(imgUrl, 'imgUrl')
+    const form = {
+      name: name,
+      slug: slug,
+      img_url: img,
+    }
+
+    mutate({ id: query?.id, data: form })
+  }
 
   return (
     <div
@@ -150,7 +132,7 @@ const AdminUpdateModalCategory = ({
             </div>
           </div>
         </div>
-        <div className="flex   flex-col   lg:flex-row  w-full  mb-10 ">
+        <div className="flex   flex-col   lg:flex-row  w-full  mb-[170px] ">
           <div className="w-full lg:w-1/3 ">
             <p className="  font-medium text-admin-text  tracking-wide capitalize text-lg  font-display ">
               {t('Add Your Category Information')}

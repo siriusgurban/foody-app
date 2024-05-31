@@ -34,11 +34,17 @@ export const deleteCategory = async (id: string) => {
   }
 }
 
-export const updateCategory = async (id: string, data: Form) => {
+export const updateCategory = async ({
+  id,
+  data,
+}: {
+  id: string | string[] | undefined
+  data: Form
+}) => {
   try {
     const response = await instanceAxios({
       method: 'PUT',
-      url: 'category/' + id,
+      url: 'category' + '/' + id,
       data,
     })
     return response
