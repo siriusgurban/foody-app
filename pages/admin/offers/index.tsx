@@ -5,7 +5,7 @@ import AdminAddUpdateModal from '@/shared/components/adminAddUpdateModal'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
 import Foody from '@/shared/components/foody'
 import { getCategories, getCategoryById } from '@/shared/services/category'
-import { Box, Button, useToast } from '@chakra-ui/react'
+import { Box, Button, useDisclosure, useToast } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
@@ -19,6 +19,10 @@ import {
 } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
 import { DeleteOffer, getOffers } from '@/shared/services/offers'
+import AdminAddOfferModal from '@/shared/components/adminAddUpdateModal'
+import AdminEditOfferModal from '@/shared/components/addEditOfferModal'
+import { MdDeleteForever, MdEdit } from 'react-icons/md'
+import DeleteModal from '@/shared/components/deleteModal'
 
 interface OfferItem {
   id: number;
@@ -30,18 +34,24 @@ interface OfferItem {
 function Offers() {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(true)
+  const [hideModalUpdateOffer, setHideModalUpdateOffer] = useState<boolean>(true)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   const queryClient = useQueryClient()
   const toast = useToast()
+  const { push, pathname } = useRouter()
 
   function showHideModal() {
     setHideModal((prev) => !prev)
   }
-
+  function showHideModalUpdateOffer() {
+    setHideModalUpdateOffer((prev) => !prev)
+  }
   const { data } = useQuery({
     queryFn: getOffers,
     queryKey: ['offers'],
   })
-
+console.log("offer",data)
   const { mutate } = useMutation({
     mutationFn: DeleteOffer,
     onSuccess(data, variables, context) {
@@ -77,11 +87,10 @@ function Offers() {
       <Box className="bg-admin-bg h-lvh">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
-          <AdminAddUpdateModal
-            onClickClose={showHideModal}
+          <AdminAddOfferModal onClickClose={showHideModal}
             show={hideModal}
-            text={t('Add Offers ')}
-          />
+            text={t('Add Offers ')}/>
+            <AdminEditOfferModal onClickClose={showHideModalUpdateOffer} show={hideModalUpdateOffer}  text={t('Edit  Offers ')}/>
           <main className="flex">
             <div className=" hidden sm:block">
               <AdminAsideMenu />
@@ -120,19 +129,27 @@ function Offers() {
                         {item.description}
                       </td>
                       <td className='w-[140px] text-center'>
-                        <ButtonGroup>
-                          <IconButton
-                            colorScheme="teal"
-                            aria-label={t('Edit')}
-                            icon={<EditIcon />}
-                          />
-                          <IconButton
-                            colorScheme="red"
-                            aria-label={t('Delete')}
-                            icon={<DeleteIcon />}
-                            onClick={() => handleDelete(item.id)}
-                          />
-                        </ButtonGroup>
+                        <div className='flex gap-2'>
+                        <Button
+                                  onClick={() => (
+                                    push(pathname + '?id=' + item?.id),
+                                    showHideModalUpdateOffer()
+                                  )}
+                                >
+                                  <span>
+                                    <MdEdit className="fill-admin-edit-icon w-5 h-5" />
+                                  </span>
+                                </Button>
+                                <Button onClick={() => handleDelete(item?.id)}>
+                                  <span>
+                                    <DeleteModal
+                                      isOpen={isOpen}
+                                      onClose={onClose}
+                                    />
+                                    <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
+                                  </span>
+                                </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
