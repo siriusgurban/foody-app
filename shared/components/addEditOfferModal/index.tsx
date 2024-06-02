@@ -1,15 +1,17 @@
 
-import React, {  useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import AdminModalButton from '../adminModalButton';
 import { useTranslation } from 'react-i18next';
 import { FormControl, Text, useToast } from '@chakra-ui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AddOffers } from '@/shared/services/offers';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AddOffers, getOfferId, updateOffer } from '@/shared/services/offers';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { nanoid } from '@reduxjs/toolkit';
 import { fileStorage } from '@/server/configs/firebase';
 import AdminModalUploadImage from '../adminModalUploadImage';
+import { useRouter } from 'next/router';
+import { useImageUpload } from '@/shared/hooks/useImageUpload';
 
 interface Props {
     show?: boolean;
@@ -17,7 +19,7 @@ interface Props {
     text: string;
 }
 
-const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
+const AdminEditOfferModal = ({ show = true, onClickClose, text }: Props) => {
     const { t } = useTranslation('admin');
     const toast = useToast();
     const queryClient = useQueryClient();
@@ -29,24 +31,14 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
     const [text2, setText2] = useState<string | null>(null);
     const [addProductImage, setAddProductImage] = useState<string | null>(null);
     const [lastProductImage, setLastProductImage] = useState<string | null>(null);
-    const { mutate } = useMutation({
-        mutationFn: AddOffers,
-        onSuccess(data) {
-            console.log(data, 'success');
-            toast({
-                title: 'Offer added',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-            });
-        },
-        onError(error) {
-            console.log(error, 'error');
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ['offers'] })
-        },
-    });
+    const { query } = useRouter()
+    const { data } = useQuery({
+        queryFn: () => getOfferId(query.id as string),
+        queryKey: ['offers', query.id],
+    })
+
+    let initUrl = data?.data?.result?.data?.img_url
+console.log("editData",query)
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files && files.length > 0) {
@@ -89,24 +81,42 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
             setText2(descriptionRef.current.value);
         }
     };
-
-
-    const AddOffer = () => {
+    const { mutate } = useMutation({
+        mutationFn: updateOffer,
+        onSuccess(data, variables, context) {
+            console.log(data, 'success')
+            toast({
+                title: 'Offer updated',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            })
+        },
+        onError(data, variables, context) {
+            console.log(data, 'error')
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['offers'],
+            })
+        },
+    })
+    const EditOffer = () => {
         console.log("hell")
         console.log("text1", text1)
         console.log("text2", text2)
         console.log("lastProductImage", lastProductImage)
-    
-        const newData = {
+
+        const uptData = {
             name: text1,
             description: text2,
-            img_url: lastProductImage
+            img_url: lastProductImage ? lastProductImage : initUrl
         };
-        mutate(newData);
-    
+        mutate({ id: query?.id, data: uptData })
+
         if (refInput.current) refInput.current.value = '';
         if (descriptionRef.current) descriptionRef.current.value = '';
-    
+
         setText1('');
         setText2('');
         setLastProductImage(null);
@@ -130,12 +140,12 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
                         <p className="font-medium text-lg text-admin-text mb-3">
                             {t('Upload  Image')}
                         </p>
-                        {lastProductImage && <img
-                            src={lastProductImage}
-                            width={138}
-                            height={132}
-                            alt=""
-                        />}
+
+                        {lastProductImage ? (
+                            <img src={lastProductImage} width={138} height={132} alt="" />
+                        ) : (
+                            initUrl && <img src={initUrl} width={138} height={132} alt="" />
+                        )}
                     </div>
                     <div className=" w-full lg:w-2/3 h-38 ">
                         <AdminModalUploadImage onChange={handleFileChange} />                    </div>
@@ -143,7 +153,7 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
                 <div className="flex flex-col lg:flex-row w-full mb-[170px]">
                     <div className="w-full lg:w-1/3">
                         <p className="font-medium text-admin-text tracking-wide capitalize text-lg font-display">
-                            {t('Add Your Category Information')}
+                            {t('Edit Your Offer Information')}
                         </p>
                     </div>
                     <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 py-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
@@ -155,6 +165,7 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
                                     className="rounded-2xl text-whiteLight font-medium text-base bg-admin-input text-admin-modal-placeholder pl-5 py-3 capitalize font-display"
                                     ref={refInput}
                                     onBlur={handleBlur}
+                                    defaultValue={data?.data?.result?.data?.name}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -164,6 +175,8 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
                                         className="w-full rounded-2xl h-24 font-medium text-base text-admin-modal-placeholder pt-2 pl-4 bg-admin-input capitalize font-display"
                                         ref={descriptionRef}
                                         onBlur={handleTextAreaBlur}
+                                        defaultValue={data?.data?.result?.data?.description}
+
                                     ></textarea>
                                 </div>
                             </div>
@@ -178,8 +191,8 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
                     />
                     <AdminModalButton
                         className="text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-                        text={t('Create Offer')}
-                        onClick={AddOffer}
+                        text={t('Update Offer')}
+                        onClick={EditOffer}
                     />
                 </div>
             </div>
@@ -187,4 +200,4 @@ const AdminAddOfferModal = ({ show = true, onClickClose, text }: Props) => {
     );
 };
 
-export default AdminAddOfferModal;
+export default AdminEditOfferModal;
