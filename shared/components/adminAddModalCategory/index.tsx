@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
+import AdminModalUploadImage from '../adminModalUploadImage'
 
 interface Props {
   show?: boolean
@@ -20,20 +21,16 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const queryClient = useQueryClient()
 
   const nameRef = useRef<HTMLInputElement>(null)
-  const slugRef = useRef<HTMLInputElement>(null)
   const imgRef = useRef<any>(null)
 
   async function addCategory() {
     const category = nameRef?.current?.value
-    const slug = slugRef?.current?.value
     const img = imgUrl
 
     const form = {
       name: category,
-      slug: slug,
       img_url: img,
     }
-
     mutate(form)
   }
 
@@ -47,6 +44,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
         duration: 3000,
         isClosable: true,
       })
+      // onClickClose()
     },
     onError(data, variables, context) {
       console.log(data, 'error')
@@ -75,9 +73,9 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
         <div>
           <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
         </div>
-        <div className=" flex flex-col  w-full lg:flex-row mb-16 ">
-          <div className=" w-full h-36 lg:w-1/3 ">
-            <p className="font-medium text-lg text-admin-text">
+        <div className="flex flex-col w-full lg:flex-row mb-16">
+          <div className="w-full h-36 lg:w-1/3">
+            <p className="font-medium text-lg text-admin-text mb-3">
               {t('Upload Image')}
             </p>
             <Image
@@ -90,23 +88,8 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
               }`}
             />
           </div>
-          <div className=" w-full lg:w-2/3 h-38 ">
-            <div className="  bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
-              <div className=" relative ">
-                <label htmlFor="img_url">
-                  <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />{' '}
-                  <Text className="text-white text-lg">Upload</Text>
-                </label>
-                <input
-                  id="img_url"
-                  name="img_url"
-                  type="file"
-                  src={imgUrl}
-                  onChange={getImage}
-                  className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
-                />
-              </div>
-            </div>
+          <div className="w-full lg:w-2/3 h-38">
+            <AdminModalUploadImage onChange={getImage} />
           </div>
         </div>
         <div className="flex   flex-col  lg:flex-row  w-full  mb-[170px] ">
@@ -131,22 +114,6 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
                 />
                 {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )} */}
-              </div>
-              <div className="flex flex-col gap-2 ">
-                <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t('Slug')}
-                </p>
-                <input
-                  type="text"
-                  id="slug"
-                  name="slug"
-                  placeholder={t('slug')}
-                  ref={slugRef}
-                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-                />
-                {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.slug}</FormHelperText>
                 )} */}
               </div>
             </FormControl>

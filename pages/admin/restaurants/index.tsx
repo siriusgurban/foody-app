@@ -15,11 +15,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteRestuarant, getRestuarants } from '@/shared/services/restaurants'
 import AdminAddUpdateModal2 from '@/shared/components/adminAddUpdateModal2'
 interface Restaurant {
-  name: string;
-  img_url: string;
-  id: any;
-  category_id: string;
-
+  name: string
+  img_url: string
+  id: any
+  category_id: string
 }
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
@@ -31,16 +30,18 @@ const Restaurants: React.FC = () => {
   const { data, isLoading, isError } = useQuery({
     queryFn: getRestuarants,
     queryKey: ['restaurants'],
-  });
+  })
   // console.log(data?.data?.result?.data, "restaurant");
 
-  const restaurantsDatas: Restaurant[] = data?.data?.result?.data ?? [];
-
+  const restaurantsDatas: Restaurant[] = data?.data?.result?.data ?? []
 
   // filter category
-  const filteredRestaurants = filterCategory === 'All' ? restaurantsDatas : restaurantsDatas.filter(restaurant => restaurant?.category_id === filterCategory)
-
-
+  const filteredRestaurants =
+    filterCategory === 'All'
+      ? restaurantsDatas
+      : restaurantsDatas.filter(
+          (restaurant) => restaurant?.category_id === filterCategory,
+        )
 
   // delete
   const QueryClient = useQueryClient()
@@ -68,7 +69,7 @@ const Restaurants: React.FC = () => {
     mutate(restaurantId)
   }
 
-  // 
+  //
   function showHideModal() {
     setHideModal((prev) => !prev)
   }
@@ -104,11 +105,15 @@ const Restaurants: React.FC = () => {
               </div>
               <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
                 {restaurantsDatas.map((restaurant, index) => (
-                  <AdminRestaurantsCard onDelete={handleDelete} key={index} img_url={restaurant.img_url}
-                    name={restaurant.name} restaurant_id={restaurant.id} category_id={restaurant.category_id}
+                  <AdminRestaurantsCard
+                    onDelete={handleDelete}
+                    key={index}
+                    img_url={restaurant.img_url}
+                    name={restaurant.name}
+                    restaurant_id={restaurant.id}
+                    category_id={restaurant.category_id}
                   />
                 ))}
-
               </div>
             </div>
           </main>

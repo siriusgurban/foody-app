@@ -13,7 +13,7 @@ export type adminLogin = {
 
 export type Form = {
   name: string | undefined | string[]
-  slug: string | undefined | string[]
+  slug?: string | undefined | string[]
   img_url: string | undefined | string[]
 }
 
