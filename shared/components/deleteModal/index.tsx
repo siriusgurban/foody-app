@@ -8,12 +8,12 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-} from "@chakra-ui/react";
-import React from "react";
-import { useTranslation } from "react-i18next";
+} from '@chakra-ui/react'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 function DeleteModal({ isOpen, onClose, handleDeleteConfirm }: any) {
-  const { t } = useTranslation("admin");
+  const { t } = useTranslation('admin')
   return (
     <AlertDialog
       isOpen={isOpen}
@@ -23,19 +23,19 @@ function DeleteModal({ isOpen, onClose, handleDeleteConfirm }: any) {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            {t("DeleteProduct")}
+            {t('DeleteProduct')}
           </AlertDialogHeader>
-          <AlertDialogBody>{t("AreYouSure")}</AlertDialogBody>
+          <AlertDialogBody>{t('AreYouSure')}</AlertDialogBody>
           <AlertDialogFooter>
-            <Button onClick={onClose}>{t("Cancel")}</Button>
+            <Button onClick={onClose}>{t('Cancel')}</Button>
             <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
-              {t("Delete")}
+              {t('Delete')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  );
+  )
 }
 
-export default DeleteModal;
+export default DeleteModal

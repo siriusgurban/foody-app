@@ -55,7 +55,7 @@ const ClientHeaderRightSideComponents = () => {
         text={data?.data?.user?.email[0].toUpperCase()}
         onClick={toggleUserList}
       />
-      {showUserList && <HeaderUserList />}
+      {showUserList && <HeaderUserList onToggle={toggleUserList} />}
     </div>
   )
 }

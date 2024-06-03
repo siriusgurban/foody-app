@@ -6,11 +6,9 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -34,6 +32,7 @@ function Category() {
   const toast = useToast()
   const { push, pathname } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const queryClient = useQueryClient()
 
@@ -63,15 +62,24 @@ function Category() {
     },
   })
 
-  function handleDelete(id: any) {
-    mutate(id)
-  }
-
   function showHideModalUpdate() {
     setHideModalUpdate((prev) => !prev)
   }
   function showHideModalAdd() {
     setHideModalAdd((prev) => !prev)
+  }
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true)
+  }
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false)
+  }
+
+  const handleDeleteConfirm = (id: string) => {
+    mutate(id)
+    closeDeleteModal()
   }
 
   return (
@@ -81,7 +89,7 @@ function Category() {
         <link rel="icon" href="/admin6024190.png" />
       </Head>
 
-      <Box className="bg-admin-bg h-lvh">
+      <Box className="bg-admin-bg h-full min-h-lvh">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
           <Box className="flex gap-7">
@@ -99,7 +107,7 @@ function Category() {
                   <AdminAddModalCategory
                     onClickClose={showHideModalAdd}
                     show={hideModalAdd}
-                    text={t('Add Category')}
+                    text={t('addcategory').toLocaleUpperCase()}
                   />
                   <AdminSecondaryComponent
                     p={t('category')}
@@ -113,9 +121,9 @@ function Category() {
                   <Thead>
                     <Tr>
                       <Th>ID</Th>
-                      <Th>Image</Th>
-                      <Th>Name</Th>
-                      <Th>Slug</Th>
+                      <Th>{t('Image')}</Th>
+                      <Th>{t('Name')}</Th>
+                      <Th>{t('Slug')}</Th>
                       <Th></Th>
                     </Tr>
                   </Thead>
@@ -147,11 +155,14 @@ function Category() {
                                     <MdEdit className="fill-admin-edit-icon w-5 h-5" />
                                   </span>
                                 </Button>
-                                <button onClick={() => handleDelete(item?.id)}>
+                                <button onClick={() => openDeleteModal()}>
                                   <span>
                                     <DeleteModal
-                                      isOpen={isOpen}
-                                      onClose={onClose}
+                                      isOpen={isDeleteModalOpen}
+                                      onClose={closeDeleteModal}
+                                      onDeleteConfirm={() =>
+                                        handleDeleteConfirm(item?.id)
+                                      }
                                     />
                                     <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
                                   </span>

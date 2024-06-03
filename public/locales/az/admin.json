@@ -33,5 +33,9 @@
   "history": "Tarixçə",
   "Delete": "Sil",
   "AreYouSure": "Əminsinizmi? Daha sonra bu əməliyyatı geri qaytara bilməzsiniz.",
-  "DeleteProduct": "Məhsulu Sil"
+  "DeleteProduct": "Məhsulu Sil",
+  "addсategory":"Kategoriya Əlavə Et",
+  "Image":"Şəkil",
+  "Slug":"Slogan"
+
 }
