@@ -58,7 +58,7 @@ function RestaurantId() {
 
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.restaurant_id as string),
-    queryKey: ['restuarant'],
+    queryKey: ['restuarant', query.restaurant_id],
   })
   const [inBasket, setInBasket] = useState(true)
 

@@ -42,6 +42,8 @@ function Category() {
     queryKey: ['categories'],
   })
 
+  console.log(data?.data.result.data, 'datacategory')
+
   const { mutate } = useMutation({
     mutationFn: deleteCategory,
     onSuccess(data, variables, context) {
