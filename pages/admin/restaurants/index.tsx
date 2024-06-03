@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
 
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
@@ -36,12 +36,14 @@ const Restaurants: React.FC = () => {
   const restaurantsDatas: Restaurant[] = data?.data?.result?.data ?? []
 
   // filter category
-  const filteredRestaurants =
-    filterCategory === 'All'
-      ? restaurantsDatas
-      : restaurantsDatas.filter(
-          (restaurant) => restaurant?.category_id === filterCategory,
-        )
+  useEffect(() => {
+    const filteredRestaurants = () =>
+      filterCategory === 'All'
+        ? restaurantsDatas
+        : restaurantsDatas.filter(
+            (restaurant) => restaurant?.category_id === filterCategory,
+          )
+  }, [])
 
   // delete
   const QueryClient = useQueryClient()
