@@ -39,7 +39,7 @@ const ClientLoginRegisterForm = () => {
   }
 
   const toast = useToast()
-  const { push } = useRouter()
+  const { push, reload } = useRouter()
   const [disable, setDisable] = useState(false)
 
   const { values, handleChange, handleSubmit, errors } = useFormik({

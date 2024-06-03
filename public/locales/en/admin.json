@@ -33,7 +33,10 @@
     "history":"History",
     "Delete":"Delete",
     "AreYouSure":"Are you sure? You can not undo this action afterwards.",
-    "DeleteProduct": "Delete Product"
+    "DeleteProduct": "Delete Product",
+    "addсategory":"Add Category",
+    "Image":"Image",
+    "Slug":"Slug"
 
 
 

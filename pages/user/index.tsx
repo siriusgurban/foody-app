@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 function User() {
   const { t } = useTranslation()
-  const { query, push } = useRouter()
+  const { query, push, reload } = useRouter()
   const toast = useToast()
   const [userInfo, setUserInfo] = useState({})
 
@@ -57,6 +57,7 @@ function User() {
   useEffect(() => {
     if (userInfo !== undefined && data !== undefined) {
       push('/user?page=' + query?.page)
+      // reload()
     } else {
       toast({
         description: 'Please, login first',

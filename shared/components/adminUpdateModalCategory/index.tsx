@@ -13,12 +13,8 @@ import AdminModalUploadImage from '../adminModalUploadImage'
 
 interface Props {
   show?: boolean
-  onClickClose?: () => void
+  onClickClose?: any
   text: string
-}
-
-interface YourComponentProps {
-  onClickClose: () => void
 }
 
 const AdminUpdateModalCategory = ({
@@ -59,7 +55,7 @@ const AdminUpdateModalCategory = ({
         duration: 3000,
         isClosable: true,
       })
-      // onClickClose()
+      onClickClose()
     },
     onError(data, variables, context) {
       console.log(data, 'error')
@@ -119,7 +115,7 @@ const AdminUpdateModalCategory = ({
             <AdminModalUploadImage onChange={getImage} />
           </div>
         </div>
-        <div className="flex   flex-col   lg:flex-row  w-full  mb-[170px] ">
+        <div className="flex   flex-col   lg:flex-row  w-full mb-[252px]">
           <div className="w-full lg:w-1/3 ">
             <p className="  font-medium text-admin-text  tracking-wide capitalize text-lg  font-display ">
               {t('Add Your Category Information')}
