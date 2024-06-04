@@ -41,3 +41,16 @@ export const postAdmin = async (data: any) => {
     console.log(err, 'postAuth')
   }
 }
+
+export const postClient = async (data: any) => {
+  try {
+    const response = await instanceAxios({
+      method: 'POST',
+      url: 'auth/signup',
+      data,
+    })
+    return response
+  } catch (err) {
+    console.log(err, 'postAuthClient')
+  }
+}

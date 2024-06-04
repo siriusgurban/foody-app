@@ -4,5 +4,11 @@
 
     "OrderNow":"Order Now",
     "homeHeading":"Our Food site makes it easy to find local food",
-    "features":"Features"
+    "features":"Features",
+    "Email":"Email",
+    "Password":"Password",
+    "Log in":"Log in",
+    "Full Name":"Full Name",
+    "Username":"Username"
+
 }
