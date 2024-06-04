@@ -15,7 +15,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function User() {
-  const { t } = useTranslation()
+  const { t } = useTranslation('client')
   const { query, push, reload } = useRouter()
   const toast = useToast()
   const [userInfo, setUserInfo] = useState({})
@@ -57,7 +57,6 @@ function User() {
   useEffect(() => {
     if (userInfo !== undefined && data !== undefined) {
       push('/user?page=' + query?.page)
-      // reload()
     } else {
       toast({
         description: 'Please, login first',
@@ -68,6 +67,8 @@ function User() {
       })
       push('/login')
     }
+
+    // return reload()
   }, [])
 
   {
@@ -87,7 +88,7 @@ function User() {
 
             <main className="flex mx-8 gap-10">
               <UserAsideMenu />
-              <section>{rightComponent}</section>
+              {rightComponent}
             </main>
             <ClientFooter />
           </Box>
@@ -101,6 +102,6 @@ export default User
 
 export async function getStaticProps({ locale }: { locale: any }) {
   return {
-    props: { ...(await serverSideTranslations(locale, ['admin'])) },
+    props: { ...(await serverSideTranslations(locale, ['client'])) },
   }
 }

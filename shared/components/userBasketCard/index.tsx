@@ -1,23 +1,37 @@
-import Image from "next/image";
-import React, { FC } from "react";
-import { FiMinus } from "react-icons/fi";
-import { IoIosAdd } from "react-icons/io";
-import { MdOutlineDeleteSweep } from "react-icons/md";
+import Image from 'next/image'
+import React, { FC } from 'react'
+import { FiMinus } from 'react-icons/fi'
+import { IoIosAdd } from 'react-icons/io'
+import { MdOutlineDeleteSweep } from 'react-icons/md'
 
 interface Props {
-  name?: string;
-  src?: string;
-  price?: number;
-  count?: number;
-  alt?: string;
-  clearBasket: () => void;
-  increaseCount: () => void;
-  decreaseCount: () => void;
+  name?: string
+  src?: string
+  price?: number
+  count?: number
+  alt?: string
+  key?: number
+  clearBasket: () => void
+  increaseCount: () => void
+  decreaseCount: () => void
 }
-const UserBasketCard: FC<Props> = ({ increaseCount, decreaseCount, clearBasket, name, src, price, count, alt }) => {
+const UserBasketCard: FC<Props> = ({
+  increaseCount,
+  decreaseCount,
+  clearBasket,
+  name,
+  src,
+  price,
+  count,
+  alt,
+  key,
+}) => {
   return (
-    <div className="flex relative sm:pr-9 justify-between items-center border-b-2 border-client-gray5 py-8">
-      <Image width={98} height={98} src={src || ""} alt={alt || "image"} />
+    <div
+      className="flex relative sm:pr-9 justify-between items-center border-b-2 border-client-gray5 py-8"
+      key={key}
+    >
+      <Image width={98} height={98} src={src || ''} alt={alt || 'image'} />
       <div className="flex flex-col w-full pl-7">
         <p className="font-medium text-client-main-gray2 text-2xl">{name}</p>
         <p className="font-medium text-client-main-gray2 text-lg">{price}</p>
@@ -33,11 +47,14 @@ const UserBasketCard: FC<Props> = ({ increaseCount, decreaseCount, clearBasket, 
         </button>
       </div>
 
-      <span className="absolute top-0 left-0 sm:left-[97%] sm:top-4 w-8" onClick={clearBasket}>
+      <span
+        className="absolute top-0 left-0 sm:left-[97%] sm:top-4 w-8"
+        onClick={clearBasket}
+      >
         <MdOutlineDeleteSweep className="cursor-pointer fill-client-main-gray1 w-7" />
       </span>
     </div>
-  );
-};
+  )
+}
 
-export default UserBasketCard;
+export default UserBasketCard

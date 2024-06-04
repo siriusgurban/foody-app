@@ -29,7 +29,7 @@ const ClientHeaderRightSideComponents = () => {
   console.log(data, 'user')
 
   return (
-    <div className="relative items-center gap-5  hidden sm:flex ">
+    <div className="relative items-center gap-5  hidden md:flex ">
       {/* <Lang /> */}
       {/* <div className='relative bg-client-login-mainColor   rounded-full   w-10 h-10  flex justify-center cursor-pointer  hover:scale-95 transition-all duration-500  '>
                 <Image width={30} height={0} src='/basket.svg' alt='basket' className='   ' />
