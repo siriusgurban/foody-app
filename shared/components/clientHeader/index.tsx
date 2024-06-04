@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { Lang } from '../Lang'
 import { getUser } from '@/shared/services/admin'
 import { useQuery } from '@tanstack/react-query'
+import Foody from '../foody'
 
 const ClientHeader = () => {
   const { t } = useTranslation()
@@ -19,7 +20,17 @@ const ClientHeader = () => {
   const [testState, setTestState] = useState(false)
   const [userInfo, setUserInfo] = useState({})
 
-  const navigate = useRouter()
+  const { push, reload } = useRouter()
+
+  function deleteUser() {
+    localStorage.removeItem('userInfo')
+    setTimeout(() => {
+      push('/')
+    }, 1500)
+    setTimeout(() => {
+      reload()
+    }, 2500)
+  }
 
   const { data, status, error } = useQuery({
     queryFn: getUser,
@@ -36,12 +47,16 @@ const ClientHeader = () => {
         setUserInfo(parsedUserInfo)
       }
     }
-  }, [])
+  }, [isModalOpen])
 
   console.log(data, 'UserData')
 
   const toggleAvatars = () => {
-    setTestState(!testState)
+    if (userInfo !== undefined && data !== undefined) {
+      setTestState(true)
+    } else {
+      setTestState(false)
+    }
   }
 
   const showHideModal = () => {
@@ -66,17 +81,16 @@ const ClientHeader = () => {
         className="f flex items-center text-4xl ont-extrabold text-client-zero-black"
         onClick={toggleAvatars}
       >
-        <button onClick={showHideModal} className="sm:hidden block mr-5">
+        <button onClick={showHideModal} className="md:hidden block mr-5">
           <Image width={40} height={0} src="/hamburger.svg" alt="hamburger" />
         </button>
-        Foody
-        <span className=" text-client-main-red">.</span>
+        <Foody role="client" />
       </h1>
       <>
         {userInfo !== undefined && data !== undefined ? (
           <>
             <Navbar />
-            <div className=" hidden w-1/5 sm:block">
+            <div className=" hidden w-1/5 md:block">
               <input
                 type="text"
                 placeholder="Search"
@@ -124,7 +138,7 @@ const ClientHeader = () => {
             >
               <GrClose />
             </button>
-            {!testState ? (
+            {testState ? (
               <AdminModalButton
                 className="text-client-zero-black w-full mt-8 mx-auto py-4 rounded-full text-2xl font-medium flex items-center   justify-start"
                 text="MR"
@@ -141,84 +155,74 @@ const ClientHeader = () => {
               <AdminModalButton
                 className=" bg-client-main-red  w-6/12 mt-16 mb-16 mx-auto py-4 rounded-full  text-2xl text-white font-medium  "
                 text={t('Sign Up')}
-                onClick={() => navigate.push('/login')}
+                onClick={() => push('/login')}
               />
             )}
             <ul className="flex flex-col justify-around  gap-4  mt-4  w-full font-medium  text-lg  text-client-main-gray1">
               <li
-                onClick={() => navigate.push('/')}
+                onClick={() => push('/')}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
-                {' '}
                 {t('Home')}
               </li>
               {testState && (
                 <>
                   <li
-                    onClick={() => navigate.push('/')}
+                    onClick={() => push('/user?=profile')}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
-                    {' '}
                     {t('Profile')}
                   </li>
                   <li
-                    onClick={() => navigate.push('/clientbasket')}
+                    onClick={() => push('/user?=basket')}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
-                    {' '}
                     {t('Your Basket')}
                   </li>
                   <li
-                    onClick={() => navigate.push('/clientorders')}
+                    onClick={() => push('/user?=orders')}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
-                    {' '}
                     {t('Your Orders')}
                   </li>
                   <li
-                    onClick={() => navigate.push('/clientcheckout')}
+                    onClick={() => push('/user?=checkout')}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
-                    {' '}
                     {t('Checkout')}
                   </li>
                 </>
               )}
 
               <li
-                onClick={() => navigate.push('/restaurants')}
+                onClick={() => push('/restaurants')}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
-                {' '}
                 {t('Restaurants')}
               </li>
               <li
-                onClick={() => navigate.push('/about-us')}
+                onClick={() => push('/about-us')}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
-                {' '}
                 {t('About Us')}
               </li>
               <li
-                onClick={() => navigate.push('/how-it-works')}
+                onClick={() => push('/how-it-works')}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
-                {' '}
                 {t('How It Works')}
               </li>
               <li
-                onClick={() => navigate.push('/faqs')}
+                onClick={() => push('/faqs')}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
-                {' '}
                 {t('Faqs')}
               </li>
               {testState && (
                 <li
-                  onClick={() => navigate.push('/restaurants')}
+                  onClick={() => deleteUser()}
                   className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                 >
-                  {' '}
                   {t('Log Out')}
                 </li>
               )}

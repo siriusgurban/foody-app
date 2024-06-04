@@ -19,7 +19,7 @@ function UserAsideMenu() {
   return (
     <Box
       as="section"
-      className="w-80 h-lvh bg-client-fill-gray flex flex-col gap-5 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-10 pt-14 cursor-pointer overflow-hidden"
+      className="xl:min-w-80 lg:min-w-60 md:min-w-40 h-lvh bg-client-fill-gray xl:flex lg:flex md:hidden sm:hidden xs:hidden flex-col gap-5 max-h-[515px] scrollbar overflow-y-scroll pr-4 xl:px-10 lg:px-8 md:px-6 pt-14 cursor-pointer overflow-hidden"
     >
       <Box
         className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md bg- hover:bg-client-pink bg- bg-${isActive(
