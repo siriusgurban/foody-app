@@ -17,7 +17,7 @@ const ClientLoginNav = () => {
         <Foody role="admin" />
       </div>
       <div className="">
-        <Lang />
+        <Lang bg="white" />
       </div>
     </nav>
   )

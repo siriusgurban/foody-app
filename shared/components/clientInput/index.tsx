@@ -11,6 +11,7 @@ interface Props {
   onChange?: any
   placeholder?: string
   name?: string
+  value?: any
 }
 
 const ClientInput = ({
@@ -23,6 +24,7 @@ const ClientInput = ({
   onChange,
   placeholder,
   name,
+  value,
 }: Props) => {
   return (
     <div className={classNameDiv}>
@@ -34,6 +36,7 @@ const ClientInput = ({
           onChange={onChange}
           placeholder={placeholder}
           name={name}
+          value={value}
         />
         {children && (
           <div className="absolute inset-y-0 right-0 flex items-center pr-2">

@@ -4,5 +4,10 @@
 
     "OrderNow":"İndi Sifariş Et",
     "homeHeading":"Bizim yemək saytımız yerli yeməkləri tapmağı asanlaşdırır",
-    "features":"Yenilikler"
+    "features":"Yenilikler",
+    "Email":"Email",
+    "Password":"Şifrə",
+    "Log in":"Giriş Et",
+    "Full Name":"Ad Soyad",
+    "Username":"İstifadəçi Adı"
 }

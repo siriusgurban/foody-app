@@ -6,12 +6,12 @@ import ClientLoginNav from '@/shared/components/clientLoginNav'
 import ClientLoginRegisterForm from '@/shared/components/clientLoginRegisterForm'
 
 function Login() {
-  const { t } = useTranslation('admin')
+  const { t } = useTranslation('client')
 
   return (
     <>
       <Head>
-        <title>Foody | {t('login')}</title>
+        <title>Foody | {t('Login')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
       <ClientLoginNav />
