@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import CheckouSuccess from '../CheckoutSuccess'
 
 function UserCheckout() {
-  const { checkOrder } = useSelector((state) => state)
+  const { checkOrder }:any = useSelector((state) => state)
   const istrue = checkOrder.checkOrderState
   return (
     <div className="flex w-full md:flex-nowrap flex-wrap-reverse">
