@@ -18,16 +18,16 @@ export type Form = {
 }
 
 export interface Restaurant {
-  id: string
-  address: string
-  category_id: string
-  img_url: string
-  created: number // Assuming it represents a Unix timestamp
-  name: string
-  cuisine: string
-  delivery_min: number
-  delivery_price: number
-  products: Product[]
+  id?: any
+  address: string | null | undefined
+  category_id: any
+  img_url?: any
+  created?: number // Assuming it represents a Unix timestamp
+  name?: any
+  cuisine: string | null
+  delivery_min: number | null
+  delivery_price: number | null
+  products?: Product[]
 }
 
 export interface Product {

@@ -26,8 +26,9 @@ import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
 import DeleteModal from '@/shared/components/deleteModal'
 
 function Category() {
-  const { t } = useTranslation('admin')
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
+
+  const { t } = useTranslation('admin')
   const [hideModalAdd, setHideModalAdd] = useState<boolean>(true)
   const toast = useToast()
   const { push, pathname } = useRouter()
@@ -63,6 +64,7 @@ function Category() {
   })
 
   function showHideModalUpdate() {
+    console.log('hideModalUpdate clicked')
     setHideModalUpdate((prev) => !prev)
   }
   function showHideModalAdd() {
