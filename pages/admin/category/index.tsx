@@ -157,12 +157,14 @@ function Category() {
                                     <MdEdit className="fill-admin-edit-icon w-5 h-5" />
                                   </span>
                                 </Button>
-                                <button onClick={() => openDeleteModal()}>
+                                <button
+                                  onClick={() => handleDeleteConfirm(item?.id)}
+                                >
                                   <span>
                                     <DeleteModal
-                                      isOpen={isDeleteModalOpen}
-                                      onClose={closeDeleteModal}
-                                      onDeleteConfirm={() =>
+                                      // isOpen={isDeleteModalOpen}
+                                      // onClose={closeDeleteModal}
+                                      onClick={() =>
                                         handleDeleteConfirm(item?.id)
                                       }
                                     />
