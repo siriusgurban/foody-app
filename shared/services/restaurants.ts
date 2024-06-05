@@ -1,4 +1,5 @@
 import { instanceAxios } from '@/shared/helpers/instanceAxios'
+import { Restaurant } from '../types/admin'
 
 export const getRestuarants = async () => {
   try {
@@ -33,7 +34,13 @@ export const deleteRestuarant = async (id: string) => {
   }
 }
 
-export const updateRestuarant = async (id: string, data: any) => {
+export const updateRestuarant = async ({
+  id,
+  data,
+}: {
+  id: string | string[] | undefined
+  data: Restaurant
+}) => {
   try {
     const response = await instanceAxios({
       method: 'PUT',
