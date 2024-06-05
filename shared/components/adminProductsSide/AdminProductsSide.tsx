@@ -1,87 +1,98 @@
-//@ts-nocheck
-import { Box, Image, Text, useDisclosure } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { getProducts, deleteProduct } from "../../services/products";
-import { useTranslation } from "react-i18next";
-import DeleteModal from "../deleteModal";
-import AdminModalDropdown from "../adminModalDropdown";
-import AdminModalButton from "../adminModalButton";
-import { useQuery } from "@tanstack/react-query";
-import { getRestuarants } from "@/shared/services/restaurants";
+//@ts- nocheck
+import { Box, Image, Text, useDisclosure } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { getProducts, deleteProduct } from '../../services/products'
+import { useTranslation } from 'react-i18next'
+import DeleteModal from '../deleteModal'
+import AdminModalDropdown from '../adminModalDropdown'
+import AdminModalButton from '../adminModalButton'
+import { useQuery } from '@tanstack/react-query'
+import { getRestuarants } from '@/shared/services/restaurants'
+import AdminUpdateModalProduct from '../adminUpdateModalProduct'
+import { Product } from '@/shared/types/admin'
+import { useRouter } from 'next/router'
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-}
+// interface Product {
+//   id: number
+//   name: string
+//   description: string
+//   price: number
+//   img_url: string
+// }
 
 function AdminProductsSide() {
-  const { t } = useTranslation("admin");
+  const { t } = useTranslation('admin')
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [deleteProductId, setDeleteProductId] = useState<number | null>(null);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [rest, setRest] = useState();
+  const [products, setProducts] = useState<Product[]>([])
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
+  const [isDrawerOpen, setDrawerOpen] = useState(false)
+  const [rest, setRest] = useState()
+  const [hideModalAddPro, setHideModalAddPro] = useState<boolean>(true)
+
+  const { query, pathname, push } = useRouter()
 
   const { data } = useQuery({
     queryFn: getRestuarants,
-    queryKey: ["restuarants"],
-  });
+    queryKey: ['restuarants'],
+  })
 
-  function handleRestaurant(id) {
-    let RestName = data?.data?.result?.data.find((item, index) =>
-      id == item?.id 
-    );
+  function handleRestaurant(id: string) {
+    let RestName = data?.data?.result?.data.find(
+      (item: any, index: number) => id == item?.id,
+    )
 
-    return RestName?.name;
+    return RestName?.name
   }
 
-  console.log(data?.data?.result?.data, "restaurant");
+  // console.log(data?.data?.result?.data, 'restaurant')
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProducts();
+        const response = await getProducts()
         if (response && response.data && response.data.result) {
-          setProducts(response.data.result.data);
-          console.log("API dan gelenler:", response.data.result.data);
+          setProducts(response.data.result.data)
+          console.log('API dan gelenler:', response.data.result.data)
         } else {
           console.error(
-            "Error fetching products: Response format is incorrect."
-          );
+            'Error fetching products: Response format is incorrect.',
+          )
         }
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error)
       }
-    };
-
-    fetchProducts();
-  }, []);
-
-  const handleDeleteClick = (productId: number) => {
-    setDeleteProductId(productId);
-    onOpen();
-  };
-
-  const deleteProductById = async (productId: number) => {
-    try {
-      await deleteProduct(productId);
-      console.log(`Product with ID ${productId} deleted`);
-    } catch (error) {
-      console.error("Error deleting product:", error);
     }
-  };
+
+    fetchProducts()
+  }, [data])
+
+  const handleDeleteClick = (productId: string) => {
+    setDeleteProductId(productId)
+    onOpen()
+  }
+
+  const deleteProductById = async (productId: string) => {
+    try {
+      await deleteProduct(productId)
+      console.log(`Product with ID ${productId} deleted`)
+    } catch (error) {
+      console.error('Error deleting product:', error)
+    }
+  }
 
   const handleDeleteConfirm = async () => {
     if (deleteProductId !== null) {
-      console.log("Deleting product with ID:", deleteProductId);
-      await deleteProductById(deleteProductId);
-      setProducts(products.filter((product) => product.id !== deleteProductId));
-      onClose();
+      console.log('Deleting product with ID:', deleteProductId)
+      await deleteProductById(deleteProductId)
+      setProducts(products.filter((product) => product.id != deleteProductId))
+      onClose()
     }
-  };
+  }
+
+  function showHideModalAdd() {
+    setHideModalAddPro((prev) => !prev)
+  }
 
   return (
     <>
@@ -92,7 +103,7 @@ function AdminProductsSide() {
           </div>
           <div className="mt-3 sm:mt-0 flex flex-col items-center sm:flex-row gap-5">
             <AdminModalDropdown
-              p={""}
+              p={''}
               className="flex width-200 gap-3"
               classNameSelect="rounded-2xl py-2 px-2 bg-admin-input font-medium text-base text-admin-secondary-heading w-[170px] overflow-x-auto"
             />
@@ -102,6 +113,12 @@ function AdminProductsSide() {
             </AdminModalButton>
           </div>
         </div>
+
+        <AdminUpdateModalProduct
+          onClickClose={showHideModalAdd}
+          show={hideModalAddPro}
+          text={t('updateproduct')}
+        />
 
         <Box display="flex" gap="40px" flexWrap="wrap" justifyContent="start">
           {products.map((product, index) => (
@@ -153,7 +170,12 @@ function AdminProductsSide() {
                   >
                     <img src="/adminproducts/garbage.svg" alt="delete" />
                   </Text>
-                  <Text onClick={() => setDrawerOpen(true)} cursor="pointer">
+                  <Text
+                    onClick={() => {
+                      push(pathname + '?id=' + product.id), showHideModalAdd()
+                    }}
+                    cursor="pointer"
+                  >
                     <img src="/adminproducts/pen.svg" alt="edit" />
                   </Text>
                 </Box>
@@ -169,7 +191,7 @@ function AdminProductsSide() {
         handleDeleteConfirm={handleDeleteConfirm}
       />
     </>
-  );
+  )
 }
 
-export default AdminProductsSide;
+export default AdminProductsSide

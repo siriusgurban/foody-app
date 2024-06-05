@@ -1,20 +1,21 @@
-import ClientFooter from "@/shared/components/clientFooter";
-import ClientHeader from "@/shared/components/clientHeader";
-import { Box, Text, Image } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import ClientFooter from '@/shared/components/clientFooter'
+import ClientHeader from '@/shared/components/clientHeader'
+import { Box, Text, Image } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const AboutUs = () => {
   useEffect(() => {
-    AOS.init();
-  }, []);
+    AOS.init()
+  }, [])
 
   return (
     <>
       <ClientHeader />
       <Box
-        display={{ base: "block", md: "flex" }}
+        display={{ base: 'block', md: 'flex' }}
         justifyContent="space-evenly"
         maxW="1440px"
         width="100%"
@@ -27,7 +28,7 @@ const AboutUs = () => {
         <Box
           className="leftSide"
           data-aos="fade-right"
-          mb={{ base: "40px", md: "0" }}
+          mb={{ base: '40px', md: '0' }}
         >
           <Text fontSize="45px" fontWeight="bold" mt="113px">
             About Us
@@ -44,7 +45,7 @@ const AboutUs = () => {
         <Box
           className="rightSide"
           data-aos="fade-left"
-          mb={{ base: "40px", md: "0" }}
+          mb={{ base: '40px', md: '0' }}
         >
           <Image src="/aboutUs/rectangle.svg" pos="relative" />
           <Box
@@ -154,7 +155,13 @@ const AboutUs = () => {
       </Box>
       <ClientFooter />
     </>
-  );
-};
+  )
+}
 
-export default AboutUs;
+export default AboutUs
+
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: { ...(await serverSideTranslations(locale, ['client'])) },
+  }
+}

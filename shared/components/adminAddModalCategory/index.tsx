@@ -20,7 +20,7 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
   const toast = useToast()
   const queryClient = useQueryClient()
 
-  const nameRef = useRef<HTMLInputElement>(null)
+  const nameRef = useRef<any>('')
   const imgRef = useRef<any>(null)
 
   async function addCategory() {
@@ -32,6 +32,8 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
       img_url: img,
     }
     mutate(form)
+
+    nameRef.current.value = ''
   }
 
   const { mutate } = useMutation({
