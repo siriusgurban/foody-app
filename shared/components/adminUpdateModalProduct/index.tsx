@@ -3,34 +3,59 @@ import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
 import { FormControl, Text, useToast } from '@chakra-ui/react'
-import { postCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
-import { IoMdCloudUpload } from 'react-icons/io'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
-import { postProduct } from '@/shared/services/products'
+import { getProductById, postProduct } from '@/shared/services/products'
 import AdminModalDropdown from '../adminModalDropdown'
 import AdminModalDropdownProduct from '../adminModalDropdownProduct'
 import AdminModalTextArea from '../adminModalText'
+import { useRouter } from 'next/router'
+import { getRestuarantById } from '@/shared/services/restaurants'
+import AdminModalUploadImage from '../adminModalUploadImage'
+import { updateCategory } from '@/shared/services/category'
 
 interface Props {
   show?: boolean
   onClickClose?: any
   text: string
 }
-const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
+const AdminUpdateModalProduct = ({
+  show = true,
+  onClickClose,
+  text,
+}: Props) => {
   const { t } = useTranslation('admin')
   const toast = useToast()
+  const { query } = useRouter()
   const queryClient = useQueryClient()
 
-  const nameRef = useRef<any>('')
-  const descriptionRef = useRef<any>('')
-  const priceRef = useRef<any>('')
-  // const [description, setDescription] = useState<string | null>('')
+  const { data } = useQuery({
+    queryFn: () => getProductById(query.id as string),
+    queryKey: ['products', query.id],
+  })
+  // console.log(data, 'product')
+
+  let initUrl = data?.data?.result?.data?.img_url
+
+  const { loading, imgUrl, getImage } = useImageUpload(initUrl)
+
+  const nameRef = useRef<any>(null)
+  const descriptionRef = useRef<any>(null)
+  const priceRef = useRef<any>(null)
   const [restId, setRestId] = useState<string | null>('')
   const imgRef = useRef<any>(null)
 
-  async function addProduct() {
+  useEffect(() => {
+    if (data) {
+      nameRef.current.value = data?.data.result.data.name
+      descriptionRef.current.value = data?.data.result.data.description
+      priceRef.current.value = data?.data.result.data.price
+      setRestId(data?.data.result.data.rest_id)
+    }
+  }, [query.id, data])
+
+  async function updateProduct() {
     const name = nameRef?.current?.value
     const description = descriptionRef?.current?.value
     const price = priceRef?.current?.value
@@ -43,8 +68,9 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
       rest_id: restId,
       img_url: img,
     }
+    console.log(form, 'formformform')
 
-    mutate(form)
+    mutate({ id: query?.id, data: form })
 
     nameRef.current.value = ''
     descriptionRef.current.value = ''
@@ -52,11 +78,11 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
   }
 
   const { mutate } = useMutation({
-    mutationFn: postProduct,
+    mutationFn: updateCategory,
     onSuccess(data, variables, context) {
       console.log(data, 'success')
       toast({
-        title: 'Product added',
+        title: 'Product updated',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -70,8 +96,6 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
     },
   })
-
-  const { loading, imgUrl, getImage } = useImageUpload()
 
   return (
     <div
@@ -105,7 +129,7 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
               }`}
             />
           </div>
-          <div className=" w-full lg:w-2/3 h-38 ">
+          {/* <div className=" w-full lg:w-2/3 h-38 ">
             <div className="  bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
                 <label htmlFor="img_url">
@@ -122,6 +146,9 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
                 />
               </div>
             </div>
+          </div> */}
+          <div className="w-full lg:w-2/3 h-38">
+            <AdminModalUploadImage onChange={getImage} />
           </div>
         </div>
         <div className="flex   flex-col  lg:flex-row  w-full  mb-10 ">
@@ -198,8 +225,8 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
           />
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t(`Create Category`)}
-            onClick={addProduct}
+            text={t(`Update Category`)}
+            onClick={updateProduct}
           />
         </div>
       </div>
@@ -207,4 +234,4 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
   )
 }
 
-export default AdminAddModalProduct
+export default AdminUpdateModalProduct

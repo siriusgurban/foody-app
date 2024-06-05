@@ -4,16 +4,20 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 function UserAsideMenu() {
-  const { push, query } = useRouter()
+  const { push, query, reload } = useRouter()
 
   const isActive = (path: string) => (query.page === path ? 'pink-200' : 'none')
   const isActiveText = (path: string) =>
     query.page === path ? 'client-main-red' : 'client-main-gray1'
 
   function deleteUser() {
-    push('/')
     localStorage.removeItem('userInfo')
-    // localStorage.removeItem('tokenObj')
+    setTimeout(() => {
+      push('/')
+    }, 1000)
+    setTimeout(() => {
+      reload()
+    }, 1200)
   }
 
   return (

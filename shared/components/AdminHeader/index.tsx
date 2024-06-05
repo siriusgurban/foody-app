@@ -19,6 +19,7 @@ import { useAppSelector } from '../../store/hooks'
 import Foody from '../foody'
 import AdminAddModalCategory from '../adminAddModalCategory'
 import AdminAddModalProduct from '../adminAddModalProduct'
+import AdminUpdateModalProduct from '../adminUpdateModalProduct'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
@@ -62,6 +63,7 @@ function AdminHeader() {
           show={hideModalAddPro}
           text={t('addproduct')}
         />
+
         <Lang />
         <button>
           <Image

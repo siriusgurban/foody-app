@@ -79,7 +79,13 @@ function ClientLogin() {
         isClosable: true,
         position: 'top-right',
       })
-      push('/')
+
+      setTimeout(() => {
+        push('/')
+      }, 1000)
+      setTimeout(() => {
+        reload()
+      }, 2000)
     } catch (error) {
       toast({
         description: 'Something wrong',

@@ -6,7 +6,7 @@ import React, { FC, useState } from 'react'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import DeleteModalRestaurant from '../deleteModalRestaurantCards'
 import { useRouter } from 'next/router'
-import { getCategoryById } from '@/shared/services/category'
+import { getCategories, getCategoryById } from '@/shared/services/category'
 
 interface AdminRestaurantsCardProps {
   onDelete: (id: any) => void
@@ -63,6 +63,21 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
     return text
   }
 
+  const { data: categories } = useQuery({
+    queryFn: getCategories,
+    queryKey: ['categories'],
+  })
+
+  console.log(categories, 'categories')
+
+  function handleRestCat(id: string) {
+    let CateName = categories?.data?.result?.data.find(
+      (item: any, index: number) => id == item?.id,
+    )
+
+    return CateName?.name
+  }
+
   return (
     <>
       <div
@@ -87,7 +102,7 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
               {truncateText(name, 9)}
             </p>
             <p className="text-sm font-medium text-admin-restaurant-card-category whitespace-nowrap overflow-hidden overflow-ellipsis">
-              {truncateText(categoryData, 9)}
+              {truncateText(handleRestCat(category_id), 9)}
             </p>
           </div>
           <div className="flex flex-col gap-4">

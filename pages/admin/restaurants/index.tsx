@@ -13,6 +13,7 @@ import { deleteRestuarant, getRestuarants } from '@/shared/services/restaurants'
 import AdminAddModalRest from '@/shared/components/AdminAddModalRest'
 import AdminUpdateModalRest from '@/shared/components/AdminUpdateModalRest'
 import { Restaurant } from '@/shared/types/admin'
+import { getCategories } from '@/shared/services/category'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
@@ -76,7 +77,7 @@ const Restaurants: React.FC = () => {
         <title>Admin | {t('restaurants')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
-      <div className=" bg-admin-bg  min-h-screen">
+      <div className=" bg-admin-bg h-full min-h-lvh">
         <Box className="max-w-[1440px] mx-auto">
           <AdminHeader />
 
@@ -113,7 +114,7 @@ const Restaurants: React.FC = () => {
                       img_url={restaurant.img_url}
                       name={restaurant.name}
                       restaurant_id={restaurant.id}
-                      category_id={restaurant.category_id}
+                      category_id={restaurant?.category_id}
                       onClickClose={showHideModalUpdate}
                     />
                   ))}

@@ -37,21 +37,6 @@ const AdminUpdateModalRest = ({ show = true, onClickClose, text }: Props) => {
     queryKey: ['restaurants', query.id],
   })
 
-  // const [name, setName] = useState<string | null>(
-  //   data?.data?.result?.data?.name,
-  // )
-  // const [cuisine, setCuisine] = useState<string | null>(
-  //   data?.data?.result?.data?.cuisine,
-  // )
-  // const [deliveryPrice, setDeliveryPrice] = useState<number | null>(
-  //   data?.data?.result?.data?.delivery_price,
-  // )
-  // const [deliveryMin, setDeliveryMin] = useState<number | null>(
-  //   data?.data?.result?.data?.delivery_min,
-  // )
-  // const [address, setAddress] = useState<string | null>(
-  //   data?.data?.result?.data?.address,
-  // )
   const [category, setCategory] = useState<string | null>(
     data?.data?.result?.data?.category_id,
   )
@@ -73,7 +58,6 @@ const AdminUpdateModalRest = ({ show = true, onClickClose, text }: Props) => {
       deliveryPriceRef.current.value = data?.data?.result?.data?.delivery_price
       deliveryMinRef.current.value = data?.data?.result?.data?.delivery_min
       addressRef.current.value = data?.data?.result?.data?.address
-      // categoryRef.current.value = data?.data?.result?.data?.category_id
       setCategory(data?.data?.result?.data?.category_id)
     }
   }, [data, query.id])
