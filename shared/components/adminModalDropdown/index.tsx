@@ -1,4 +1,3 @@
-import { getCategories } from '@/shared/services/category'
 import { useQuery } from '@tanstack/react-query'
 import React, { useRef } from 'react'
 
@@ -7,20 +6,24 @@ interface Props {
   className: string
   classNameSelect?: string
   getText?: (text: string) => void
+  getData: any
+  queryKey: string
 }
 
 const AdminModalDropdown = ({
-  p = 'Category',
+  p = '',
   className,
   classNameSelect,
   getText,
+  getData,
+  queryKey,
 }: Props) => {
-  const { data } = useQuery({
-    queryFn: getCategories,
-    queryKey: ['categories'],
+  const { data }: { data: any } = useQuery({
+    queryFn: getData,
+    queryKey: [{ queryKey }],
   })
 
-  let categories = data?.data?.result?.data
+  let list = data?.data?.result?.data
 
   const ref = useRef<HTMLSelectElement>(null)
 
@@ -40,7 +43,7 @@ const AdminModalDropdown = ({
         onChange={handleChange}
       >
         <option value="All">All</option>
-        {categories?.map((item: any, index: number) => {
+        {list?.map((item: any, index: number) => {
           return (
             <option key={index} value={item?.id}>
               {item?.name}

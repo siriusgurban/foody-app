@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import DonutChart from '../../shared/components/chart'
 import MountainLineChart from '../../shared/components/chart2'
 import FastFoodSalesBarChart from '../../shared/components/chart3'
+import AdminLayout from '@/shared/components/adminLayout'
 
 function AdminDashboard() {
   const { t } = useTranslation('admin')
@@ -25,28 +26,18 @@ function AdminDashboard() {
         <link rel="icon" href="/admin6024190.png" />
       </Head>
 
-      <Box className="bg-admin-bg h-lvh">
-        <Box className="max-w-[1440px] mx-auto">
-          <AdminHeader />
-          <Box className="flex gap-3">
-            <AdminAsideMenu />
-            <AdminAsideMenuResponsive />
-
-            <div className=" gap-7   mt-4 flex flex-col max-h-[620px] scrollbar overflow-y-scroll pr-4">
-              <div className='flex gap-8  flex-wrap'>
-                <DonutChart />
-                <MountainLineChart />
-              </div>
-              <div className='flex gap-8 flex-wrap'>
-                <FastFoodSalesBarChart />
-                <FastFoodSalesBarChart />
-              </div>
-
-
-            </div>
-          </Box>
-        </Box>
-      </Box>
+      <AdminLayout>
+        <div className=" gap-7   mt-4 flex flex-col max-h-[620px] scrollbar overflow-y-scroll pr-4">
+          <div className="flex gap-8  flex-wrap">
+            <DonutChart />
+            <MountainLineChart />
+          </div>
+          <div className="flex gap-8 flex-wrap">
+            <FastFoodSalesBarChart />
+            <FastFoodSalesBarChart />
+          </div>
+        </div>
+      </AdminLayout>
     </div>
   )
 }

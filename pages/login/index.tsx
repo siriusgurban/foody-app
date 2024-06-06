@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
 import ClientLoginNav from '@/shared/components/clientLoginNav'
 import ClientLoginRegisterForm from '@/shared/components/clientLoginRegisterForm'
+import { Box } from '@chakra-ui/react'
 
 function Login() {
   const { t } = useTranslation('client')
@@ -14,8 +15,10 @@ function Login() {
         <title>Foody | {t('Login')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
-      <ClientLoginNav />
-      <ClientLoginRegisterForm />
+      <Box className="max-w-[1440px] mx-auto">
+        <ClientLoginNav />
+        <ClientLoginRegisterForm />
+      </Box>
     </>
   )
 }

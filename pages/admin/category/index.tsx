@@ -24,6 +24,7 @@ import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsi
 import AdminUpdateModalCategory from '@/shared/components/adminUpdateModalCategory'
 import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
 import DeleteModal from '@/shared/components/deleteModal'
+import AdminLayout from '@/shared/components/adminLayout'
 
 function Category() {
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
@@ -90,100 +91,85 @@ function Category() {
         <title>Admin | {t('category')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
-
-      <Box className="bg-admin-bg h-full min-h-lvh">
-        <Box className="max-w-[1440px] mx-auto">
-          <AdminHeader />
-          <Box className="flex gap-7">
-            <AdminAsideMenu />
-            <AdminAsideMenuResponsive />
-
-            <Box className="flex flex-col gap-4 w-full">
-              <div className=" xl:w-full">
-                <div className="m-5">
-                  <AdminUpdateModalCategory
-                    onClickClose={showHideModalUpdate}
-                    show={hideModalUpdate}
-                    text={t('Update Category')}
-                  />
-                  <AdminAddModalCategory
-                    onClickClose={showHideModalAdd}
-                    show={hideModalAdd}
-                    text={t('addcategory').toLocaleUpperCase()}
-                  />
-                  <AdminSecondaryComponent
-                    p={t('category')}
-                    onClick={showHideModalAdd}
-                    visible={false}
-                  />
-                </div>
-              </div>
-              <TableContainer className="md:overflow-x-auto">
-                <Table variant="simple" className="bg-white">
-                  <Thead>
-                    <Tr>
-                      <Th>ID</Th>
-                      <Th>{t('Image')}</Th>
-                      <Th>{t('Name')}</Th>
-                      <Th>{t('Slug')}</Th>
-                      <Th></Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {data?.data?.result?.data?.map(
-                      (item: any, index: number) => {
-                        return (
-                          <Tr key={index}>
-                            <Td py={1}>{item?.id}</Td>
-                            <Td py={1}>
-                              <Image
-                                src={item?.img_url}
-                                width={48}
-                                height={42}
-                                alt="table_image"
+      <AdminLayout>
+        <Box className="flex flex-col gap-4 w-full">
+          <div className=" xl:w-full">
+            <div className="m-5">
+              <AdminUpdateModalCategory
+                onClickClose={showHideModalUpdate}
+                show={hideModalUpdate}
+                text={t('Update Category')}
+              />
+              <AdminAddModalCategory
+                onClickClose={showHideModalAdd}
+                show={hideModalAdd}
+                text={t('addcategory').toLocaleUpperCase()}
+              />
+              <AdminSecondaryComponent
+                p={t('category')}
+                onClick={showHideModalAdd}
+                visible={false}
+              />
+            </div>
+          </div>
+          <TableContainer className="md:overflow-x-auto">
+            <Table variant="simple" className="bg-white">
+              <Thead>
+                <Tr>
+                  <Th>ID</Th>
+                  <Th>{t('Image')}</Th>
+                  <Th>{t('Name')}</Th>
+                  <Th>{t('Slug')}</Th>
+                  <Th></Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data?.data?.result?.data?.map((item: any, index: number) => {
+                  return (
+                    <Tr key={index}>
+                      <Td py={1}>{item?.id}</Td>
+                      <Td py={1}>
+                        <Image
+                          src={item?.img_url}
+                          width={48}
+                          height={42}
+                          alt="table_image"
+                        />
+                      </Td>
+                      <Td py={1}>{item?.name}</Td>
+                      <Td py={1}>{item?.slug}</Td>
+                      <Td>
+                        <div className="flex justify-end gap-4">
+                          <Button
+                            onClick={() => (
+                              push(pathname + '?id=' + item?.id),
+                              showHideModalUpdate()
+                            )}
+                          >
+                            <span>
+                              <MdEdit className="fill-admin-edit-icon w-5 h-5" />
+                            </span>
+                          </Button>
+                          <button onClick={() => handleDeleteConfirm(item?.id)}>
+                            <span>
+                              <DeleteModal
+                                // isOpen={isDeleteModalOpen}
+                                // onClose={closeDeleteModal}
+                                onClick={() => handleDeleteConfirm(item?.id)}
                               />
-                            </Td>
-                            <Td py={1}>{item?.name}</Td>
-                            <Td py={1}>{item?.slug}</Td>
-                            <Td>
-                              <div className="flex justify-end gap-4">
-                                <Button
-                                  onClick={() => (
-                                    push(pathname + '?id=' + item?.id),
-                                    showHideModalUpdate()
-                                  )}
-                                >
-                                  <span>
-                                    <MdEdit className="fill-admin-edit-icon w-5 h-5" />
-                                  </span>
-                                </Button>
-                                <button
-                                  onClick={() => handleDeleteConfirm(item?.id)}
-                                >
-                                  <span>
-                                    <DeleteModal
-                                      // isOpen={isDeleteModalOpen}
-                                      // onClose={closeDeleteModal}
-                                      onClick={() =>
-                                        handleDeleteConfirm(item?.id)
-                                      }
-                                    />
-                                    <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
-                                  </span>
-                                </button>
-                              </div>
-                            </Td>
-                          </Tr>
-                        )
-                      },
-                    )}
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Box>
-          </Box>
+                              <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
+                            </span>
+                          </button>
+                        </div>
+                      </Td>
+                    </Tr>
+                  )
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
         </Box>
-      </Box>
+      </AdminLayout>
     </div>
   )
 }

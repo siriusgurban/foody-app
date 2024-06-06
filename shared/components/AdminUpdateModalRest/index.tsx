@@ -15,6 +15,7 @@ import { useToast } from '@chakra-ui/react'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { getCategories } from '@/shared/services/category'
 
 interface Props {
   show?: boolean
@@ -229,49 +230,10 @@ const AdminUpdateModalRest = ({ show = true, onClickClose, text }: Props) => {
                   className="mt-4 mb-2 placeholder"
                   classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                   getText={setCategory}
+                  getData={getCategories}
+                  queryKey="categories"
                 />
               </div>
-
-              {/* <>
-                <AdminModalInput
-                  p={t('Name')}
-                  className2="flex flex-col gap-2"
-                  placeHolder="Mc Donald’s"
-                  getText={setName}
-                />
-                <AdminModalTextArea
-                  p={t('Cuisine')}
-                  className="mt-6"
-                  placeHolder="Fast Food , Drink, Ice Cream, Sea Food"
-                  getText={setCuisine}
-                />
-                <AdminModalInput
-                  type="number"
-                  p={t('Delivery Price $')}
-                  className2="flex flex-col gap-2 mt-8"
-                  placeHolder="5"
-                  getText={(text) => setDeliveryPrice(parseInt(text))}
-                />
-                <AdminModalInput
-                  type="number"
-                  p={t('Delivery Mi')}
-                  className2="flex flex-col gap-2 mt-6"
-                  placeHolder="11"
-                  getText={(text) => setDeliveryMin(parseInt(text))}
-                />
-                <AdminModalInput
-                  p={t('Address')}
-                  className2="flex flex-col gap-2 mt-4"
-                  placeHolder="Nizami street 45 Baku Azerbaijan"
-                  getText={setAddress}
-                />
-                <AdminModalDropdown
-                  p={t('Category')}
-                  className="mt-4 mb-2 placeholder"
-                  classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
-                  getText={setCategory}
-                />
-              </> */}
             </div>
           </div>
         </div>

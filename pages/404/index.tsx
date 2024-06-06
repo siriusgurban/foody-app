@@ -1,25 +1,22 @@
-import ClientHeader from '@/shared/components/clientHeader'
 import React from 'react'
 import { Box, Image } from '@chakra-ui/react'
-import ClientFooter from '@/shared/components/clientFooter'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import ClientLayout from '@/shared/components/clientLayout'
 
 function NotFound() {
   return (
     <>
-      <Box bgColor="#F7F7F7">
-        <ClientHeader />
-
+      <ClientLayout>
         <Box alignContent="center">
           <Image
             src="/404Page/404Page.svg"
             m="auto"
             maxWidth="1440px"
             width="100%"
+            alt="404"
           />
         </Box>
-        <ClientFooter />
-      </Box>
+      </ClientLayout>
     </>
   )
 }

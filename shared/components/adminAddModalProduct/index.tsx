@@ -10,8 +10,9 @@ import { IoMdCloudUpload } from 'react-icons/io'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import { postProduct } from '@/shared/services/products'
 import AdminModalDropdown from '../adminModalDropdown'
-import AdminModalDropdownProduct from '../adminModalDropdownProduct'
 import AdminModalTextArea from '../adminModalText'
+import { getRestuarants } from '@/shared/services/restaurants'
+import { QUERY } from '@/shared/constants/query'
 
 interface Props {
   show?: boolean
@@ -67,7 +68,7 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
       console.log(data, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY.PRODUCTS] })
     },
   })
 
@@ -181,11 +182,13 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
                 )} */}
               </div>
-              <AdminModalDropdownProduct
+              <AdminModalDropdown
                 p={t('Restaurants')}
                 className="mt-4 mb-2 placeholder"
                 classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                 getText={setRestId}
+                getData={getRestuarants}
+                queryKey="restaurants"
               />
             </FormControl>
           </div>

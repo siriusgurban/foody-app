@@ -8,10 +8,12 @@ import Image from 'next/image'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import { getProductById, postProduct } from '@/shared/services/products'
 import AdminModalDropdown from '../adminModalDropdown'
-import AdminModalDropdownProduct from '../adminModalDropdownProduct'
 import AdminModalTextArea from '../adminModalText'
 import { useRouter } from 'next/router'
-import { getRestuarantById } from '@/shared/services/restaurants'
+import {
+  getRestuarantById,
+  getRestuarants,
+} from '@/shared/services/restaurants'
 import AdminModalUploadImage from '../adminModalUploadImage'
 import { updateCategory } from '@/shared/services/category'
 
@@ -210,11 +212,13 @@ const AdminUpdateModalProduct = ({
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
                 )} */}
               </div>
-              <AdminModalDropdownProduct
+              <AdminModalDropdown
                 p={t('Restaurants')}
                 className="mt-4 mb-2 placeholder"
                 classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                 getText={setRestId}
+                getData={getRestuarants}
+                queryKey="restaurants"
               />
             </FormControl>
           </div>

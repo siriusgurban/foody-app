@@ -40,6 +40,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import ClientLayout from '@/shared/components/clientLayout'
 
 function RestaurantId() {
   const { t } = useTranslation()
@@ -119,10 +120,7 @@ function RestaurantId() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <Box className="max-w-[1440px] mx-auto">
-          <header>
-            <ClientHeader />
-          </header>
+        <ClientLayout>
           <main className="flex xl:mx-8 md:mx-6 xs:mx-3 xl:gap-10 lg:gap-0 md:gap-0 xs:gap-0 justify-center">
             <section className="">
               <Box className="max-w-[1373px]">
@@ -362,8 +360,7 @@ function RestaurantId() {
               </Box>
             </section>
           </main>
-        </Box>
-        <ClientFooter />
+        </ClientLayout>
       </div>
     </div>
   )

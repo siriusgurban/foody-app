@@ -14,6 +14,7 @@ import AdminAddModalRest from '@/shared/components/AdminAddModalRest'
 import AdminUpdateModalRest from '@/shared/components/AdminUpdateModalRest'
 import { Restaurant } from '@/shared/types/admin'
 import { getCategories } from '@/shared/services/category'
+import AdminLayout from '@/shared/components/adminLayout'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
@@ -77,52 +78,42 @@ const Restaurants: React.FC = () => {
         <title>Admin | {t('restaurants')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
-      <div className=" bg-admin-bg h-full min-h-lvh">
-        <Box className="max-w-[1440px] mx-auto">
-          <AdminHeader />
-
-          <main className="flex">
-            <div className=" hidden sm:block">
-              <AdminAsideMenu />
-              <AdminAsideMenuResponsive />
-            </div>
-            <div className="w-full">
-              <div className="m-5">
-                <AdminUpdateModalRest
+      <AdminLayout>
+        <div className="w-full">
+          <div className="m-5">
+            <AdminUpdateModalRest
+              onClickClose={showHideModalUpdate}
+              show={hideModalUpdate}
+              text={t('Update Restaurant')}
+            />
+            <AdminAddModalRest
+              onClickClose={showHideModal}
+              show={hideModal}
+              text={t('Add Restaurant ')}
+            />
+            <AdminSecondaryComponent
+              p={t('Restaurants')}
+              onClick={showHideModal}
+              visible={true}
+              getText={setFilterCategory}
+            />
+          </div>
+          <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
+            {filteredRestaurants &&
+              filteredRestaurants.map((restaurant, index) => (
+                <AdminRestaurantsCard
+                  onDelete={handleDelete}
+                  key={index}
+                  img_url={restaurant.img_url}
+                  name={restaurant.name}
+                  restaurant_id={restaurant.id}
+                  category_id={restaurant?.category_id}
                   onClickClose={showHideModalUpdate}
-                  show={hideModalUpdate}
-                  text={t('Update Restaurant')}
                 />
-                <AdminAddModalRest
-                  onClickClose={showHideModal}
-                  show={hideModal}
-                  text={t('Add Restaurant ')}
-                />
-                <AdminSecondaryComponent
-                  p={t('Restaurants')}
-                  onClick={showHideModal}
-                  visible={true}
-                  getText={setFilterCategory}
-                />
-              </div>
-              <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
-                {filteredRestaurants &&
-                  filteredRestaurants.map((restaurant, index) => (
-                    <AdminRestaurantsCard
-                      onDelete={handleDelete}
-                      key={index}
-                      img_url={restaurant.img_url}
-                      name={restaurant.name}
-                      restaurant_id={restaurant.id}
-                      category_id={restaurant?.category_id}
-                      onClickClose={showHideModalUpdate}
-                    />
-                  ))}
-              </div>
-            </div>
-          </main>
-        </Box>
-      </div>
+              ))}
+          </div>
+        </div>
+      </AdminLayout>
     </>
   )
 }
