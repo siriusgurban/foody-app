@@ -41,6 +41,7 @@ const AdminModalDropdownProduct = ({
         ref={ref}
         onChange={handleChange}
       >
+        <option value="All">All</option>
         {restuarants?.map((item: any, index: number) => {
           return (
             <option key={index} value={item.id}>
