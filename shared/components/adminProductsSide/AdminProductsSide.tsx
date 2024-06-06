@@ -11,7 +11,6 @@ import { getRestuarants } from '@/shared/services/restaurants'
 import AdminUpdateModalProduct from '../adminUpdateModalProduct'
 import { Product } from '@/shared/types/admin'
 import { useRouter } from 'next/router'
-import AdminModalDropdownProduct from '../adminModalDropdownProduct'
 
 // interface Product {
 //   id: number
@@ -112,11 +111,12 @@ function AdminProductsSide() {
             {t(`products`)}
           </div>
           <div className="mt-3 sm:mt-0 flex flex-col items-center sm:flex-row gap-5">
-            <AdminModalDropdownProduct
-              getText={setFilterRest}
-              p={''}
+            <AdminModalDropdown
               className="flex width-200 gap-3"
               classNameSelect="rounded-2xl py-2 px-2 bg-admin-input font-medium text-base text-admin-secondary-heading w-[170px] overflow-x-auto"
+              getText={setFilterRest}
+              getData={getRestuarants}
+              queryKey="restaurants"
             />
             <AdminModalButton className="text-admin-secondary-add bg-admin-add-button-bg text-sm px-4 py-2 rounded-sm font-bold sm:rounded-2xl flex gap-2 align-middle">
               <Image src="/adminproducts/search.svg" />

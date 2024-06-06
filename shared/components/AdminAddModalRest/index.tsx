@@ -11,6 +11,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@chakra-ui/react'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import Image from 'next/image'
+import { getCategories } from '@/shared/services/category'
 
 interface Props {
   show?: boolean
@@ -151,6 +152,8 @@ const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
                   className="mt-4 mb-2 placeholder"
                   classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                   getText={setCategory}
+                  getData={getCategories}
+                  queryKey="categories"
                 />
               </>
             </div>

@@ -22,6 +22,7 @@ import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import AdminProductsSide from '@/shared/components/adminProductsSide/AdminProductsSide'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
+import AdminLayout from '@/shared/components/adminLayout'
 
 const newPost = {
   img_url:
@@ -80,16 +81,9 @@ function Products() {
         <link rel="icon" href="/admin6024190.png" />
       </Head>
 
-      <Box bg="#1E1E30">
-        <Box className="max-w-[1440px] mx-auto">
-          <AdminHeader />
-          <Box display="flex" gap="28px">
-            <AdminAsideMenu />
-            <AdminAsideMenuResponsive />
-            <AdminProductsSide />
-          </Box>
-        </Box>
-      </Box>
+      <AdminLayout>
+        <AdminProductsSide />
+      </AdminLayout>
     </div>
   )
 }
