@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useTransition } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ADMIN } from '@/shared/constants/router'
 
 function AdminAsideMenu() {
   const { push, asPath } = useRouter()
@@ -13,11 +14,11 @@ function AdminAsideMenu() {
   return (
     <Box
       as="section"
-      className="mt-4 bg-admin-aside w-64 rounded-xl h-96 p-5 hidden md:flex"
+      className="mt-4 bg-admin-aside w-64 rounded-xl h-[470px] p-5 hidden md:flex"
     >
       <Box as="ul" className="w-64 flex flex-col gap-2">
         <Button
-          onClick={() => push('/admin')}
+          onClick={() => push(ADMIN.ADMIN)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
           colorScheme="none"
           style={{
@@ -35,7 +36,7 @@ function AdminAsideMenu() {
           {t('dashboard')}
         </Button>
         <Button
-          onClick={() => push('/admin/products')}
+          onClick={() => push(ADMIN.PRODUCTS)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
           colorScheme="none"
           style={{
@@ -53,7 +54,7 @@ function AdminAsideMenu() {
           {t('products')}
         </Button>
         <Button
-          onClick={() => push('/admin/restaurants')}
+          onClick={() => push(ADMIN.RESTAURANTS)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52 "
           colorScheme="none"
           style={{
@@ -71,7 +72,7 @@ function AdminAsideMenu() {
           {t('restaurants')}
         </Button>
         <Button
-          onClick={() => push('/admin/category')}
+          onClick={() => push(ADMIN.CATEGORY)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
           colorScheme="none"
           style={{
@@ -89,7 +90,7 @@ function AdminAsideMenu() {
           {t('category')}
         </Button>
         <Button
-          onClick={() => push('/admin/orders')}
+          onClick={() => push(ADMIN.ORDERS)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
           colorScheme="none"
           style={{
@@ -107,7 +108,7 @@ function AdminAsideMenu() {
           {t('orders')}
         </Button>
         <Button
-          onClick={() => push('/admin/order-history')}
+          onClick={() => push(ADMIN.HISTORY)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
           colorScheme="none"
           style={{
@@ -125,7 +126,7 @@ function AdminAsideMenu() {
           {t('history')}
         </Button>
         <Button
-          onClick={() => push('/admin/offers')}
+          onClick={() => push(ADMIN.OFFERS)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
           colorScheme="none"
           style={{
@@ -143,7 +144,7 @@ function AdminAsideMenu() {
           {t('offers')}
         </Button>
         <Button
-          onClick={() => push('/admin/login')}
+          onClick={() => push(ADMIN.LOGIN)}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
           colorScheme="none"
           style={{

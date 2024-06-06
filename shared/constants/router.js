@@ -11,5 +11,12 @@ export const CLIENT = {
 };
 
 export const ADMIN = {
-    ADMIN: "/admin"
+    ADMIN: "/admin/",
+    RESTAURANTS: "/admin/restaurants",
+    PRODUCTS: "/admin/products",
+    CATEGORY: "/admin/category",
+    ORDERS: "/admin/orders",
+    HISTORY: "/admin/order-history",
+    OFFERS: "/admin/offers",
+    LOGIN: '/admin/login',
 }

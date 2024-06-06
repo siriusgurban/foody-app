@@ -9,7 +9,7 @@ function ClientLayout({ children }: { children: any }) {
       <header>
         <ClientHeader />
       </header>
-      <Box className="max-w-[1440px] mx-auto bg-black">{children}</Box>
+      <Box className="max-w-[1440px] mx-auto">{children}</Box>
       <ClientFooter />
     </>
   )

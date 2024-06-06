@@ -1,5 +1,6 @@
 export const QUERY = {
     RESTAURANTS: "restaurants",
     CATEGORIES: "categories",
-    PRODUCTS: "products"
+    PRODUCTS: "products",
+    BASKET: "basket"
 };

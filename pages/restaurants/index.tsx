@@ -1,5 +1,7 @@
 //@ts- nocheck
 
+import SkeletonRestaurant from '@/shared/components/SkeletonRestaurant'
+import SkeletonRestaurantClient from '@/shared/components/SkeletonRestaurantClient'
 import ClientFooter from '@/shared/components/clientFooter'
 import ClientHeader from '@/shared/components/clientHeader'
 import ClientLayout from '@/shared/components/clientLayout'
@@ -38,17 +40,17 @@ function Restaurants() {
   const [size, setSize] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: getRestuarants,
-    queryKey: ['restuarants'],
+    queryKey: [QUERY.RESTAURANTS],
   })
 
-  const { data: restaurant } = useQuery({
+  const { data: restaurant, isLoading: isLoadingRest } = useQuery({
     queryFn: () => getRestuarantById(query.id as string),
     queryKey: [QUERY.RESTAURANTS, query.id],
   })
 
-  console.log(query?.id, 'queryquery')
+  console.log(isLoadingRest, 'isLoadingisLoadingisLoading')
 
   return (
     <div>
@@ -62,10 +64,18 @@ function Restaurants() {
         <main className="flex md:mx-8 mx-0 md:gap-8 gap-0 md:justify-normal justify-center">
           <section className="md:block hidden">
             <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12  overflow-hidden">
-              {data?.data?.result?.data?.map(
-                (item: Restaurant, index: number) => {
-                  return <ClientRestaurantAsideMenu key={index} item={item} />
-                },
+              {isLoading ? (
+                <Box className="flex flex-wrap justify-between ">
+                  {[1, 2, 3, 4].map((item, index) => {
+                    return <SkeletonRestaurant key={index} />
+                  })}
+                </Box>
+              ) : (
+                data?.data?.result?.data?.map(
+                  (item: Restaurant, index: number) => {
+                    return <ClientRestaurantAsideMenu key={index} item={item} />
+                  },
+                )
               )}
             </Box>
           </section>
@@ -133,10 +143,16 @@ function Restaurants() {
             </Box>
 
             <Box className="flex flex-wrap md:gap-7 gap-5 justify-center md:justify-start">
-              {restaurant?.data?.result?.data?.products?.map(
-                (item: Product, index: number) => {
-                  return <ClientRestaurantCard key={index} item={item} />
-                },
+              {isLoadingRest ? (
+                <Box className="flex flex-wrap justify-between ">
+                  <SkeletonRestaurantClient />
+                </Box>
+              ) : (
+                restaurant?.data?.result?.data?.products?.map(
+                  (item: Product, index: number) => {
+                    return <ClientRestaurantCard key={index} item={item} />
+                  },
+                )
               )}
             </Box>
           </section>
