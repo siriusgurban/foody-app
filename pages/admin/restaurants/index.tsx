@@ -15,6 +15,10 @@ import AdminUpdateModalRest from '@/shared/components/AdminUpdateModalRest'
 import { Restaurant } from '@/shared/types/admin'
 import { getCategories } from '@/shared/services/category'
 import AdminLayout from '@/shared/components/adminLayout'
+import SkeletonCard from '@/shared/components/SkeletonCard'
+import Skeleton from 'react-loading-skeleton'
+import SkeletonProduct from '@/shared/components/SkeletonRestaurant'
+import SkeletonRestaurant from '@/shared/components/SkeletonRestaurant'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
@@ -99,7 +103,14 @@ const Restaurants: React.FC = () => {
             />
           </div>
           <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
-            {filteredRestaurants &&
+            {isLoading ? (
+              <Box className="flex flex-wrap justify-between ">
+                {[1, 2, 3, 4, 5].map((item, index) => {
+                  return <SkeletonRestaurant key={index} />
+                })}
+              </Box>
+            ) : (
+              filteredRestaurants &&
               filteredRestaurants.map((restaurant, index) => (
                 <AdminRestaurantsCard
                   onDelete={handleDelete}
@@ -110,7 +121,8 @@ const Restaurants: React.FC = () => {
                   category_id={restaurant?.category_id}
                   onClickClose={showHideModalUpdate}
                 />
-              ))}
+              ))
+            )}
           </div>
         </div>
       </AdminLayout>

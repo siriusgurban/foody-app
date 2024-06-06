@@ -42,37 +42,6 @@ const initialValues = {
 
 function Products() {
   const { t } = useTranslation('admin')
-  const toast = useToast()
-  const { push } = useRouter()
-
-  const { values, handleChange, handleSubmit, errors } = useFormik({
-    initialValues,
-    onSubmit: (values) => mutate(values),
-  })
-
-  const { mutate } = useMutation({
-    mutationFn: postProduct,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-  })
-
-  const { data: products } = useQuery({
-    queryFn: getProducts,
-    queryKey: ['products'],
-  })
-
-  console.log(products, 'products')
 
   return (
     <div>

@@ -25,6 +25,12 @@ import AdminUpdateModalCategory from '@/shared/components/adminUpdateModalCatego
 import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
 import DeleteModal from '@/shared/components/deleteModal'
 import AdminLayout from '@/shared/components/adminLayout'
+import SkeletonCard from '@/shared/components/SkeletonCard'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import SkeletonProduct from '@/shared/components/SkeletonRestaurant'
+import SkeletonRestaurant from '@/shared/components/SkeletonRestaurant'
+import SkeletonRestaurantClient from '@/shared/components/SkeletonRestaurantClient'
 
 function Category() {
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
@@ -112,6 +118,7 @@ function Category() {
               />
             </div>
           </div>
+          <SkeletonRestaurantClient />
           <TableContainer className="md:overflow-x-auto">
             <Table variant="simple" className="bg-white">
               <Thead>

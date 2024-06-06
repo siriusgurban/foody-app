@@ -9,8 +9,10 @@ import AdminModalButton from '../adminModalButton'
 import { useQuery } from '@tanstack/react-query'
 import { getRestuarants } from '@/shared/services/restaurants'
 import AdminUpdateModalProduct from '../adminUpdateModalProduct'
-import { Product } from '@/shared/types/admin'
+import { Product, Restaurant } from '@/shared/types/admin'
 import { useRouter } from 'next/router'
+import { QUERY } from '@/shared/constants/query'
+import SkeletonRestaurant from '../SkeletonProduct'
 
 // interface Product {
 //   id: number
@@ -33,9 +35,14 @@ function AdminProductsSide() {
 
   const { query, pathname, push } = useRouter()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: getProducts,
-    queryKey: ['products'],
+    queryKey: [QUERY.PRODUCTS],
+  })
+
+  const { data: resto } = useQuery({
+    queryFn: getRestuarants,
+    queryKey: [QUERY.RESTAURANTS],
   })
 
   const productsDatas: Product[] = data?.data?.result?.data ?? []
@@ -47,7 +54,7 @@ function AdminProductsSide() {
       : productsDatas.filter((product: any) => product?.rest_id == filterRest)
 
   function handleRestaurant(id: string) {
-    let RestName = data?.data?.result?.data.find(
+    let RestName = resto?.data?.result?.data.find(
       (item: any, index: number) => id == item?.id,
     )
 
@@ -132,7 +139,14 @@ function AdminProductsSide() {
         />
 
         <Box display="flex" gap="40px" flexWrap="wrap" justifyContent="start">
-          {filteredRestaurants &&
+          {isLoading ? (
+            <Box className="flex flex-wrap justify-between ">
+              {[1, 2, 3, 4].map((item, index) => {
+                return <SkeletonRestaurant key={index} />
+              })}
+            </Box>
+          ) : (
+            filteredRestaurants &&
             filteredRestaurants.map((product, index) => (
               <Box
                 key={index}
@@ -196,7 +210,8 @@ function AdminProductsSide() {
                   </Box>
                 </Box>
               </Box>
-            ))}
+            ))
+          )}
         </Box>
       </Box>
 
