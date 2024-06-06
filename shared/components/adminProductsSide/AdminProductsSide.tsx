@@ -11,6 +11,7 @@ import { getRestuarants } from '@/shared/services/restaurants'
 import AdminUpdateModalProduct from '../adminUpdateModalProduct'
 import { Product } from '@/shared/types/admin'
 import { useRouter } from 'next/router'
+import AdminModalDropdownProduct from '../adminModalDropdownProduct'
 
 // interface Product {
 //   id: number
@@ -29,13 +30,22 @@ function AdminProductsSide() {
   const [isDrawerOpen, setDrawerOpen] = useState(false)
   const [rest, setRest] = useState()
   const [hideModalAddPro, setHideModalAddPro] = useState<boolean>(true)
+  const [filterRest, setFilterRest] = useState<string>('All')
 
   const { query, pathname, push } = useRouter()
 
   const { data } = useQuery({
-    queryFn: getRestuarants,
-    queryKey: ['restuarants'],
+    queryFn: getProducts,
+    queryKey: ['products'],
   })
+
+  const productsDatas: Product[] = data?.data?.result?.data ?? []
+
+  // filter restuarants
+  const filteredRestaurants =
+    filterRest == 'All'
+      ? productsDatas
+      : productsDatas.filter((product: any) => product?.rest_id == filterRest)
 
   function handleRestaurant(id: string) {
     let RestName = data?.data?.result?.data.find(
@@ -102,7 +112,8 @@ function AdminProductsSide() {
             {t(`products`)}
           </div>
           <div className="mt-3 sm:mt-0 flex flex-col items-center sm:flex-row gap-5">
-            <AdminModalDropdown
+            <AdminModalDropdownProduct
+              getText={setFilterRest}
               p={''}
               className="flex width-200 gap-3"
               classNameSelect="rounded-2xl py-2 px-2 bg-admin-input font-medium text-base text-admin-secondary-heading w-[170px] overflow-x-auto"
@@ -121,67 +132,71 @@ function AdminProductsSide() {
         />
 
         <Box display="flex" gap="40px" flexWrap="wrap" justifyContent="start">
-          {products.map((product, index) => (
-            <Box
-              key={index}
-              className="productCards"
-              w="196px"
-              bg="white"
-              mt="52px"
-              pb="12px"
-              display="flex"
-              flexDir="column"
-              justifyContent="space-evenly"
-              borderRadius="5"
-            >
-              <Image
-                alt={product.name}
-                src={product.img_url}
-                ml="auto"
-                mr="auto"
-                mt="15px"
-              />
-              <Box className="texts" ml="17px">
-                <Text fontSize="18px" fontFamily="Roboto" fontWeight="500">
-                  {product?.name}
-                </Text>
-                <Text
-                  fontSize="14px"
-                  fontFamily="Roboto"
-                  fontWeight="500"
-                  textColor="#8E8E93"
-                >
-                  {handleRestaurant(product?.rest_id)}
-                </Text>
-              </Box>
-              <Box display="flex" ml="17px" gap="80px" mt="5px">
-                <Text
-                  fontSize="12px"
-                  fontFamily="Roboto"
-                  fontWeight="500"
-                  textColor="#00B2A9"
-                >
-                  ${product.price}
-                </Text>
-                <Box display="flex" gap="12px" alignItems="center">
-                  <Text
-                    onClick={() => handleDeleteClick(product.id)}
-                    cursor="pointer"
-                  >
-                    <img src="/adminproducts/garbage.svg" alt="delete" />
+          {filteredRestaurants &&
+            filteredRestaurants.map((product, index) => (
+              <Box
+                key={index}
+                className="productCards"
+                w="196px"
+                bg="white"
+                mt="52px"
+                pb="12px"
+                display="flex"
+                flexDir="column"
+                justifyContent="space-evenly"
+                borderRadius="5"
+              >
+                <Image
+                  alt={product.name}
+                  src={product.img_url}
+                  ml="auto"
+                  mr="auto"
+                  mt="15px"
+                  w="160px"
+                  h="160px"
+                  className="object-cover"
+                />
+                <Box className="texts" ml="17px">
+                  <Text fontSize="18px" fontFamily="Roboto" fontWeight="500">
+                    {product?.name}
                   </Text>
                   <Text
-                    onClick={() => {
-                      push(pathname + '?id=' + product.id), showHideModalAdd()
-                    }}
-                    cursor="pointer"
+                    fontSize="14px"
+                    fontFamily="Roboto"
+                    fontWeight="500"
+                    textColor="#8E8E93"
                   >
-                    <img src="/adminproducts/pen.svg" alt="edit" />
+                    {handleRestaurant(product?.rest_id)}
                   </Text>
                 </Box>
+                <Box display="flex" ml="17px" gap="80px" mt="5px">
+                  <Text
+                    fontSize="12px"
+                    fontFamily="Roboto"
+                    fontWeight="500"
+                    textColor="#00B2A9"
+                  >
+                    ${product.price}
+                  </Text>
+                  <Box display="flex" gap="12px" alignItems="center">
+                    <Text
+                      onClick={() => handleDeleteClick(product.id)}
+                      cursor="pointer"
+                    >
+                      <img src="/adminproducts/garbage.svg" alt="delete" />
+                    </Text>
+                    <Text
+                      onClick={() => {
+                        push(pathname + '?id=' + product.id), showHideModalAdd()
+                      }}
+                      cursor="pointer"
+                    >
+                      <img src="/adminproducts/pen.svg" alt="edit" />
+                    </Text>
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
         </Box>
       </Box>
 

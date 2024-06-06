@@ -46,6 +46,8 @@ const AdminUpdateModalProduct = ({
   const [restId, setRestId] = useState<string | null>('')
   const imgRef = useRef<any>(null)
 
+  console.log(nameRef?.current?.value, 'descriptionRef')
+
   useEffect(() => {
     if (data) {
       nameRef.current.value = data?.data.result.data.name
@@ -181,7 +183,7 @@ const AdminUpdateModalProduct = ({
                   {t('Description')}
                 </p>
                 <input
-                  type="string"
+                  type="text"
                   id="description"
                   name="description"
                   placeholder={t('Description')}
