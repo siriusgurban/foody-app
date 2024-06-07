@@ -2,9 +2,11 @@ import { Box, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 function UserAsideMenu() {
   const { push, query, reload } = useRouter()
+  const { t } = useTranslation('client')
 
   const isActive = (path: string) => (query.page === path ? 'pink-200' : 'none')
   const isActiveText = (path: string) =>
@@ -41,7 +43,7 @@ function UserAsideMenu() {
         <Text
           className={`text-xl font-semibold text-${isActiveText('profile')}  `}
         >
-          Profile
+          {t('Profile')}
         </Text>
       </Box>
       <Box
@@ -59,7 +61,7 @@ function UserAsideMenu() {
         <Text
           className={`text-xl font-semibold text-${isActiveText('basket')}  `}
         >
-          Your Basket
+          {t('Your Basket')}
         </Text>
       </Box>
       <Box
@@ -77,7 +79,7 @@ function UserAsideMenu() {
         <Text
           className={`text-xl font-semibold text-${isActiveText('orders')}  `}
         >
-          Your Orders
+          {t('Your Orders')}
         </Text>
       </Box>
       <Box
@@ -95,7 +97,7 @@ function UserAsideMenu() {
         <Text
           className={`text-xl font-semibold text-${isActiveText('checkout')}  `}
         >
-          Your Checkout
+          {t('Your Checkout')}
         </Text>
       </Box>
       <Box
@@ -113,7 +115,7 @@ function UserAsideMenu() {
         <Text
           className={`text-xl font-semibold text-${isActiveText('logout')}  `}
         >
-          Logout
+          {t('Log Out')}
         </Text>
       </Box>
     </Box>

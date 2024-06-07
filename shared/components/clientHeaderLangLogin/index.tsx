@@ -1,18 +1,23 @@
 import React from 'react'
-// import { Lang } from '../Lang'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import { CLIENT } from '@/shared/constants/router'
+import { Lang } from '@/shared/components/Lang'
 
-const clientHeaderLangLogin = () => {
-    const { t } = useTranslation('admin')
-    const navigate = useRouter()
-    return (
-        <div className='flex items-center'>
-            {/* <Lang /> */}
-            <AdminModalButton className=' font-medium w-12/12  px-6 py-2 rounded-3xl   bg-client-main-red text-white shadow-md hover:scale-95 transition-all duration-500 hidden sm:block' text={t('Sign up')} onClick={() => navigate.push("/login")} />
-        </div>
-    )
+const ClientHeaderLangLogin = () => {
+  const { t } = useTranslation('client')
+  const { push } = useRouter()
+  return (
+    <div className="flex items-center">
+      {/* <Lang /> */}
+      <AdminModalButton
+        className=" font-medium w-12/12  px-6 py-2 rounded-3xl   bg-client-main-red text-white shadow-md hover:scale-95 transition-all duration-500 hidden sm:block"
+        text={t('Sign up')}
+        onClick={() => push(CLIENT.LOGIN)}
+      />
+    </div>
+  )
 }
 
-export default clientHeaderLangLogin
+export default ClientHeaderLangLogin

@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getBasket } from '@/shared/services/basket'
 import { useRouter } from 'next/router'
 import { getUser } from '@/shared/services/admin'
+import { QUERY } from '@/shared/constants/query'
 
 const ClientHeaderRightSideComponents = () => {
   const [showUserList, setShowUserList] = useState(false)
@@ -18,7 +19,7 @@ const ClientHeaderRightSideComponents = () => {
 
   const { data: basket } = useQuery({
     queryFn: () => getBasket(),
-    queryKey: ['basket'],
+    queryKey: [QUERY.BASKET],
   })
 
   const { data, status, error } = useQuery({

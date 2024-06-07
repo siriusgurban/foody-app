@@ -35,7 +35,7 @@ import { getProducts } from '@/shared/services/products'
 const emptyData: any = []
 
 function Restaurants() {
-  const { t } = useTranslation()
+  const { t } = useTranslation('client')
   const { push, query, asPath } = useRouter()
   const isActive = (path: string) => (query.id === path ? '[#F0E1E1]' : 'none')
   const [size, setSize] = React.useState('')

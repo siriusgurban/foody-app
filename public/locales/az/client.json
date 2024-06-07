@@ -11,5 +11,18 @@
     "Full Name":"Ad Soyad",
     "Username":"İstifadəçi Adı",
 
-    "Filters":"Çeşidlər"
+    "Filters":"Çeşidlər",
+
+    "Home": "Ana Səhifə",
+    "Restaurants":"Restoranlar",
+    "About Us":"Haqqımızda",
+    "How It Works":"Necə İşləyir",
+    "Faqs":"TSS",
+    "Sign Up":"Qeydiyyat",
+    "Profile":"Profil",
+    "Your Basket":"Səbətin",
+    "Your Orders":"Sifarişlərin",
+    "Checkout":"Checkout",
+    "Your Checkout":"Checkout-un",
+    "Log Out":"Çıxış"
 }

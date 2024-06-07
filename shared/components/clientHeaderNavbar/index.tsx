@@ -1,17 +1,19 @@
+import { QUERY } from '@/shared/constants/query'
+import { ADMIN, CLIENT } from '@/shared/constants/router'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const Navbar = () => {
-  const navigate = useRouter()
+  const { push, pathname } = useRouter()
   const { t } = useTranslation('client')
 
   return (
     <ul className=" gap-2 md:justify-around text-lg w-full md:w-1/2 text-client-main-gray1 font-medium hidden md:flex">
       <li
-        onClick={() => navigate.push('/')}
+        onClick={() => push('/')}
         className={`cursor-pointer transition-all ${
-          navigate.pathname === '/'
+          pathname === '/'
             ? 'text-client-main-red'
             : 'hover:text-client-main-red'
         }`}
@@ -19,9 +21,9 @@ const Navbar = () => {
         {t('Home')}
       </li>
       <li
-        onClick={() => navigate.push('/restaurants')}
+        onClick={() => push(CLIENT.RESTAURANTS)}
         className={`cursor-pointer transition-all ${
-          navigate.pathname === '/restaurants'
+          pathname === '/restaurants'
             ? 'text-client-main-red'
             : 'hover:text-client-main-red'
         }`}
@@ -29,9 +31,9 @@ const Navbar = () => {
         {t('Restaurants')}
       </li>
       <li
-        onClick={() => navigate.push('/about-us')}
+        onClick={() => push(CLIENT.ABOUTUS)}
         className={`cursor-pointer transition-all ${
-          navigate.pathname === '/about-us'
+          pathname === '/about-us'
             ? 'text-client-main-red'
             : 'hover:text-client-main-red'
         }`}
@@ -39,9 +41,9 @@ const Navbar = () => {
         {t('About Us')}
       </li>
       <li
-        onClick={() => navigate.push('/how-it-works')}
+        onClick={() => push(CLIENT.HOWITWORKS)}
         className={`cursor-pointer transition-all ${
-          navigate.pathname === '/how-it-works'
+          pathname === '/how-it-works'
             ? 'text-client-main-red'
             : 'hover:text-client-main-red'
         }`}
@@ -49,9 +51,9 @@ const Navbar = () => {
         {t('How It Works')}
       </li>
       <li
-        onClick={() => navigate.push('/faqs')}
+        onClick={() => push(CLIENT.FAQS)}
         className={`cursor-pointer transition-all ${
-          navigate.pathname === '/faqs'
+          pathname === '/faqs'
             ? 'text-client-main-red'
             : 'hover:text-client-main-red'
         }`}
