@@ -53,10 +53,10 @@ function AdminHeader() {
       </Box>
       <Box className="flex gap-5 my-auto">
         <button
-          className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs"
+          className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs min-w-10"
           onClick={showHideModalAdd}
         >
-          + <span className="hidden md:inline-block">{t('addproduct')}</span>
+          + <span className="hidden  md:inline-block">{t('addproduct')}</span>
         </button>
         <AdminAddModalProduct
           onClickClose={showHideModalAdd}

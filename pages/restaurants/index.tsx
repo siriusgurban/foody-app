@@ -1,9 +1,7 @@
 //@ts- nocheck
 
-import SkeletonRestaurant from '@/shared/components/SkeletonRestaurant'
-import SkeletonRestaurantClient from '@/shared/components/SkeletonRestaurantClient'
-import ClientFooter from '@/shared/components/clientFooter'
-import ClientHeader from '@/shared/components/clientHeader'
+import SkeletonRestaurantClient from '@/shared/components/skeleton/SkeletonRestaurantClient'
+import SkeletonRestaurantClientAside from '@/shared/components/skeleton/SkeletonRestaurantClientAside'
 import ClientLayout from '@/shared/components/clientLayout'
 import ClientRestaurantAsideMenu from '@/shared/components/clientRestaurantAsideMenu'
 import ClientRestaurantCard from '@/shared/components/clientRestaurantCard'
@@ -65,9 +63,9 @@ function Restaurants() {
           <section className="md:block hidden">
             <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12  overflow-hidden">
               {isLoading ? (
-                <Box className="flex flex-wrap justify-between ">
+                <Box>
                   {[1, 2, 3, 4].map((item, index) => {
-                    return <SkeletonRestaurant key={index} />
+                    return <SkeletonRestaurantClientAside key={index} />
                   })}
                 </Box>
               ) : (
@@ -79,6 +77,8 @@ function Restaurants() {
               )}
             </Box>
           </section>
+
+          {/* mobile */}
           <section>
             <Drawer
               placement="bottom"
@@ -145,7 +145,9 @@ function Restaurants() {
             <Box className="flex flex-wrap md:gap-7 gap-5 justify-center md:justify-start">
               {isLoadingRest ? (
                 <Box className="flex flex-wrap justify-between ">
-                  <SkeletonRestaurantClient />
+                  {[1, 2, 3, 4].map((item, index) => {
+                    return <SkeletonRestaurantClient key={index} />
+                  })}
                 </Box>
               ) : (
                 restaurant?.data?.result?.data?.products?.map(

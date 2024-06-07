@@ -12,7 +12,8 @@ import AdminUpdateModalProduct from '../adminUpdateModalProduct'
 import { Product, Restaurant } from '@/shared/types/admin'
 import { useRouter } from 'next/router'
 import { QUERY } from '@/shared/constants/query'
-import SkeletonRestaurant from '../SkeletonProduct'
+import SkeletonRestaurant from '@/shared/components/skeleton/SkeletonRestaurant'
+import SkeletonProduct from '../skeleton/SkeletonProduct'
 
 // interface Product {
 //   id: number
@@ -140,9 +141,9 @@ function AdminProductsSide() {
 
         <Box display="flex" gap="40px" flexWrap="wrap" justifyContent="start">
           {isLoading ? (
-            <Box className="flex flex-wrap justify-between ">
-              {[1, 2, 3, 4].map((item, index) => {
-                return <SkeletonRestaurant key={index} />
+            <Box className="flex flex-wrap gap-5 justify-between my-12">
+              {[1, 2, 3, 4, 5].map((item, index) => {
+                return <SkeletonProduct key={index} />
               })}
             </Box>
           ) : (

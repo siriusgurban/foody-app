@@ -1,5 +1,3 @@
-import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
-import AdminHeader from '@/shared/components/AdminHeader'
 import { deleteCategory, getCategories } from '@/shared/services/category'
 import { Box, Button, useDisclosure, useToast } from '@chakra-ui/react'
 import {
@@ -20,17 +18,15 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
-import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminUpdateModalCategory from '@/shared/components/adminUpdateModalCategory'
 import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
 import DeleteModal from '@/shared/components/deleteModal'
 import AdminLayout from '@/shared/components/adminLayout'
-import SkeletonCard from '@/shared/components/SkeletonCard'
-import Skeleton from 'react-loading-skeleton'
+
 import 'react-loading-skeleton/dist/skeleton.css'
-import SkeletonProduct from '@/shared/components/SkeletonRestaurant'
-import SkeletonRestaurant from '@/shared/components/SkeletonRestaurant'
-import SkeletonRestaurantClient from '@/shared/components/SkeletonRestaurantClient'
+import SkeletonRestaurant from '@/shared/components/skeleton/SkeletonRestaurant'
+import SkeletonProduct from '@/shared/components/skeleton/SkeletonProduct'
+import SkeletonTable from '@/shared/components/skeleton/SkeletonTable'
 
 function Category() {
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
@@ -44,7 +40,7 @@ function Category() {
 
   const queryClient = useQueryClient()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: getCategories,
     queryKey: ['categories'],
   })
@@ -118,7 +114,6 @@ function Category() {
               />
             </div>
           </div>
-          <SkeletonRestaurantClient />
           <TableContainer className="md:overflow-x-auto">
             <Table variant="simple" className="bg-white">
               <Thead>
@@ -130,6 +125,7 @@ function Category() {
                   <Th></Th>
                 </Tr>
               </Thead>
+
               <Tbody>
                 {data?.data?.result?.data?.map((item: any, index: number) => {
                   return (
@@ -174,6 +170,7 @@ function Category() {
                 })}
               </Tbody>
             </Table>
+            {isLoading ? <SkeletonTable /> : ''}
           </TableContainer>
         </Box>
       </AdminLayout>
