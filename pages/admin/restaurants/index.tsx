@@ -3,22 +3,15 @@ import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
 import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
-import AdminHeader from '@/shared/components/AdminHeader'
-import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import { Box, Toast } from '@chakra-ui/react'
-import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteRestuarant, getRestuarants } from '@/shared/services/restaurants'
 import AdminAddModalRest from '@/shared/components/AdminAddModalRest'
 import AdminUpdateModalRest from '@/shared/components/AdminUpdateModalRest'
 import { Restaurant } from '@/shared/types/admin'
-import { getCategories } from '@/shared/services/category'
 import AdminLayout from '@/shared/components/adminLayout'
-import SkeletonCard from '@/shared/components/SkeletonCard'
-import Skeleton from 'react-loading-skeleton'
-import SkeletonProduct from '@/shared/components/SkeletonRestaurant'
-import SkeletonRestaurant from '@/shared/components/SkeletonRestaurant'
+import SkeletonRestaurant from '@/shared/components/skeleton/SkeletonRestaurant'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
@@ -104,8 +97,8 @@ const Restaurants: React.FC = () => {
           </div>
           <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
             {isLoading ? (
-              <Box className="flex flex-wrap justify-between ">
-                {[1, 2, 3, 4, 5].map((item, index) => {
+              <Box className="flex flex-wrap gap-2 justify-between ">
+                {[1, 2, 3, 4].map((item, index) => {
                   return <SkeletonRestaurant key={index} />
                 })}
               </Box>
