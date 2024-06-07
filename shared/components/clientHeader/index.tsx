@@ -12,9 +12,10 @@ import { Lang } from '../Lang'
 import { getUser } from '@/shared/services/admin'
 import { useQuery } from '@tanstack/react-query'
 import Foody from '../foody'
+import { CLIENT } from '@/shared/constants/router'
 
 const ClientHeader = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('client')
   const [isModalOpen, setModalOpen] = useState(false)
   const [searchModal, setSearchModal] = useState(false)
   const [testState, setTestState] = useState(false)
@@ -37,7 +38,7 @@ const ClientHeader = () => {
     queryKey: ['user'],
   })
 
-  console.log(userInfo, 'statusstatus')
+  // console.log(userInfo, 'statusstatus')
 
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,7 +50,7 @@ const ClientHeader = () => {
     }
   }, [isModalOpen])
 
-  console.log(data, 'UserData')
+  // console.log(data, 'UserData')
 
   const toggleAvatars = () => {
     if (userInfo !== undefined && data !== undefined) {
@@ -78,7 +79,7 @@ const ClientHeader = () => {
   return (
     <nav className="flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer   bg-client-fill-gray sm:p-11">
       <h1
-        className="f flex items-center text-4xl ont-extrabold text-client-zero-black"
+        className="flex items-center text-4xl font-extrabold text-client-zero-black"
         onClick={toggleAvatars}
       >
         <button onClick={showHideModal} className="md:hidden block mr-5">
@@ -155,7 +156,7 @@ const ClientHeader = () => {
               <AdminModalButton
                 className=" bg-client-main-red  w-6/12 mt-16 mb-16 mx-auto py-4 rounded-full  text-2xl text-white font-medium  "
                 text={t('Sign Up')}
-                onClick={() => push('/login')}
+                onClick={() => push(CLIENT.LOGIN)}
               />
             )}
             <ul className="flex flex-col justify-around  gap-4  mt-4  w-full font-medium  text-lg  text-client-main-gray1">
@@ -195,25 +196,25 @@ const ClientHeader = () => {
               )}
 
               <li
-                onClick={() => push('/restaurants')}
+                onClick={() => push(CLIENT.RESTAURANTS)}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
                 {t('Restaurants')}
               </li>
               <li
-                onClick={() => push('/about-us')}
+                onClick={() => push(CLIENT.ABOUTUS)}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
                 {t('About Us')}
               </li>
               <li
-                onClick={() => push('/how-it-works')}
+                onClick={() => push(CLIENT.HOWITWORKS)}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
                 {t('How It Works')}
               </li>
               <li
-                onClick={() => push('/faqs')}
+                onClick={() => push(CLIENT.FAQS)}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
                 {t('Faqs')}

@@ -10,12 +10,13 @@ import { IoMdCloudUpload } from 'react-icons/io'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import { postProduct } from '@/shared/services/products'
 import AdminModalDropdown from '../adminModalDropdown'
-import AdminModalDropdownProduct from '../adminModalDropdownProduct'
 import AdminModalTextArea from '../adminModalText'
+import { getRestuarants } from '@/shared/services/restaurants'
+import { QUERY } from '@/shared/constants/query'
 
 interface Props {
   show?: boolean
-  onClickClose?: () => void
+  onClickClose?: any
   text: string
 }
 const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
@@ -23,15 +24,16 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
   const toast = useToast()
   const queryClient = useQueryClient()
 
-  const nameRef = useRef<HTMLInputElement>(null)
-  const descriptionRef = useRef<HTMLInputElement>(null)
-  const priceRef = useRef<HTMLInputElement>(null)
-  const [description, setDescription] = useState<string | null>('')
+  const nameRef = useRef<any>('')
+  const descriptionRef = useRef<any>('')
+  const priceRef = useRef<any>('')
+  // const [description, setDescription] = useState<string | null>('')
   const [restId, setRestId] = useState<string | null>('')
   const imgRef = useRef<any>(null)
 
   async function addProduct() {
     const name = nameRef?.current?.value
+    const description = descriptionRef?.current?.value
     const price = priceRef?.current?.value
     const img = imgUrl
 
@@ -44,6 +46,10 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
     }
 
     mutate(form)
+
+    nameRef.current.value = ''
+    descriptionRef.current.value = ''
+    priceRef.current.value = ''
   }
 
   const { mutate } = useMutation({
@@ -56,12 +62,13 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
         duration: 3000,
         isClosable: true,
       })
+      onClickClose()
     },
     onError(data, variables, context) {
       console.log(data, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY.PRODUCTS] })
     },
   })
 
@@ -142,12 +149,18 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
                 )} */}
               </div>
+
               <div className="flex flex-col gap-2 ">
-                <AdminModalTextArea
-                  p={t('Description')}
-                  className="mt-6"
-                  placeHolder="Description"
-                  getText={setDescription}
+                <p className=" font-medium   text-admin-text  text-base font-display">
+                  {t('Description')}
+                </p>
+                <input
+                  type="string"
+                  id="description"
+                  name="description"
+                  placeholder={t('Description')}
+                  ref={descriptionRef}
+                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
                 {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
@@ -169,11 +182,13 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
                 )} */}
               </div>
-              <AdminModalDropdownProduct
+              <AdminModalDropdown
                 p={t('Restaurants')}
                 className="mt-4 mb-2 placeholder"
                 classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                 getText={setRestId}
+                getData={getRestuarants}
+                queryKey="restaurants"
               />
             </FormControl>
           </div>

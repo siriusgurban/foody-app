@@ -1,39 +1,69 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IoClose } from "react-icons/io5";
-import AdminModalButton from "../adminModalButton";
-import { useTranslation } from "react-i18next";
-import { FormControl, Text, useToast } from "@chakra-ui/react";
-import { postCategory } from "@/shared/services/category";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
-import { IoMdCloudUpload } from "react-icons/io";
-import { useImageUpload } from "@/shared/hooks/useImageUpload";
-import { postProduct } from "@/shared/services/products";
-import AdminModalDropdown from "../adminModalDropdown";
-import AdminModalDropdownProduct from "../adminModalDropdownProduct";
-import AdminModalTextArea from "../adminModalText";
+import React, { useEffect, useRef, useState } from 'react'
+import { IoClose } from 'react-icons/io5'
+import AdminModalButton from '../adminModalButton'
+import { useTranslation } from 'react-i18next'
+import { FormControl, Text, useToast } from '@chakra-ui/react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
+import { useImageUpload } from '@/shared/hooks/useImageUpload'
+import { getProductById, postProduct } from '@/shared/services/products'
+import AdminModalDropdown from '../adminModalDropdown'
+import AdminModalTextArea from '../adminModalText'
+import { useRouter } from 'next/router'
+import {
+  getRestuarantById,
+  getRestuarants,
+} from '@/shared/services/restaurants'
+import AdminModalUploadImage from '../adminModalUploadImage'
+import { updateCategory } from '@/shared/services/category'
 
 interface Props {
-  show?: boolean;
-  onClickClose?: () => void;
-  text: string;
+  show?: boolean
+  onClickClose?: any
+  text: string
 }
-const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
-  const { t } = useTranslation("admin");
-  const toast = useToast();
-  const queryClient = useQueryClient();
+const AdminUpdateModalProduct = ({
+  show = true,
+  onClickClose,
+  text,
+}: Props) => {
+  const { t } = useTranslation('admin')
+  const toast = useToast()
+  const { query } = useRouter()
+  const queryClient = useQueryClient()
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
-  const priceRef = useRef<HTMLInputElement>(null);
-  const [description, setDescription] = useState<string | null>("");
-  const [restId, setRestId] = useState<string | null>("");
-  const imgRef = useRef<any>(null);
+  const { data } = useQuery({
+    queryFn: () => getProductById(query.id as string),
+    queryKey: ['products', query.id],
+  })
+  // console.log(data, 'product')
 
-  async function addProduct() {
-    const name = nameRef?.current?.value;
-    const price = priceRef?.current?.value;
-    const img = imgUrl;
+  let initUrl = data?.data?.result?.data?.img_url
+
+  const { loading, imgUrl, getImage } = useImageUpload(initUrl)
+
+  const nameRef = useRef<any>(null)
+  const descriptionRef = useRef<any>(null)
+  const priceRef = useRef<any>(null)
+  const [restId, setRestId] = useState<string | null>('')
+  const imgRef = useRef<any>(null)
+
+  console.log(nameRef?.current?.value, 'descriptionRef')
+
+  useEffect(() => {
+    if (data) {
+      nameRef.current.value = data?.data.result.data.name
+      descriptionRef.current.value = data?.data.result.data.description
+      priceRef.current.value = data?.data.result.data.price
+      setRestId(data?.data.result.data.rest_id)
+    }
+  }, [query.id, data])
+
+  async function updateProduct() {
+    const name = nameRef?.current?.value
+    const description = descriptionRef?.current?.value
+    const price = priceRef?.current?.value
+    const img = imgUrl
 
     const form = {
       name: name,
@@ -41,36 +71,40 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
       price: price,
       rest_id: restId,
       img_url: img,
-    };
+    }
+    console.log(form, 'formformform')
 
-    mutate(form);
+    mutate({ id: query?.id, data: form })
+
+    nameRef.current.value = ''
+    descriptionRef.current.value = ''
+    priceRef.current.value = ''
   }
 
   const { mutate } = useMutation({
-    mutationFn: postProduct,
+    mutationFn: updateCategory,
     onSuccess(data, variables, context) {
-      console.log(data, "success");
+      console.log(data, 'success')
       toast({
-        title: "Product added",
-        status: "success",
+        title: 'Product updated',
+        status: 'success',
         duration: 3000,
         isClosable: true,
-      });
+      })
+      onClickClose()
     },
     onError(data, variables, context) {
-      console.log(data, "error");
+      console.log(data, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ['products'] })
     },
-  });
-
-  const { loading, imgUrl, getImage } = useImageUpload();
+  })
 
   return (
     <div
       className={` fixed  z-10  w-full sm:w-3/4   sm:pl-10 ${
-        show ? " -right-full" : "right-0"
+        show ? ' -right-full' : 'right-0'
       }  h-screen   top-0 transition-all duration-700`}
     >
       <button
@@ -87,7 +121,7 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
         <div className=" flex flex-col  w-full lg:flex-row mb-16 ">
           <div className=" w-full h-36 lg:w-1/3 ">
             <p className="font-medium text-lg text-admin-text">
-              {t("Upload Image")}
+              {t('Upload Image')}
             </p>
             <Image
               width={118}
@@ -95,15 +129,15 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
               alt="Upload"
               ref={imgRef}
               src={`${
-                loading ? "/loadingImage.png" : imgUrl ? imgUrl : "/upload.png"
+                loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
               }`}
             />
           </div>
-          <div className=" w-full lg:w-2/3 h-38 ">
+          {/* <div className=" w-full lg:w-2/3 h-38 ">
             <div className="  bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
               <div className=" relative ">
                 <label htmlFor="img_url">
-                  <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />{" "}
+                  <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />{' '}
                   <Text className="text-white text-lg">Upload</Text>
                 </label>
                 <input
@@ -116,38 +150,47 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
                 />
               </div>
             </div>
+          </div> */}
+          <div className="w-full lg:w-2/3 h-38">
+            <AdminModalUploadImage onChange={getImage} />
           </div>
         </div>
         <div className="flex   flex-col  lg:flex-row  w-full  mb-10 ">
           <div className="w-full lg:w-1/3 ">
             <p className="  font-medium text-admin-text  tracking-wide capitalize text-lg  font-display ">
-              {t("Add your Product description and necessary information")}
+              {t('Add your Product description and necessary information')}
             </p>
           </div>
           <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7    rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
             <FormControl className="p-0">
               <div className="flex flex-col gap-2 ">
                 <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t("Name")}
+                  {t('Name')}
                 </p>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   ref={nameRef}
-                  placeholder={t("name")}
+                  placeholder={t('name')}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
                 {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
                 )} */}
               </div>
+
               <div className="flex flex-col gap-2 ">
-                <AdminModalTextArea
-                  p={t("Description")}
-                  className="mt-6"
-                  placeHolder="Description"
-                  getText={setDescription}
+                <p className=" font-medium   text-admin-text  text-base font-display">
+                  {t('Description')}
+                </p>
+                <input
+                  type="text"
+                  id="description"
+                  name="description"
+                  placeholder={t('Description')}
+                  ref={descriptionRef}
+                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
                 {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
@@ -155,13 +198,13 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
               </div>
               <div className="flex flex-col gap-2 ">
                 <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t("Price")}
+                  {t('Price')}
                 </p>
                 <input
                   type="number"
                   id="price"
                   name="price"
-                  placeholder={t("Price")}
+                  placeholder={t('Price')}
                   ref={priceRef}
                   className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
                 />
@@ -169,11 +212,13 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
                   <FormHelperText color="red">{errors?.slug}</FormHelperText>
                 )} */}
               </div>
-              <AdminModalDropdownProduct
-                p={t("Restaurants")}
+              <AdminModalDropdown
+                p={t('Restaurants')}
                 className="mt-4 mb-2 placeholder"
                 classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                 getText={setRestId}
+                getData={getRestuarants}
+                queryKey="restaurants"
               />
             </FormControl>
           </div>
@@ -182,17 +227,17 @@ const AdminEditProductModal = ({ show = true, onClickClose, text }: Props) => {
           <AdminModalButton
             onClick={onClickClose}
             className="  text-admin-white bg-admin-cancel-btn py-3 w-1/2 rounded-2xl font-display"
-            text={t("Cancel")}
+            text={t('Cancel')}
           />
           <AdminModalButton
             className=" text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t(`Create Category`)}
-            onClick={addProduct}
+            text={t(`Update Category`)}
+            onClick={updateProduct}
           />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminEditProductModal;
+export default AdminUpdateModalProduct

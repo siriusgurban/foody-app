@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import AdminRestaurantsCard from '@/shared/components/adminRestaurantCards'
-
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
 import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
-import AdminHeader from '@/shared/components/AdminHeader'
-import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import { Box, Toast } from '@chakra-ui/react'
-import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
-import AdminAddUpdateModal from '../../../shared/components/adminAddUpdateModal'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-
 import { deleteRestuarant, getRestuarants } from '@/shared/services/restaurants'
-import AdminAddUpdateModal2 from '@/shared/components/adminAddUpdateModal2'
-interface Restaurant {
-  name: string
-  img_url: string
-  id: any
-  category_id: string
-}
+import AdminAddModalRest from '@/shared/components/AdminAddModalRest'
+import AdminUpdateModalRest from '@/shared/components/AdminUpdateModalRest'
+import { Restaurant } from '@/shared/types/admin'
+import AdminLayout from '@/shared/components/adminLayout'
+import SkeletonRestaurant from '@/shared/components/skeleton/SkeletonRestaurant'
+
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
   const [hideModal, setHideModal] = useState<boolean>(false)
-
+  const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(false)
   const [filterCategory, setFilterCategory] = useState<string>('All')
 
   // get restaurants
@@ -31,19 +24,16 @@ const Restaurants: React.FC = () => {
     queryFn: getRestuarants,
     queryKey: ['restaurants'],
   })
-  // console.log(data?.data?.result?.data, "restaurant");
 
   const restaurantsDatas: Restaurant[] = data?.data?.result?.data ?? []
 
   // filter category
-  useEffect(() => {
-    const filteredRestaurants = () =>
-      filterCategory === 'All'
-        ? restaurantsDatas
-        : restaurantsDatas.filter(
-            (restaurant) => restaurant?.category_id === filterCategory,
-          )
-  }, [])
+  const filteredRestaurants =
+    filterCategory == 'All'
+      ? restaurantsDatas
+      : restaurantsDatas.filter(
+          (restaurant: any) => restaurant?.category_id == filterCategory,
+        )
 
   // delete
   const QueryClient = useQueryClient()
@@ -71,7 +61,10 @@ const Restaurants: React.FC = () => {
     mutate(restaurantId)
   }
 
-  //
+  function showHideModalUpdate() {
+    setHideModalUpdate((prev) => !prev)
+  }
+
   function showHideModal() {
     setHideModal((prev) => !prev)
   }
@@ -82,45 +75,50 @@ const Restaurants: React.FC = () => {
         <title>Admin | {t('restaurants')}</title>
         <link rel="icon" href="/admin6024190.png" />
       </Head>
-      <div className=" bg-admin-bg  min-h-screen">
-        <Box className="max-w-[1440px] mx-auto">
-          <AdminHeader />
-
-          <AdminAddUpdateModal2
-            onClickClose={showHideModal}
-            show={hideModal}
-            text={t('Add Restaurant ')}
-          />
-          <main className="flex">
-            <div className=" hidden sm:block">
-              <AdminAsideMenu />
-              <AdminAsideMenuResponsive />
-            </div>
-            <div className="w-full">
-              <div className="m-5">
-                <AdminSecondaryComponent
-                  p={t('Restaurants')}
-                  onClick={showHideModal}
-                  visible={true}
-                  getText={setFilterCategory}
+      <AdminLayout>
+        <div className="w-full">
+          <div className="m-5">
+            <AdminUpdateModalRest
+              onClickClose={showHideModalUpdate}
+              show={hideModalUpdate}
+              text={t('Update Restaurant')}
+            />
+            <AdminAddModalRest
+              onClickClose={showHideModal}
+              show={hideModal}
+              text={t('Add Restaurant ')}
+            />
+            <AdminSecondaryComponent
+              p={t('Restaurants')}
+              onClick={showHideModal}
+              visible={true}
+              getText={setFilterCategory}
+            />
+          </div>
+          <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
+            {isLoading ? (
+              <Box className="flex flex-wrap gap-2 justify-between ">
+                {[1, 2, 3, 4].map((item, index) => {
+                  return <SkeletonRestaurant key={index} />
+                })}
+              </Box>
+            ) : (
+              filteredRestaurants &&
+              filteredRestaurants.map((restaurant, index) => (
+                <AdminRestaurantsCard
+                  onDelete={handleDelete}
+                  key={index}
+                  img_url={restaurant.img_url}
+                  name={restaurant.name}
+                  restaurant_id={restaurant.id}
+                  category_id={restaurant?.category_id}
+                  onClickClose={showHideModalUpdate}
                 />
-              </div>
-              <div className=" sm:w-auto m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
-                {restaurantsDatas.map((restaurant, index) => (
-                  <AdminRestaurantsCard
-                    onDelete={handleDelete}
-                    key={index}
-                    img_url={restaurant.img_url}
-                    name={restaurant.name}
-                    restaurant_id={restaurant.id}
-                    category_id={restaurant.category_id}
-                  />
-                ))}
-              </div>
-            </div>
-          </main>
-        </Box>
-      </div>
+              ))
+            )}
+          </div>
+        </div>
+      </AdminLayout>
     </>
   )
 }

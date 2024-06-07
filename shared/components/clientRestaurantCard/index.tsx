@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { Product, token } from '@/shared/types/admin'
+import { QUERY } from '@/shared/constants/query'
 
 function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
   const { push, query } = useRouter()
@@ -12,24 +13,24 @@ function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
 
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.id as string),
-    queryKey: ['restuarant', query.id],
+    queryKey: [QUERY.RESTAURANTS, query.id],
   })
 
   return (
     <Box
-      className="md:w-60 w-32 flex flex-col shadow-lg px-2 pt-3 pb-2.5 md:px-4 md:pt-3 md:pb-6 cursor-pointer"
+      className="md:w-60 w-32 flex flex-col shadow-lg px-2 pt-3 pb-2.5 md:px-4 md:pt-4 md:pb-6 cursor-pointer hover:rounded-md bg-white hover:brightness-75 transition-all hover:scale-105 duration-500 "
       key={key}
       onClick={() => {
         push('/restaurants/' + query?.id)
       }}
     >
-      <Box className="md:w-44 md:h-40 w-20 h-20 mx-auto ">
+      <Box className="md:w-44 md:h-[140px] w-20 h-20 mx-auto ">
         <Image
-          width={174}
-          height={160}
+          width={184}
+          height={180}
           alt="card-iamge"
           src={item?.img_url}
-          className="md:mb-0 mb-1 object-contain "
+          className="md:mb-0 mb-1 object-contain"
         />
       </Box>
       <Text className="text-center md:text-start md:text-xl text-base font-medium md:font-bold overflow-hidden w-24 h-6 md:mb-1">

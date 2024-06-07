@@ -22,6 +22,7 @@ import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
 import AdminProductsSide from '@/shared/components/adminProductsSide/AdminProductsSide'
 import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
+import AdminLayout from '@/shared/components/adminLayout'
 
 const newPost = {
   img_url:
@@ -41,37 +42,6 @@ const initialValues = {
 
 function Products() {
   const { t } = useTranslation('admin')
-  const toast = useToast()
-  const { push } = useRouter()
-
-  const { values, handleChange, handleSubmit, errors } = useFormik({
-    initialValues,
-    onSubmit: (values) => mutate(values),
-  })
-
-  const { mutate } = useMutation({
-    mutationFn: postProduct,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-  })
-
-  const { data: products } = useQuery({
-    queryFn: getProducts,
-    queryKey: ['products'],
-  })
-
-  console.log(products, 'products')
 
   return (
     <div>
@@ -80,16 +50,9 @@ function Products() {
         <link rel="icon" href="/admin6024190.png" />
       </Head>
 
-      <Box bg="#1E1E30">
-        <Box className="max-w-[1440px] mx-auto">
-          <AdminHeader />
-          <Box display="flex" gap="28px">
-            <AdminAsideMenu />
-            <AdminAsideMenuResponsive />
-            <AdminProductsSide />
-          </Box>
-        </Box>
-      </Box>
+      <AdminLayout>
+        <AdminProductsSide />
+      </AdminLayout>
     </div>
   )
 }

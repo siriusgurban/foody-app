@@ -1,4 +1,3 @@
-
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -14,14 +13,13 @@ import { useQuery } from '@tanstack/react-query'
 import { getOffers } from '@/shared/services/offers'
 import ClientFooter from '@/shared/components/clientFooter'
 import { useEffect } from 'react'
-import AOS from "aos";
-import "aos/dist/aos.css";
-
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import ClientLayout from '@/shared/components/clientLayout'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('client')
   const navigate = useRouter()
-
 
   const { data } = useQuery({
     queryFn: getOffers,
@@ -29,13 +27,11 @@ const Home: NextPage = () => {
   })
 
   const offersData = data?.data?.result?.data
-  console.log(offersData, "offers");
+  console.log(offersData, 'offers')
 
   useEffect(() => {
-    AOS.init({ duration: 2000 });
-  }, []);
-
-
+    AOS.init({ duration: 2000 })
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -45,68 +41,146 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className='bg-client-fill-gray m-0 sm:m-8 flex-col rounded-md'>
+      <header className="bg-client-fill-gray m-0 sm:m-8 flex-col rounded-md">
         <ClientHeader />
-        <div className='flex flex-col-reverse sm:flex-row justify-center items-center h-screen px-1 sm:px-11 -mt-24'>
-          <div data-aos="fade-up" className='w-full sm:w-1/2 flex flex-col gap-9'>
-            <h1 className='sm:text-6xl text-center   text-2xl font-black leading-tight sm:text-start text-client-manin-black'>
-              {/* {t("homeHeading")} */}Our Food site makes it easy to find local food
+        <div className="flex flex-col-reverse sm:flex-row justify-center items-center h-screen px-1 sm:px-11 -mt-24">
+          <div
+            data-aos="fade-up"
+            className="w-full sm:w-1/2 flex flex-col gap-9"
+          >
+            <h1 className="sm:text-6xl text-center   text-2xl font-black leading-tight sm:text-start text-client-manin-black">
+              {/* {t("homeHeading")} */}Our Food site makes it easy to find
+              local food
             </h1>
-            <p className='sm:block hidden sm:text-xl w-3/4 text-client-main-gray1'>
-              Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+            <p className="sm:block hidden sm:text-xl w-3/4 text-client-main-gray1">
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups.
             </p>
-            <div className='mx-auto flex-col sm:flex-row sm:mx-0 flex gap-10 w-max'>
-              <AdminModalButton text={t('Register')} className='bg-client-main-red text-white   text-lg sm:text-2xl sm:px-8  px-12 py-3 rounded-[30px] font-medium shadow-md   hover:scale-95 transition-all duration-500    hover:bg-client-main-orange' onClick={() => navigate.push("/login")} />
-              <AdminModalButton text={t('OrderNow')} className='rounded-[30px] border-client-main-gray1 border-2 sm:px-8  px-12 py-3 text-client-main-gray1 text-lg sm:text-2xl font-medium shadow-md hover:scale-95 transition-all duration-500' onClick={() => navigate.push("/restaurants")} />
+            <div className="mx-auto flex-col sm:flex-row sm:mx-0 flex gap-10 w-max">
+              <AdminModalButton
+                text={t('Register')}
+                className="bg-client-main-red text-white   text-lg sm:text-2xl sm:px-8  px-12 py-3 rounded-[30px] font-medium shadow-md   hover:scale-95 transition-all duration-500    hover:bg-client-main-orange"
+                onClick={() => navigate.push('/login')}
+              />
+              <AdminModalButton
+                text={t('OrderNow')}
+                className="rounded-[30px] border-client-main-gray1 border-2 sm:px-8  px-12 py-3 text-client-main-gray1 text-lg sm:text-2xl font-medium shadow-md hover:scale-95 transition-all duration-500"
+                onClick={() => navigate.push('/restaurants')}
+              />
             </div>
           </div>
-          <div data-aos="fade-right" className='sm:w-3/5 relative    mt-0 pt-0  flex justify-center '>
+          <div
+            data-aos="fade-right"
+            className="sm:w-3/5 relative    mt-0 pt-0  flex justify-center "
+          >
             <div className={`${styles.bg_black}`}>
               <div className={`${styles.french}`}>
-                <Image width={60} height={0} src='/frenchFries.svg' alt="frenchFries" />
-                <p className='w-1/2 text-center'>French Fries Yummy...</p>
+                <Image
+                  width={60}
+                  height={0}
+                  src="/frenchFries.svg"
+                  alt="frenchFries"
+                />
+                <p className="w-1/2 text-center">French Fries Yummy...</p>
               </div>
             </div>
 
             <div className={`${styles.pizza}`}>
-              <Image width={60} height={0} src='/pizzaHut.svg' alt="pizza" />
-              <p className='w-1/2 text-center'>Pizza Hut Yummy ...</p>
+              <Image width={60} height={0} src="/pizzaHut.svg" alt="pizza" />
+              <p className="w-1/2 text-center">Pizza Hut Yummy ...</p>
             </div>
             <div className={`${styles.cheesBurger}`}>
-              <Image width={60} height={0} src='/cheesBurger.svg' alt="cheesBurger" />
-              <p className='w-1/2 text-center'>Cheesburger Yummy ...</p>
+              <Image
+                width={60}
+                height={0}
+                src="/cheesBurger.svg"
+                alt="cheesBurger"
+              />
+              <p className="w-1/2 text-center">Cheesburger Yummy ...</p>
             </div>
-            <Image width={0} height={0} src='/bigBurgerMain.svg' alt="bigBurger" className='relative sm:w-full w-[80%]  ' />
+            <Image
+              width={0}
+              height={0}
+              src="/bigBurgerMain.svg"
+              alt="bigBurger"
+              className="relative sm:w-full w-[80%]  "
+            />
           </div>
         </div>
       </header>
 
-
       {/* main section */}
       <main>
-        <section className='flex flex-col gap-10 justify-center my-14 px-3 sm:px-14'>
-          <div data-aos="flip-up" className='flex flex-col items-center gap-4 text-center mb-12'>
-            <h2 className='text-4xl font-extrabold text-client-manin-black'>{t("features")}</h2>
-            <p className='text-client-main-gray1 w-full sm:w-2/3 text-2xl'>
-              Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+        <section className="flex flex-col gap-10 justify-center my-14 px-3 sm:px-14">
+          <div
+            data-aos="flip-up"
+            className="flex flex-col items-center gap-4 text-center mb-12"
+          >
+            <h2 className="text-4xl font-extrabold text-client-manin-black">
+              {t('features')}
+            </h2>
+            <p className="text-client-main-gray1 w-full sm:w-2/3 text-2xl">
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups.
             </p>
           </div>
 
-          <div className='flex flex-col sm:flex-row justify-center items-center gap-14'>
-            <div data-aos="slide-right" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
-              <Image width={220} height={0} src='/discountBoucher.svg' alt='discount' className='mx-auto' />
-              <p className='text-client-main-gray2 text-3xl font-bold'>Discount Boucher</p>
-              <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-14">
+            <div
+              data-aos="slide-right"
+              className="flex flex-col gap-6 text-center pb-7 shadow-xl"
+            >
+              <Image
+                width={220}
+                height={0}
+                src="/discountBoucher.svg"
+                alt="discount"
+                className="mx-auto"
+              />
+              <p className="text-client-main-gray2 text-3xl font-bold">
+                Discount Boucher
+              </p>
+              <p className="text-client-main-gray1 w-2/3 mx-auto text-lg font-normal">
+                Lorem ipsum is placeholder commonly used in the graphic
+              </p>
             </div>
-            <div data-aos="slide-up" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
-              <Image width={220} height={0} src='/healthyFood.svg' alt='healthyFood' className='mx-auto' />
-              <p className='text-client-main-gray2 text-3xl font-bold'>Fresh healthy Food</p>
-              <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
+            <div
+              data-aos="slide-up"
+              className="flex flex-col gap-6 text-center pb-7 shadow-xl"
+            >
+              <Image
+                width={220}
+                height={0}
+                src="/healthyFood.svg"
+                alt="healthyFood"
+                className="mx-auto"
+              />
+              <p className="text-client-main-gray2 text-3xl font-bold">
+                Fresh healthy Food
+              </p>
+              <p className="text-client-main-gray1 w-2/3 mx-auto text-lg font-normal">
+                Lorem ipsum is placeholder commonly used in the graphic
+              </p>
             </div>
-            <div data-aos="slide-left" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
-              <Image width={220} height={0} src='/fastHomeDelivery.svg' alt='fastHome' className='mx-auto' />
-              <p className='text-client-main-gray2 text-3xl font-bold'>Fast Home Delivery</p>
-              <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
+            <div
+              data-aos="slide-left"
+              className="flex flex-col gap-6 text-center pb-7 shadow-xl"
+            >
+              <Image
+                width={220}
+                height={0}
+                src="/fastHomeDelivery.svg"
+                alt="fastHome"
+                className="mx-auto"
+              />
+              <p className="text-client-main-gray2 text-3xl font-bold">
+                Fast Home Delivery
+              </p>
+              <p className="text-client-main-gray1 w-2/3 mx-auto text-lg font-normal">
+                Lorem ipsum is placeholder commonly used in the graphic
+              </p>
             </div>
           </div>
         </section>
@@ -156,74 +230,164 @@ const Home: NextPage = () => {
           </div>
         </section> */}
 
+        {offersData?.map(
+          (
+            offer: { name: string; description: string; img_url: string },
+            index: number,
+          ) => {
+            if (index % 2 === 1) {
+              return (
+                <section
+                  key={`${offer?.name}+${index}`}
+                  className="flex flex-col sm:flex-row-reverse gap-0 sm:gap-16 justify-center items-center px-3 sm:px-11 mt-52"
+                >
+                  <div
+                    data-aos="slide-left"
+                    className="flex flex-col gap-8 w-full sm:w-1/2"
+                  >
+                    <h3 className="text-5xl font-black text-client-manin-black w-full sm:w-full sm:text-6xl leading-tight text-center mx-auto sm:mx-0 sm:text-start">
+                      {offer?.name}
+                    </h3>
+                    <p className="text-client-main-gray1 font-normal text-xl w-full mb-8 sm:mb-0 sm:w-3/5 mx-auto text-center sm:text-start sm:mx-0">
+                      {offer?.description}
+                    </p>
+                  </div>
+                  <div
+                    data-aos="slide-right"
+                    className="relative w-full sm:w-1/2 sm:mt-48"
+                  >
+                    <Image
+                      className="w-full"
+                      width={0}
+                      height={0}
+                      src="/frencHomeRectangle.svg"
+                      alt="french"
+                    />
+                    <Image
+                      className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-10/12    rounded-3xl"
+                      width={200}
+                      height={200}
+                      src={offer?.img_url}
+                      alt={offer.name}
+                    />
+                    {/* <img src={offer.img_url} alt={offer.name} className='rounded-xl  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10/12' /> */}
+                  </div>
+                </section>
+              )
+            }
 
+            return (
+              <section
+                key={`${offer?.name}+${index}`}
+                className="flex flex-col sm:flex-row justify-center items-center px-3 sm:px-11 mt-52"
+              >
+                <div
+                  data-aos="slide-right"
+                  className="flex flex-col gap-8 w-full sm:w-1/2"
+                >
+                  <h3 className="text-5xl font-black text-client-manin-black w-full sm:w-full sm:text-6xl leading-tight text-center mx-auto sm:mx-0 sm:text-start">
+                    {offer?.name}
+                  </h3>
+                  <p className="text-client-main-gray1 font-normal text-xl w-full mb-8 sm:mb-0 sm:w-3/5 mx-auto text-center sm:text-start sm:mx-0">
+                    {offer?.description}
+                  </p>
+                </div>
+                <div
+                  data-aos="slide-left"
+                  className="relative w-full sm:w-1/2 sm:mt-48"
+                >
+                  <Image
+                    className="w-full"
+                    width={0}
+                    height={0}
+                    src="/frencHomeRectangle.svg"
+                    alt="french"
+                  />
+                  <Image
+                    className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-10/12    rounded-3xl"
+                    width={200}
+                    height={200}
+                    src={offer.img_url}
+                    alt={offer.name}
+                  />
+                  {/* <img src={offer.img_url} alt={offer.name} className='rounded-xl  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10/12' /> */}
+                </div>
+              </section>
+            )
+          },
+        )}
 
-        {offersData?.map((offer: { name: string, description: string, img_url: string }, index: number) => {
-          if (index % 2 === 1) {
-            return <section key={`${offer?.name}+${index}`} className='flex flex-col sm:flex-row-reverse gap-0 sm:gap-16 justify-center items-center px-3 sm:px-11 mt-52'>
-              <div data-aos="slide-left" className='flex flex-col gap-8 w-full sm:w-1/2'>
-                <h3 className='text-5xl font-black text-client-manin-black w-full sm:w-full sm:text-6xl leading-tight text-center mx-auto sm:mx-0 sm:text-start'>
-                  {offer?.name}
-                </h3>
-                <p className='text-client-main-gray1 font-normal text-xl w-full mb-8 sm:mb-0 sm:w-3/5 mx-auto text-center sm:text-start sm:mx-0'>
-                  {offer?.description}
-                </p>
-              </div>
-              <div data-aos="slide-right" className='relative w-full sm:w-1/2 sm:mt-48'>
-                <Image className='w-full' width={0} height={0} src="/frencHomeRectangle.svg" alt="french" />
-                <Image className=' absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-10/12    rounded-3xl' width={200} height={200} src={offer?.img_url} alt={offer.name} />
-                {/* <img src={offer.img_url} alt={offer.name} className='rounded-xl  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10/12' /> */}
-
-              </div>
-            </section>
-          }
-
-          return <section key={`${offer?.name}+${index}`} className='flex flex-col sm:flex-row justify-center items-center px-3 sm:px-11 mt-52'>
-            <div data-aos="slide-right" className='flex flex-col gap-8 w-full sm:w-1/2'>
-              <h3 className='text-5xl font-black text-client-manin-black w-full sm:w-full sm:text-6xl leading-tight text-center mx-auto sm:mx-0 sm:text-start'>
-                {offer?.name}
-              </h3>
-              <p className='text-client-main-gray1 font-normal text-xl w-full mb-8 sm:mb-0 sm:w-3/5 mx-auto text-center sm:text-start sm:mx-0'>
-                {offer?.description}
-              </p>
-            </div>
-            <div data-aos="slide-left" className='relative w-full sm:w-1/2 sm:mt-48'>
-              <Image className='w-full' width={0} height={0} src="/frencHomeRectangle.svg" alt="french" />
-              <Image className=' absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-10/12    rounded-3xl' width={200} height={200} src={offer.img_url} alt={offer.name} />
-              {/* <img src={offer.img_url} alt={offer.name} className='rounded-xl  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10/12' /> */}
-            </div>
-          </section>
-
-        })}
-
-        <section className='flex flex-col gap-10 justify-center my-14 px-3 sm:px-14'>
-          <div data-aos="flip-up" className='flex flex-col items-center gap-4 text-center mb-12'>
-            <h2 className='text-4xl font-extrabold text-client-manin-black'>{t("Our Popular Update New Foods")}</h2>
-            <p className='text-client-main-gray1 w-full sm:w-2/3 text-2xl'>
-              Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+        <section className="flex flex-col gap-10 justify-center my-14 px-3 sm:px-14">
+          <div
+            data-aos="flip-up"
+            className="flex flex-col items-center gap-4 text-center mb-12"
+          >
+            <h2 className="text-4xl font-extrabold text-client-manin-black">
+              {t('Our Popular Update New Foods')}
+            </h2>
+            <p className="text-client-main-gray1 w-full sm:w-2/3 text-2xl">
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups.
             </p>
           </div>
-          <div className='flex flex-col sm:flex-row justify-center items-center gap-14'>
-            <div data-aos="slide-right" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
-              <Image width={220} height={0} src='/dubbleChees.svg' alt='dubbleChees' className='mx-auto' />
-              <p className='text-client-main-gray2 text-3xl font-bold'>Dubble Chees</p>
-              <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-14">
+            <div
+              data-aos="slide-right"
+              className="flex flex-col gap-6 text-center pb-7 shadow-xl"
+            >
+              <Image
+                width={220}
+                height={0}
+                src="/dubbleChees.svg"
+                alt="dubbleChees"
+                className="mx-auto"
+              />
+              <p className="text-client-main-gray2 text-3xl font-bold">
+                Dubble Chees
+              </p>
+              <p className="text-client-main-gray1 w-2/3 mx-auto text-lg font-normal">
+                Lorem ipsum is placeholder commonly used in the graphic
+              </p>
             </div>
-            <div data-aos="slide-up" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
-              <Image width={220} height={0} src='/margarita.svg' alt='margarita' className='mx-auto' />
-              <p className='text-client-main-gray2 text-3xl font-bold'>Margarita</p>
-              <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
+            <div
+              data-aos="slide-up"
+              className="flex flex-col gap-6 text-center pb-7 shadow-xl"
+            >
+              <Image
+                width={220}
+                height={0}
+                src="/margarita.svg"
+                alt="margarita"
+                className="mx-auto"
+              />
+              <p className="text-client-main-gray2 text-3xl font-bold">
+                Margarita
+              </p>
+              <p className="text-client-main-gray1 w-2/3 mx-auto text-lg font-normal">
+                Lorem ipsum is placeholder commonly used in the graphic
+              </p>
             </div>
-            <div data-aos="slide-left" className='flex flex-col gap-6 text-center pb-7 shadow-xl'>
-              <Image width={220} height={0} src='/twister.svg' alt='twister' className='mx-auto' />
-              <p className='text-client-main-gray2 text-3xl font-bold'>Twister Menu</p>
-              <p className='text-client-main-gray1 w-2/3 mx-auto text-lg font-normal'>Lorem ipsum is placeholder commonly used in the graphic</p>
+            <div
+              data-aos="slide-left"
+              className="flex flex-col gap-6 text-center pb-7 shadow-xl"
+            >
+              <Image
+                width={220}
+                height={0}
+                src="/twister.svg"
+                alt="twister"
+                className="mx-auto"
+              />
+              <p className="text-client-main-gray2 text-3xl font-bold">
+                Twister Menu
+              </p>
+              <p className="text-client-main-gray1 w-2/3 mx-auto text-lg font-normal">
+                Lorem ipsum is placeholder commonly used in the graphic
+              </p>
             </div>
           </div>
         </section>
-
-
-
       </main>
       {/* <footer>
         <section className=" relative top-32    -right-80 w-7/12 flex justify-around   bg-client-black27  items-center rounded-3xl py-12 px-0 sm:px-12  text-white ">
@@ -255,37 +419,33 @@ const Home: NextPage = () => {
         <ClientFooter />
 
       </footer> */}
-      <footer>
-        <section data-aos="flip-down" className={` w-7/12 ${styles.footer_to_bg}`}>
-          <Image
-            className="hidden sm:block sm:w-4/12"
-            width={200}
-            height={0}
-            src={"/footerPizza.svg"}
-            alt="pizza"
-          />
-          <div className="flex flex-col items-center gap-5">
-            <p className=" font-medium   text-lg sm:text-4xl w-9/12 text-center leading-tight">
-              {t("Discover Restaurants Near From you")}
-            </p>
-            <button className="   bg-client-main-orange px-14 py-4 font-medium text-md rounded-[30px] hover:scale-95 transition-all duration-500       ">
-              {t("Explore now")}
-            </button>
-          </div>
+      <section data-aos="flip-down" className={`w-7/12 ${styles.footer_to_bg}`}>
+        <Image
+          className="hidden sm:block sm:w-4/12"
+          width={200}
+          height={0}
+          src={'/footerPizza.svg'}
+          alt="pizza"
+        />
+        <div className="flex flex-col items-center gap-5">
+          <p className=" font-medium   text-lg sm:text-4xl w-9/12 text-center leading-tight">
+            {t('Discover Restaurants Near From you')}
+          </p>
+          <button className="   bg-client-main-orange px-14 py-4 font-medium text-md rounded-[30px] hover:scale-95 transition-all duration-500">
+            {t('Explore now')}
+          </button>
+        </div>
 
-          <Image
-            className="hidden sm:block sm:w-4/12"
-            width={250}
-            height={0}
-            src={"/footerBurger.svg"}
-            alt="burger"
-          />
-        </section>
+        <Image
+          className="hidden sm:block sm:w-4/12"
+          width={250}
+          height={0}
+          src={'/footerBurger.svg'}
+          alt="burger"
+        />
+      </section>
 
-        <ClientFooter />
-
-      </footer>
-
+      <ClientFooter />
     </div>
   )
 }
@@ -297,4 +457,3 @@ export async function getStaticProps({ locale }: { locale: any }) {
     props: { ...(await serverSideTranslations(locale, ['client'])) },
   }
 }
-

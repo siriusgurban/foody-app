@@ -6,31 +6,20 @@ import AdminModalDropdown from '../adminModalDropdown'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
-import { useRouter } from 'next/router'
-import { nanoid } from 'nanoid'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { fileStorage } from '../../../server/configs/firebase'
 import { postRestuarant } from '@/shared/services/restaurants'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@chakra-ui/react'
-import { AddOffers } from '@/shared/services/offers'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import Image from 'next/image'
 import { getCategories } from '@/shared/services/category'
 
 interface Props {
   show?: boolean
-  onClickClose?: () => void
+  onClickClose?: any
   text: string
 }
 
-const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
-  //   const nameRef = useRef<any>(null)
-  //   const cuisineRef = useRef<any>(null)
-  //   const deliveryPriceRef = useRef<any>(null)
-  //   const deliveryMinRef = useRef<any>(null)
-  //   const addressRef = useRef<any>(null)
-  //   const categoryRef = useRef<any>(null)
+const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
   const imgRef = useRef<any>(null)
 
   const { loading, imgUrl, getImage } = useImageUpload()
@@ -48,14 +37,6 @@ const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
   const { t } = useTranslation('admin')
 
   async function addRestaurant() {
-    // const name = nameRef?.current?.value
-    // const cuisine = cuisineRef?.current?.value
-    // const deliveryPrice = deliveryPriceRef?.current?.value
-    // const deliveryMin = deliveryMinRef?.current?.value
-    // const address = addressRef?.current?.value
-    // const category = categoryRef?.current?.value
-    console.log('clicked')
-
     const form = {
       name: name,
       cuisine: cuisine,
@@ -80,10 +61,13 @@ const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
         duration: 3000,
         isClosable: true,
       })
-      queryClient.invalidateQueries({ queryKey: ['restuarants'] })
+      onClickClose()
     },
     onError: (error) => {
       console.error('Error adding restaurant:', error)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['restaurants'] })
     },
   })
 
@@ -152,7 +136,7 @@ const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
                 />
                 <AdminModalInput
                   type="number"
-                  p={t('Delivery Min')}
+                  p={t('Delivery Mi')}
                   className2="flex flex-col gap-2 mt-6"
                   placeHolder="11"
                   getText={(text) => setDeliveryMin(parseInt(text))}
@@ -168,6 +152,8 @@ const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
                   className="mt-4 mb-2 placeholder"
                   classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
                   getText={setCategory}
+                  getData={getCategories}
+                  queryKey="categories"
                 />
               </>
             </div>
@@ -191,4 +177,4 @@ const AdminAddUpdateModal2 = ({ show = true, onClickClose, text }: Props) => {
   )
 }
 
-export default AdminAddUpdateModal2
+export default AdminAddModalRest
