@@ -30,6 +30,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { getProducts } from '@/shared/services/products'
+
+const emptyData: any = []
 
 function Restaurants() {
   const { t } = useTranslation()
@@ -43,12 +46,21 @@ function Restaurants() {
     queryKey: [QUERY.RESTAURANTS],
   })
 
+  const { data: products } = useQuery({
+    queryFn: getProducts,
+    queryKey: [QUERY.PRODUCTS],
+  })
+
   const { data: restaurant, isLoading: isLoadingRest } = useQuery({
     queryFn: () => getRestuarantById(query.id as string),
     queryKey: [QUERY.RESTAURANTS, query.id],
   })
 
-  console.log(isLoadingRest, 'isLoadingisLoadingisLoading')
+  console.log(
+    restaurant?.data?.result?.data?.products,
+    'isLoadingisLoadingisLoading',
+  )
+  console.log(products?.data?.result?.data, 'products?.data?.result?.data')
 
   return (
     <div>
@@ -61,7 +73,7 @@ function Restaurants() {
       <ClientLayout>
         <main className="flex md:mx-8 mx-0 md:gap-8 gap-0 md:justify-normal justify-center">
           <section className="md:block hidden">
-            <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-7 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-12  overflow-hidden">
+            <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-6 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-10  overflow-hidden">
               {isLoading ? (
                 <Box>
                   {[1, 2, 3, 4].map((item, index) => {
@@ -102,23 +114,33 @@ function Restaurants() {
                   </Box>
                 </DrawerHeader>
                 <DrawerBody>
-                  {data?.data?.result?.data?.map((item: any, index: number) => {
-                    return (
-                      <Box
-                        className={`flex gap-4 cursor-pointer px-2  py-1 border-b-2 border-client-rest-grey w-full bg-${isActive(
-                          item?.id,
-                        )}`}
-                        key={index}
-                        onClick={() => {
-                          push('?id=' + item?.id), onClose()
-                        }}
-                      >
-                        <Text className={`text-lg font-medium text-black`}>
-                          {item?.name}
-                        </Text>
-                      </Box>
+                  {isLoading ? (
+                    <Box>
+                      {[1, 2, 3, 4].map((item, index) => {
+                        return <SkeletonRestaurantClientAside key={index} />
+                      })}
+                    </Box>
+                  ) : (
+                    data?.data?.result?.data?.map(
+                      (item: any, index: number) => {
+                        return (
+                          <Box
+                            className={`flex gap-4 cursor-pointer px-2  py-1 border-b-2 border-client-rest-grey w-full bg-${isActive(
+                              item?.id,
+                            )}`}
+                            key={index}
+                            onClick={() => {
+                              push('?id=' + item?.id), onClose()
+                            }}
+                          >
+                            <Text className={`text-lg font-medium text-black`}>
+                              {item?.name}
+                            </Text>
+                          </Box>
+                        )
+                      },
                     )
-                  })}
+                  )}
                 </DrawerBody>
               </DrawerContent>
             </Drawer>
@@ -137,20 +159,26 @@ function Restaurants() {
                   alt="filter"
                 />
                 <Text className="text-client-main-gray2 font-medium">
-                  Filters
+                  {t('Filters')}
                 </Text>
               </Box>
             </Box>
 
             <Box className="flex flex-wrap md:gap-7 gap-5 justify-center md:justify-start">
               {isLoadingRest ? (
-                <Box className="flex flex-wrap justify-between ">
+                <Box className="flex justify-center gap-5 flex-wrap">
                   {[1, 2, 3, 4].map((item, index) => {
                     return <SkeletonRestaurantClient key={index} />
                   })}
                 </Box>
-              ) : (
+              ) : restaurant?.data?.result?.data?.products != emptyData ? (
                 restaurant?.data?.result?.data?.products?.map(
+                  (item: Product, index: number) => {
+                    return <ClientRestaurantCard key={index} item={item} />
+                  },
+                )
+              ) : (
+                products?.data?.result?.data?.map(
                   (item: Product, index: number) => {
                     return <ClientRestaurantCard key={index} item={item} />
                   },
@@ -168,6 +196,6 @@ export default Restaurants
 
 export async function getStaticProps({ locale }: { locale: any }) {
   return {
-    props: { ...(await serverSideTranslations(locale, ['admin'])) },
+    props: { ...(await serverSideTranslations(locale, ['client'])) },
   }
 }

@@ -37,7 +37,7 @@ const ClientHeader = () => {
     queryKey: ['user'],
   })
 
-  console.log(userInfo, 'statusstatus')
+  // console.log(userInfo, 'statusstatus')
 
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,7 +49,7 @@ const ClientHeader = () => {
     }
   }, [isModalOpen])
 
-  console.log(data, 'UserData')
+  // console.log(data, 'UserData')
 
   const toggleAvatars = () => {
     if (userInfo !== undefined && data !== undefined) {
