@@ -419,38 +419,33 @@ const Home: NextPage = () => {
         <ClientFooter />
 
       </footer> */}
-      <footer>
-        <section
-          data-aos="flip-down"
-          className={` w-7/12 ${styles.footer_to_bg}`}
-        >
-          <Image
-            className="hidden sm:block sm:w-4/12"
-            width={200}
-            height={0}
-            src={'/footerPizza.svg'}
-            alt="pizza"
-          />
-          <div className="flex flex-col items-center gap-5">
-            <p className=" font-medium   text-lg sm:text-4xl w-9/12 text-center leading-tight">
-              {t('Discover Restaurants Near From you')}
-            </p>
-            <button className="   bg-client-main-orange px-14 py-4 font-medium text-md rounded-[30px] hover:scale-95 transition-all duration-500       ">
-              {t('Explore now')}
-            </button>
-          </div>
+      <section data-aos="flip-down" className={`w-7/12 ${styles.footer_to_bg}`}>
+        <Image
+          className="hidden sm:block sm:w-4/12"
+          width={200}
+          height={0}
+          src={'/footerPizza.svg'}
+          alt="pizza"
+        />
+        <div className="flex flex-col items-center gap-5">
+          <p className=" font-medium   text-lg sm:text-4xl w-9/12 text-center leading-tight">
+            {t('Discover Restaurants Near From you')}
+          </p>
+          <button className="   bg-client-main-orange px-14 py-4 font-medium text-md rounded-[30px] hover:scale-95 transition-all duration-500">
+            {t('Explore now')}
+          </button>
+        </div>
 
-          <Image
-            className="hidden sm:block sm:w-4/12"
-            width={250}
-            height={0}
-            src={'/footerBurger.svg'}
-            alt="burger"
-          />
-        </section>
+        <Image
+          className="hidden sm:block sm:w-4/12"
+          width={250}
+          height={0}
+          src={'/footerBurger.svg'}
+          alt="burger"
+        />
+      </section>
 
-        <ClientFooter />
-      </footer>
+      <ClientFooter />
     </div>
   )
 }
