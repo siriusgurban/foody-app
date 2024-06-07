@@ -11,5 +11,18 @@
     "Full Name":"Full Name",
     "Username":"Username",
 
-    "Filters":"Filters"
+    "Filters":"Filters",
+
+    "Home": "Home",
+    "Restaurants":"Restaurants",
+    "About Us":"About Us",
+    "How It Works":"How It Works",
+    "Faqs":"Faqs",
+    "Sign Up":"Sign Up",
+    "Profile":"Profile",
+    "Your Basket":"Your Basket",
+    "Your Orders":"Your Orders",
+    "Checkout":"Checkout",
+    "Your Checkout":"Your Checkout",
+    "Log Out":"Log Out"
 }

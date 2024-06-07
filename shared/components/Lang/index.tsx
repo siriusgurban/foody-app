@@ -30,7 +30,7 @@ export const Lang = ({ bg = 'admin-secondary' }) => {
   }
 
   return (
-    <div className="relative max-w-10 hover:scale-95 transition-all duration-500">
+    <div className="relative max-w-10 hover:scale-95 transition-all duration-500 z-10">
       <Image
         className="cursor-pointer"
         width={40}
