@@ -29,11 +29,11 @@ function CheckoutPart() {
   });
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-  console.log("dispatch",dispatch)
+ // console.log("dispatch",dispatch)
   // console.log("UserData", userData);
   // console.log("BasketData", basketData);
   const basketId = basketData?.data?.result?.data?.id;
-  console.log("basketId", basketId);
+  //console.log("basketId", basketId);
   const newData = { ...userDatas, basket_id: basketId };
   const { mutate } = useMutation({
     mutationFn: AddOrder,
@@ -185,3 +185,46 @@ function CheckoutPart() {
 }
 
 export default CheckoutPart
+
+ {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
+    <div className="sm:overflow-x-hidden w-[100%] h-full overflow-x-auto bg-[#FFFFFF]">
+      <table className="text-left w-full text-black text-sm font-light">
+        <thead className="border-b font-semibold ">
+          <tr className="text-center">
+            <th scope="col" className="py-4">Image</th>
+            <th scope="col" className="py-4">Name</th>
+            <th scope="col" className="py-4">Price</th>
+            <th scope="col " className="py-4">Count</th>
+            <th scope="col" className="py-4">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {newFilterData?.products.map((product) => (
+            <tr className="border-b  text-center" key={product.id}>
+              <td className="  py-4 font-medium flex justify-center">
+                {" "}
+                <Image
+                  src={product.img_url}
+                  alt="Product Image"
+                  width={100}
+                  height={100}
+                />{" "}
+              </td>
+              <td className="  py-4 font-normal ">
+                {product.name}
+              </td>
+              <td className="  py-4 font-normal ">
+                {product.price}
+              </td>
+              <td className="  py-4 font-normal ">
+                {product.count}
+              </td>
+              <td className="  py-4 font-normal ">
+                {Number(product.price) * product.count}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </Modal> */}
