@@ -11,14 +11,43 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import{
-  ButtonGroup,IconButton
- 
-} from '@chakra-ui/react';
-import { ViewIcon, DeleteIcon } from '@chakra-ui/icons';
+import { motion } from "framer-motion";
+
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
+import { GetOrderHistory } from '@/shared/services/order'
+import { ScrollBarContainer } from '@/shared/components/Scroll/scroll'
+import { shortText } from '@/shared/helpers/shortText'
+interface Order {
+  id: string;
+  customer_id: string;
+  created: string;
+  delivery_address: string;
+  amount: number;
+  payment_method: number;
+  contact: string;
+  products: Array<{
+    id: string;
+    img_url: string;
+    name: string;
+    price: number;
+    count: number;
+  }>;
+}
+
+interface GetOrderHistoryResponse {
+  result: {
+    data: Order[];
+  };
+}
+
 function OrderHistory() {
   const { t } = useTranslation('admin')
+  const {data} = useQuery<GetOrderHistoryResponse>({
+    queryFn: GetOrderHistory,
+    queryKey: ['order-history'],
+  })
+  //console.log("history",data?.result?.data)
+  const orderData = data?.result?.data;
 
   return (
     <div>
@@ -40,88 +69,70 @@ function OrderHistory() {
                   visible={false}
                 />
               </div>
-<table   className="bg-white m-5"  >
-  <thead className='h-[50px] border-b-2'>
-    <tr className='p-8'>
-      <th className='w-[100px] text-center'>ID</th>
-      <th className='w-[100px] text-center'>Customer ID</th>
-      <th className='w-[120px] text-center'>Time</th>
-      <th className='w-[200px] text-center'>Delivery Address</th>
-      <th className='w-[150px] text-center'>Amount</th>
-      <th className='w-[150px] text-center'>Payment Method</th>
-      <th className='w-[150px] text-center'>Contact</th>
-
-    </tr>
-  </thead>
-  <tbody >
-    <tr className='h-[60px] border-b-2 p-8'>
-      <td className='w-[100px] text-center'>
-        9177
-      </td>
-      <td className='w-[100px] text-center'>
-      022401
-      </td> <td className='w-[100px] text-center'>
-      25 Dec 2021
-      </td> <td  className='w-[200px] text-center'>
-      29 Eve Street,543 Evenue Road,Ny 87876 
-      </td> <td className='w-[100px] text-center'>
-      $249.7
-      </td> <td className='w-[100px] text-center'>
-      Cash On Delivery
-      </td>
-      <td className='w-[100px] text-center'>
-      994-51-410-3130
-      </td> <td className='w-[140px] text-center'>
-      <ButtonGroup>
-                        <IconButton
-                            colorScheme="teal"
-                            aria-label="Edit"
-                            icon={<ViewIcon />}
-                        />
-                        <IconButton
-                            colorScheme="red"
-                            aria-label="Delete"
-                            icon={<DeleteIcon />}
-                          
-                        />
-                    </ButtonGroup>
-      </td> 
-    </tr>
-    <tr className='h-[60px] border-b-2 p-8'>
-      <td className='w-[100px] text-center'>
-        9177
-      </td>
-      <td className='w-[100px] text-center'>
-      022401
-      </td> <td className='w-[100px] text-center'>
-      25 Dec 2021
-      </td> <td  className='w-[200px] text-center'>
-      29 Eve Street,543 Evenue Road,Ny 87876 
-      </td> <td className='w-[100px] text-center'>
-      $249.7
-      </td> <td className='w-[100px] text-center'>
-      Cash On Delivery
-      </td>
-      <td className='w-[100px] text-center'>
-      994-51-410-3130
-      </td> <td className='w-[140px] text-center'>
-      <ButtonGroup>
-                        <IconButton
-                            colorScheme="teal"
-                            aria-label="Edit"
-                            icon={<ViewIcon />}
-                        />
-                        <IconButton
-                            colorScheme="red"
-                            aria-label="Delete"
-                            icon={<DeleteIcon />}
-                          
-                        />
-                    </ButtonGroup>
-      </td> 
-    </tr>
-  </tbody>
-</table >
+              <ScrollBarContainer bg="#C74FEB">
+                  <motion.div
+                    className="container"
+                    initial={{ opacity: 0, y: -50, x: '-100%' }}
+                    animate={{ opacity: 1, y: 0, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <table className="bg-white m-5">
+                      <thead className='h-[50px] border-b-2'>
+                        <tr className='p-8'>
+                          <th className='w-[100px] text-center'>ID</th>
+                          <th className='w-[100px] text-center'>Customer ID</th>
+                          <th className='w-[120px] text-center'>Time</th>
+                          <th className='w-[200px] text-center'>Delivery Address</th>
+                          <th className='w-[150px] text-center'>Amount</th>
+                          <th className='w-[150px] text-center'>Payment Method</th>
+                          <th className='w-[150px] text-center'>Contact</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {orderData?.map((order) => (
+                          <motion.tr
+                            key={order.id}
+                            initial={{ opacity: 0, y: -10, x: 0 }}
+                            animate={{ opacity: 1, y: 0, x: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="border-b text-center dark:border-neutral-500"
+                          >
+                            <motion.td className="font-medium py-4">
+                              <span className="border-2 rounded-lg p-1">
+                                {shortText(5, order.id)}
+                              </span>
+                            </motion.td>
+                            <motion.td className="font-medium py-4">
+                              <span className="border-2 rounded-lg p-1">
+                                {shortText(5, order.customer_id)}
+                              </span>
+                            </motion.td>
+                            <motion.td className="font-normal py-4">
+                              {new Date(order.created).toLocaleDateString("en-US", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              })}
+                            </motion.td>
+                            <motion.td className="whitespace-pre-line h-auto w-[10%] font-normal py-4">
+                              {shortText(20, order.delivery_address)}
+                            </motion.td>
+                            <motion.td className="font-normal leading-5 py-4 tracking-wide">
+                              {order.amount} $
+                            </motion.td>
+                            <motion.td className="font-normal leading-5 py-4 tracking-wide">
+                              {order.payment_method === 0 ? "cash" : "by credit card"}
+                            </motion.td>
+                            <motion.td className="font-normal leading-5 py-4 tracking-wide">
+                              {order.contact}
+                            </motion.td>
+                           
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </motion.div>
+                </ScrollBarContainer>
 </Box>
 
 
