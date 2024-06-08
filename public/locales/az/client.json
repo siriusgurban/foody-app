@@ -24,5 +24,12 @@
     "Your Orders":"Sifarişlərin",
     "Checkout":"Checkout",
     "Your Checkout":"Checkout-un",
-    "Log Out":"Çıxış"
+    "Log Out":"Çıxış",
+
+    "Delivery":"Çatdırılma",
+    "Min":"Dəq",
+
+    "Cuisine":"Mətbəx",
+    "Go Back":"Geriyə"
+
 }

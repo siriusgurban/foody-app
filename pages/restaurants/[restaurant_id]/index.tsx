@@ -1,19 +1,8 @@
 import BasketEmpty from '@/shared/components/basketEmpty'
 import BasketList from '@/shared/components/basketList'
-import ClientFooter from '@/shared/components/clientFooter'
-import ClientHeader from '@/shared/components/clientHeader'
-import ClientRestaurantAsideMenu from '@/shared/components/clientRestaurantAsideMenu'
-import {
-  clearBasket,
-  deleteBasket,
-  getBasket,
-  postBasket,
-} from '@/shared/services/basket'
+import { getBasket, postBasket } from '@/shared/services/basket'
 import { CustomMutationOptions } from '@/shared/types/admin'
-import {
-  getRestuarantById,
-  getRestuarants,
-} from '@/shared/services/restaurants'
+import { getRestuarantById } from '@/shared/services/restaurants'
 import { Product } from '@/shared/types/admin'
 import {
   Box,
@@ -22,19 +11,11 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  Heading,
-  Skeleton,
   Text,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
-import {
-  UseMutationOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
-import { AxiosResponse } from 'axios'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -43,9 +24,11 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ClientLayout from '@/shared/components/clientLayout'
 import SkeletonCover from '@/shared/components/skeleton/SkeletonCover'
+import { QUERY } from '@/shared/constants/query'
+import { CLIENT } from '@/shared/constants/router'
 
 function RestaurantId() {
-  const { t } = useTranslation()
+  const { t } = useTranslation('client')
   const { push, query } = useRouter()
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -54,14 +37,14 @@ function RestaurantId() {
 
   const { data: basket } = useQuery({
     queryFn: () => getBasket(),
-    queryKey: ['basket'],
+    queryKey: [QUERY.BASKET],
   })
 
   console.log(basket, 'basket')
 
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.restaurant_id as string),
-    queryKey: ['restuarant', query.restaurant_id],
+    queryKey: [QUERY.RESTAURANTS, query.restaurant_id],
   })
   const [inBasket, setInBasket] = useState(true)
 
@@ -86,13 +69,13 @@ function RestaurantId() {
         isClosable: true,
         position: 'top-right',
       })
-      push('/login')
+      push(CLIENT.LOGIN)
     }
   }
 
   const { mutate: add } = useMutation({
     mutationFn: (data: any) => postBasket(data),
-    queryKey: ['basket'],
+    queryKey: [QUERY.BASKET],
     onSuccess(data, variables, context) {
       console.log(data, 'success')
       toast({
@@ -103,7 +86,7 @@ function RestaurantId() {
       })
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['basket'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY.BASKET] })
     },
   } as CustomMutationOptions)
 
@@ -151,27 +134,28 @@ function RestaurantId() {
                   <Box className="flex justify-start gap-7 xl:w-2/5 md:w-full xs:w-full">
                     <Box className="">
                       <Text className=" xs:text-xs md:text-base xl:text-lg text-client-main-gray1">
-                        Cuisine
+                        {t('Cuisine')}
                       </Text>
                       <Text className="xs:text-xs md:text-sm xl:text-sm text-text-client-main-gray2">
                         {restaurant?.data?.result?.data?.cuisine}
                       </Text>
                     </Box>
                     <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border border-client-main-red text-client-main-red rounded-md py-1 px-2">
-                      ${restaurant?.data?.result?.data?.delivery_price} Delivery
+                      ${restaurant?.data?.result?.data?.delivery_price}{' '}
+                      {t('Delivery')}
                     </Box>
                     <Box
                       className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer  justify-center pt-3"
-                      onClick={() => push('/restaurants')}
+                      onClick={() => push(QUERY.RESTAURANTS)}
                     >
-                      Go Back
+                      {t('Go Back')}
                     </Box>
                   </Box>
                 </Box>
                 <Box className="flex gap-12 xl:py-12 xl:px-4 md:py-8 md:px-6 xs:py-4 xs:px-0">
                   <Box className=" bg-client-fill-gray xl:max-w-[846px] lg:max-w-[750px] md:max-w-[550px]">
                     <Text className="xs:text-lg md:text-xl xl:text-2xl font-bold text-center xl:py-10 md:py-7 xs:py-4">
-                      Products
+                      {t('Products')}
                     </Text>
                     <Box className="xl:w-[846px]">
                       {restaurant?.data?.result?.data?.products?.map(
@@ -235,7 +219,9 @@ function RestaurantId() {
                             : 'client-main-red'
                         } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
                       >
-                        <Text className="text-white my-auto">Checkout</Text>
+                        <Text className="text-white my-auto">
+                          {t('Checkout')}
+                        </Text>
                         <Box
                           className={`text-${
                             basket?.data?.result?.data?.items.length == 0
@@ -296,7 +282,9 @@ function RestaurantId() {
                             : 'client-main-red'
                         }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
                       >
-                        <Text className="text-white my-auto">Checkout</Text>
+                        <Text className="text-white my-auto">
+                          {t('Checkout')}
+                        </Text>
                         <Box
                           className={`text-${
                             basket?.data?.result?.data?.total_item == 0
@@ -347,7 +335,9 @@ function RestaurantId() {
                                 : 'client-main-red'
                             } bg- max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
                           >
-                            <Text className="text-white my-auto">Checkout</Text>
+                            <Text className="text-white my-auto">
+                              {t('Checkout')}
+                            </Text>
                             <Box
                               className={`text-${
                                 basket?.data?.result?.data?.total_item == 0
@@ -376,7 +366,7 @@ export default RestaurantId
 
 // export async function getStaticProps({ locale }: { locale: any }) {
 //   return {
-//     props: { ...(await serverSideTranslations(locale, ['admin'])) },
+//     props: { ...(await serverSideTranslations(locale, ['client'])) },
 //   }
 // }
 

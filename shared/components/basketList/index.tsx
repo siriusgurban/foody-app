@@ -14,9 +14,11 @@ import {
 } from '@/shared/services/basket'
 import { AxiosResponse } from 'axios'
 import { CustomMutationOptions, Product } from '@/shared/types/admin'
+import { useBasket } from '@/shared/hooks/useBasket'
+import { QUERY } from '@/shared/constants/query'
 
 function BasketList() {
-  const { t } = useTranslation()
+  const { t } = useTranslation('client')
   const { push, query } = useRouter()
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -24,74 +26,90 @@ function BasketList() {
 
   const { data: basket } = useQuery({
     queryFn: () => getBasket(),
-    queryKey: ['basket'],
+    queryKey: [QUERY.BASKET],
   })
 
-  const { mutate: clear } = useMutation({
-    mutationFn: (data: any) => clearBasket(data),
-    queryKey: ['basket'],
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Item cleared',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['basket'] })
-    },
-  } as CustomMutationOptions)
+  // const { mutate: clear } = useMutation({
+  //   mutationFn: (data: any) => clearBasket(data),
+  //   queryKey: ['basket'],
+  //   onSuccess(data, variables, context) {
+  //     console.log(data, 'success')
+  //     toast({
+  //       title: 'Item cleared',
+  //       status: 'success',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+  //   },
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['basket'] })
+  //   },
+  // } as CustomMutationOptions)
 
-  function handleBasketClear(id: string) {
-    const newData: any = { basket_id: id }
-    clear(newData)
-  }
+  // function handleBasketClear(id: string) {
+  //   const newData: any = { basket_id: id }
+  //   clear(newData)
+  // }
 
-  const { mutate: delet } = useMutation({
-    mutationFn: (data: any) => deleteBasket(data),
-    queryKey: ['basket'],
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Item deleted',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['basket'] })
-    },
-  } as CustomMutationOptions)
+  // const { mutate: delet } = useMutation({
+  //   mutationFn: (data: any) => deleteBasket(data),
+  //   queryKey: ['basket'],
+  //   onSuccess(data, variables, context) {
+  //     console.log(data, 'success')
+  //     toast({
+  //       title: 'Item deleted',
+  //       status: 'success',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+  //   },
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['basket'] })
+  //   },
+  // } as CustomMutationOptions)
 
-  function handleBasketDelete(id: string) {
-    const newData: any = { product_id: id }
-    delet(newData)
-  }
-  const { mutate: add } = useMutation({
-    mutationFn: (data: any) => postBasket(data),
-    queryKey: ['basket'],
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Item added',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['basket'] })
-    },
-  } as CustomMutationOptions)
+  // function handleBasketDelete(id: string) {
+  //   const newData: any = { product_id: id }
+  //   delet(newData)
+  // }
+  // const { mutate: add } = useMutation({
+  //   mutationFn: (data: any) => postBasket(data),
+  //   queryKey: ['basket'],
+  //   onSuccess(data, variables, context) {
+  //     console.log(data, 'success')
+  //     toast({
+  //       title: 'Item added',
+  //       status: 'success',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+  //   },
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['basket'] })
+  //   },
+  // } as CustomMutationOptions)
 
-  function handleAddBasket(id: string) {
-    console.log('added')
-    const newData: any = { product_id: id }
-    add(newData)
-  }
+  // function handleAddBasket(id: string) {
+  //   console.log('added')
+  //   const newData: any = { product_id: id }
+  //   add(newData)
+  // }
+
+  const { handle: handleAddBasket } = useBasket({
+    queryFn: postBasket,
+    queryKey: QUERY.BASKET,
+    toastText: 'Item added',
+  })
+  const { handle: handleBasketDelete } = useBasket({
+    queryFn: deleteBasket,
+    queryKey: QUERY.BASKET,
+    toastText: 'Item deleted',
+  })
+  const { handle: handleBasketClear } = useBasket({
+    queryFn: clearBasket,
+    queryKey: QUERY.BASKET,
+    toastText: 'Item cleared',
+  })
 
   return (
     <Box className="overflow-y-auto">

@@ -104,7 +104,7 @@ const ClientHeader = () => {
                 <HeaderSearchRestaurantModal onClose={closeSearchModal} />
               )}
             </div>
-            <Lang bg={'white'} />
+            {/* <Lang bg={'white'} /> */}
             <ClientHeaderRightSideComponents />
           </>
         ) : (
@@ -123,7 +123,7 @@ const ClientHeader = () => {
                 <HeaderSearchRestaurantModal onClose={closeSearchModal} />
               )}
             </div>
-            <Lang bg={'white'} />
+            {/* <Lang bg={'white'} /> */}
             <ClientHeaderLangLogin />
           </>
         )}
@@ -161,7 +161,7 @@ const ClientHeader = () => {
             )}
             <ul className="flex flex-col justify-around  gap-4  mt-4  w-full font-medium  text-lg  text-client-main-gray1">
               <li
-                onClick={() => push('/')}
+                onClick={() => push(CLIENT.HOME)}
                 className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
               >
                 {t('Home')}

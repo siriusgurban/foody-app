@@ -8,6 +8,7 @@ import { getBasket } from '@/shared/services/basket'
 import { useRouter } from 'next/router'
 import { getUser } from '@/shared/services/admin'
 import { QUERY } from '@/shared/constants/query'
+import { Lang } from '../Lang'
 
 const ClientHeaderRightSideComponents = () => {
   const [showUserList, setShowUserList] = useState(false)
@@ -27,11 +28,11 @@ const ClientHeaderRightSideComponents = () => {
     queryKey: ['user'],
   })
 
-  console.log(data, 'user')
+  // console.log(data, 'user')
 
   return (
     <div className="relative items-center gap-5  hidden md:flex ">
-      {/* <Lang /> */}
+      <Lang bg={'white'} />
       {/* <div className='relative bg-client-login-mainColor   rounded-full   w-10 h-10  flex justify-center cursor-pointer  hover:scale-95 transition-all duration-500  '>
                 <Image width={30} height={0} src='/basket.svg' alt='basket' className='   ' />
                 <span className='flex justify-center items-center text-sm  w-4 h-4  text-client-main-red font-extrabold  absolute   left-8 top-[-1px]  z-10'>0</span>

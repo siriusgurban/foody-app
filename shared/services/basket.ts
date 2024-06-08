@@ -9,6 +9,7 @@ let userInfo: any = JSON.parse(
 const config = {
   headers: { Authorization: `Bearer ${userInfo.access_token}` },
 }
+// console.log(userInfo, 'userInfo.access_token')
 
 export const getBasket = async () => {
   try {
