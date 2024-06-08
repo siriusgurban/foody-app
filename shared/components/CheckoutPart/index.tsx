@@ -112,14 +112,19 @@ function CheckoutPart() {
               name="contact"
               type="tel"
               id="inputField"
+               pattern="\d*"
               className="mt-1 p-2 border text-[#828282] leading-6 font-normal rounded text-xl  sm:w-[320px] xl:w-[400px]  h-[53px] w-[260px]  md:bg-[#FFFFFF] bg-[#F3F4F6] "
               placeholder="Your Number"
+              value={phone}
               onChange={(event) => {
-                setPhone(event.target.value);
-                setUserDatas({
-                  ...userDatas,
-                  [event.target.name]: event.target.value,
-                });
+                const value = event.target.value;
+                if (/^\d*$/.test(value)) {
+                  setPhone(value);
+                  setUserDatas({
+                    ...userDatas,
+                    [event.target.name]: value,
+                  });
+                }
               }}
             />
           </div>
@@ -186,45 +191,3 @@ function CheckoutPart() {
 
 export default CheckoutPart
 
- {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
-    <div className="sm:overflow-x-hidden w-[100%] h-full overflow-x-auto bg-[#FFFFFF]">
-      <table className="text-left w-full text-black text-sm font-light">
-        <thead className="border-b font-semibold ">
-          <tr className="text-center">
-            <th scope="col" className="py-4">Image</th>
-            <th scope="col" className="py-4">Name</th>
-            <th scope="col" className="py-4">Price</th>
-            <th scope="col " className="py-4">Count</th>
-            <th scope="col" className="py-4">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {newFilterData?.products.map((product) => (
-            <tr className="border-b  text-center" key={product.id}>
-              <td className="  py-4 font-medium flex justify-center">
-                {" "}
-                <Image
-                  src={product.img_url}
-                  alt="Product Image"
-                  width={100}
-                  height={100}
-                />{" "}
-              </td>
-              <td className="  py-4 font-normal ">
-                {product.name}
-              </td>
-              <td className="  py-4 font-normal ">
-                {product.price}
-              </td>
-              <td className="  py-4 font-normal ">
-                {product.count}
-              </td>
-              <td className="  py-4 font-normal ">
-                {Number(product.price) * product.count}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </Modal> */}

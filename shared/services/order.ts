@@ -59,6 +59,37 @@ export const GetOrders = async () => {
 
 };
 
+
+export const GetOrderUser = async () => {
+  try {
+    const userJSONData = localStorage.getItem("userInfo");
+    if (!userJSONData) {
+      throw new Error("User not authenticated");
+    }
+
+    const userInfo = JSON.parse(userJSONData);
+    const token = userInfo?.access_token;
+
+    if (!token) {
+      throw new Error("Token not available");
+    }
+
+    const response = await instanceAxios({
+      method: 'GET',
+      url: 'order/user',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (err) {
+    console.error("Error occurred while fetching order history:", err);
+    throw err;
+  }
+};
+
 export const GetOrderHistory = async () => {
   try {
     const userJSONData = localStorage.getItem("userInfo");
@@ -88,3 +119,4 @@ export const GetOrderHistory = async () => {
     throw err;
   }
 };
+
