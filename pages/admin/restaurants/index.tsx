@@ -12,6 +12,7 @@ import AdminUpdateModalRest from '@/shared/components/AdminUpdateModalRest'
 import { Restaurant } from '@/shared/types/admin'
 import AdminLayout from '@/shared/components/adminLayout'
 import SkeletonRestaurant from '@/shared/components/skeleton/SkeletonRestaurant'
+import { QUERY } from '@/shared/constants/query'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
@@ -22,7 +23,7 @@ const Restaurants: React.FC = () => {
   // get restaurants
   const { data, isLoading, isError } = useQuery({
     queryFn: getRestuarants,
-    queryKey: ['restaurants'],
+    queryKey: [QUERY.RESTAURANTS],
   })
 
   const restaurantsDatas: Restaurant[] = data?.data?.result?.data ?? []
@@ -52,7 +53,7 @@ const Restaurants: React.FC = () => {
       console.log(data, 'error')
     },
     onSettled: () => {
-      QueryClient.invalidateQueries({ queryKey: ['restaurants'] })
+      QueryClient.invalidateQueries({ queryKey: [QUERY.RESTAURANTS] })
     },
   })
 

@@ -65,7 +65,7 @@ const UserBasket: FC<any> = ({}) => {
           {data?.data?.result?.data?.total_item} {t('items')}
         </p>
       </div>
-      <div className="mb-5 max-h-[300px] overflow-y-auto ">
+      <div className="mb-5 h-[470px] w-full overflow-y-auto overflow-x-hidden scrollbarClient">
         {data?.data?.result?.data?.items?.map(
           (item: Product, index: number) => (
             <UserBasketCard

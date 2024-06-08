@@ -9,6 +9,8 @@ import Image from 'next/image'
 import { IoMdCloudUpload } from 'react-icons/io'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import AdminModalUploadImage from '../adminModalUploadImage'
+import { useCORP } from '@/shared/hooks/useCORP'
+import { QUERY } from '@/shared/constants/query'
 
 interface Props {
   show?: boolean
@@ -35,6 +37,13 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
 
     nameRef.current.value = ''
   }
+
+  // const { mutate } = useCORP({
+  //   queryFn: postCategory,
+  //   queryKey: [QUERY.CATEGORIES],
+  //   toastText: 'Category added',
+  //   onClickClose: onClickClose(),
+  // })
 
   const { mutate } = useMutation({
     mutationFn: postCategory,

@@ -10,6 +10,7 @@ import { IoMdCloudUpload } from 'react-icons/io'
 import { useRouter } from 'next/router'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import AdminModalUploadImage from '../adminModalUploadImage'
+import { QUERY } from '@/shared/constants/query'
 
 interface Props {
   show?: boolean
@@ -29,7 +30,7 @@ const AdminUpdateModalCategory = ({
 
   const { data } = useQuery({
     queryFn: () => getCategoryById(query.id as string),
-    queryKey: ['categories', query.id],
+    queryKey: [QUERY.CATEGORIES, query.id],
   })
 
   let nameRef = useRef<any>(null)
@@ -62,7 +63,7 @@ const AdminUpdateModalCategory = ({
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ['categories'],
+        queryKey: [QUERY.CATEGORIES],
       })
     },
   })

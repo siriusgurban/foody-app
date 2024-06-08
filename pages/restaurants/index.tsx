@@ -73,7 +73,7 @@ function Restaurants() {
       <ClientLayout>
         <main className="flex md:mx-8 mx-0 md:gap-8 gap-0 md:justify-normal justify-center">
           <section className="md:block hidden">
-            <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-6 max-h-[620px] scrollbar overflow-y-scroll pr-4 px-5 py-10  overflow-hidden">
+            <Box className="w-64 h-lvh bg-client-fill-gray flex flex-col gap-6 max-h-[620px] scrollbarClient overflow-y-scroll pr-4 px-5 py-10  overflow-hidden">
               {isLoading ? (
                 <Box>
                   {[1, 2, 3, 4].map((item, index) => {
