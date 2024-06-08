@@ -29,7 +29,7 @@ export function useCORP({
         duration: 3000,
         isClosable: true,
       })
-      ;() => onClickClose
+      onClickClose()
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKey })

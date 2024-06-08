@@ -24,18 +24,16 @@ import DeleteModal from '@/shared/components/deleteModal'
 import AdminLayout from '@/shared/components/adminLayout'
 import SkeletonTable from '@/shared/components/skeleton/SkeletonTable'
 import { QUERY } from '@/shared/constants/query'
+import { useCORP } from '@/shared/hooks/useCORP'
 
 function Category() {
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
 
   const { t } = useTranslation('admin')
   const [hideModalAdd, setHideModalAdd] = useState<boolean>(true)
-  const toast = useToast()
   const { push, pathname } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-
-  const queryClient = useQueryClient()
 
   const { data, isLoading } = useQuery({
     queryFn: getCategories,
@@ -44,23 +42,10 @@ function Category() {
 
   console.log(data?.data.result.data, 'datacategory')
 
-  const { mutate } = useMutation({
-    mutationFn: deleteCategory,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Category deleted',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY.CATEGORIES] })
-    },
+  const { mutate } = useCORP({
+    queryFn: deleteCategory,
+    queryKey: [QUERY.CATEGORIES],
+    toastText: 'Category deleted',
   })
 
   function showHideModalUpdate() {
