@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import ClientLayout from '@/shared/components/clientLayout'
+import ClientLayout from '@/shared/components/layout/clientLayout'
 
 const AboutUs = () => {
   useEffect(() => {

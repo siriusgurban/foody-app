@@ -1,19 +1,26 @@
-import AdminAsideMenu from '@/shared/components/AdminAsideMenu';
-import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive';
-import AdminHeader from '@/shared/components/AdminHeader';
-import { Box, Button, Toast, useDisclosure, ButtonGroup, IconButton } from '@chakra-ui/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Head from 'next/head';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { motion } from "framer-motion";
-import { ViewIcon, DeleteIcon } from '@chakra-ui/icons';
-import { DeleteOrder, GetOrders } from '@/shared/services/order';
-import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent';
-import { shortText } from "@/shared/helpers/shortText";
-import { ScrollBarContainer } from "@/shared/components/Scroll/scroll";
-import Image from 'next/image';
+import AdminAsideMenu from '@/shared/components/admin/AdminAsideMenu'
+import AdminAsideMenuResponsive from '@/shared/components/admin/AdminAsideMenuResponsive'
+import AdminHeader from '@/shared/components/admin/AdminHeader'
+import {
+  Box,
+  Button,
+  Toast,
+  useDisclosure,
+  ButtonGroup,
+  IconButton,
+} from '@chakra-ui/react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Head from 'next/head'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
+import { ViewIcon, DeleteIcon } from '@chakra-ui/icons'
+import { DeleteOrder, GetOrders } from '@/shared/services/order'
+import AdminSecondaryComponent from '@/shared/components/admin/adminSecondaryComponent'
+import { shortText } from '@/shared/helpers/shortText'
+import { ScrollBarContainer } from '@/shared/components/common/Scroll/scroll'
+import Image from 'next/image'
 import {
   Modal,
   ModalOverlay,
@@ -22,46 +29,46 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
 interface Order {
-  id: string;
-  customer_id: string;
-  created: string;
-  delivery_address: string;
-  amount: number;
-  payment_method: number;
-  contact: string;
+  id: string
+  customer_id: string
+  created: string
+  delivery_address: string
+  amount: number
+  payment_method: number
+  contact: string
   products: Array<{
-    id: string;
-    img_url: string;
-    name: string;
-    price: number;
-    count: number;
-  }>;
+    id: string
+    img_url: string
+    name: string
+    price: number
+    count: number
+  }>
 }
 
 interface GetOrdersResponse {
   result: {
-    data: Order[];
-  };
+    data: Order[]
+  }
 }
 
 function Orders() {
-  const { t } = useTranslation('admin');
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const queryClient = useQueryClient();
+  const { t } = useTranslation('admin')
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const queryClient = useQueryClient()
   const { data } = useQuery<GetOrdersResponse>({
     queryFn: GetOrders,
     queryKey: ['orders'],
-  });
+  })
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const openModal = (order: Order) => {
-    setSelectedOrder(order);
-    onOpen();
-  };
+    setSelectedOrder(order)
+    onOpen()
+  }
 
   const { mutate } = useMutation({
     mutationFn: DeleteOrder,
@@ -71,25 +78,25 @@ function Orders() {
         status: 'success',
         duration: 3000,
         isClosable: true,
-      });
-      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      })
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
     },
     onError: (error) => {
-      console.error(error);
+      console.error(error)
       Toast({
         title: 'Error deleting order',
         status: 'error',
         duration: 3000,
         isClosable: true,
-      });
+      })
     },
-  });
+  })
 
   const handleDelete = (id: string) => {
-    mutate(id);
-  };
+    mutate(id)
+  }
 
-  const orderData = data?.result?.data;
+  const orderData = data?.result?.data
 
   return (
     <>
@@ -117,16 +124,20 @@ function Orders() {
                     transition={{ duration: 0.5 }}
                   >
                     <table className="bg-white m-5">
-                      <thead className='h-[50px] border-b-2'>
-                        <tr className='p-8'>
-                          <th className='w-[100px] text-center'>ID</th>
-                          <th className='w-[100px] text-center'>Customer ID</th>
-                          <th className='w-[120px] text-center'>Time</th>
-                          <th className='w-[200px] text-center'>Delivery Address</th>
-                          <th className='w-[150px] text-center'>Amount</th>
-                          <th className='w-[150px] text-center'>Payment Method</th>
-                          <th className='w-[150px] text-center'>Contact</th>
-                          <th className='w-[150px] text-center'>Actions</th>
+                      <thead className="h-[50px] border-b-2">
+                        <tr className="p-8">
+                          <th className="w-[100px] text-center">ID</th>
+                          <th className="w-[100px] text-center">Customer ID</th>
+                          <th className="w-[120px] text-center">Time</th>
+                          <th className="w-[200px] text-center">
+                            Delivery Address
+                          </th>
+                          <th className="w-[150px] text-center">Amount</th>
+                          <th className="w-[150px] text-center">
+                            Payment Method
+                          </th>
+                          <th className="w-[150px] text-center">Contact</th>
+                          <th className="w-[150px] text-center">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -149,11 +160,14 @@ function Orders() {
                               </span>
                             </motion.td>
                             <motion.td className="font-normal py-4">
-                              {new Date(order.created).toLocaleDateString("en-US", {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                              })}
+                              {new Date(order.created).toLocaleDateString(
+                                'en-US',
+                                {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric',
+                                },
+                              )}
                             </motion.td>
                             <motion.td className="whitespace-pre-line h-auto w-[10%] font-normal py-4">
                               {shortText(20, order.delivery_address)}
@@ -162,7 +176,9 @@ function Orders() {
                               {order.amount} $
                             </motion.td>
                             <motion.td className="font-normal leading-5 py-4 tracking-wide">
-                              {order.payment_method === 0 ? "cash" : "by credit card"}
+                              {order.payment_method === 0
+                                ? 'cash'
+                                : 'by credit card'}
                             </motion.td>
                             <motion.td className="font-normal leading-5 py-4 tracking-wide">
                               {order.contact}
@@ -206,11 +222,21 @@ function Orders() {
                 <table className="text-left w-full text-black text-sm font-light">
                   <thead className="border-b font-semibold">
                     <tr className="text-center">
-                      <th scope="col" className="py-4">Image</th>
-                      <th scope="col" className="py-4">Name</th>
-                      <th scope="col" className="py-4">Price</th>
-                      <th scope="col" className="py-4">Count</th>
-                      <th scope="col" className="py-4">Amount</th>
+                      <th scope="col" className="py-4">
+                        Image
+                      </th>
+                      <th scope="col" className="py-4">
+                        Name
+                      </th>
+                      <th scope="col" className="py-4">
+                        Price
+                      </th>
+                      <th scope="col" className="py-4">
+                        Count
+                      </th>
+                      <th scope="col" className="py-4">
+                        Amount
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -227,7 +253,9 @@ function Orders() {
                         <td className="py-4 font-normal">{product.name}</td>
                         <td className="py-4 font-normal">{product.price}</td>
                         <td className="py-4 font-normal">{product.count}</td>
-                        <td className="py-4 font-normal">{product.price * product.count}</td>
+                        <td className="py-4 font-normal">
+                          {product.price * product.count}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -237,20 +265,20 @@ function Orders() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
 
-export default Orders;
+export default Orders
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: { ...(await serverSideTranslations(locale, ['admin'])) },
-  };
+  }
 }

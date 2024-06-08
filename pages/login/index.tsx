@@ -2,8 +2,8 @@ import React from 'react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
-import ClientLoginNav from '@/shared/components/clientLoginNav'
-import ClientLoginRegisterForm from '@/shared/components/clientLoginRegisterForm'
+import ClientLoginNav from '@/shared/components/client/clientLoginNav'
+import ClientLoginRegisterForm from '@/shared/components/client/clientLoginRegisterForm'
 import { Box } from '@chakra-ui/react'
 
 function Login() {
