@@ -20,20 +20,21 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ClientLayout from '@/shared/components/clientLayout'
 import SkeletonCover from '@/shared/components/skeleton/SkeletonCover'
 import { QUERY } from '@/shared/constants/query'
 import { CLIENT } from '@/shared/constants/router'
+import { useBasket } from '@/shared/hooks/useBasket'
+import { getUser } from '@/shared/services/admin'
 
 function RestaurantId() {
   const { t } = useTranslation('client')
   const { push, query } = useRouter()
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const queryClient = useQueryClient()
+  const [userInfo, setUserInfo] = useState({})
 
   const { data: basket } = useQuery({
     queryFn: () => getBasket(),
@@ -46,6 +47,7 @@ function RestaurantId() {
     queryFn: () => getRestuarantById(query.restaurant_id as string),
     queryKey: [QUERY.RESTAURANTS, query.restaurant_id],
   })
+
   const [inBasket, setInBasket] = useState(true)
 
   console.log(restaurant?.data?.result?.data?.products, 'restaurant.products')
@@ -58,9 +60,24 @@ function RestaurantId() {
   //   setInBasket(newBasket)
   // }
 
+  const { data, status, error } = useQuery({
+    queryFn: getUser,
+    queryKey: ['user'],
+  })
+
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userInfoString = localStorage.getItem('userInfo')
+      if (userInfoString) {
+        const parsedUserInfo = JSON.parse(userInfoString)
+        setUserInfo(parsedUserInfo)
+      }
+    }
+  }, []) // Empty dependency array ensures this effect runs only once after component mount
+
   function checkUser() {
-    if (localStorage.getItem('userInfo')) {
-      push('/user?page=checkout')
+    if (userInfo !== undefined && data !== undefined) {
+      push('/user?page=' + query?.page)
     } else {
       toast({
         description: 'Please, login first',
@@ -69,32 +86,13 @@ function RestaurantId() {
         isClosable: true,
         position: 'top-right',
       })
-      push(CLIENT.LOGIN)
     }
   }
-
-  const { mutate: add } = useMutation({
-    mutationFn: (data: any) => postBasket(data),
-    queryKey: [QUERY.BASKET],
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Item added',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY.BASKET] })
-    },
-  } as CustomMutationOptions)
-
-  function handleAddBasket(id: string) {
-    console.log('added')
-    const newData: any = { product_id: id }
-    add(newData)
-  }
+  const { handle: handleAddBasket } = useBasket({
+    queryFn: postBasket,
+    queryKey: QUERY.BASKET,
+    toastText: 'Item added',
+  })
 
   return (
     <div>
@@ -146,7 +144,7 @@ function RestaurantId() {
                     </Box>
                     <Box
                       className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer  justify-center pt-3"
-                      onClick={() => push(QUERY.RESTAURANTS)}
+                      onClick={() => push(CLIENT.HOME)}
                     >
                       {t('Go Back')}
                     </Box>
@@ -328,7 +326,7 @@ function RestaurantId() {
                             <BasketList />
                           )}
                           <Box
-                            onClick={() => push('/user?page=checkout')}
+                            onClick={() => checkUser()}
                             className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
                               basket?.data?.result?.data?.total_item == 0
                                 ? 'client-rest-grey1'

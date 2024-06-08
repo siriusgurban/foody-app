@@ -6,6 +6,7 @@ import UserBasket from '@/shared/components/userBasket'
 import UserCheckout from '@/shared/components/userCheckout'
 import UserOrders from '@/shared/components/userOrders'
 import UserProfile from '@/shared/components/userProfile'
+import { CLIENT } from '@/shared/constants/router'
 import { getUser } from '@/shared/services/admin'
 import { Box, Text, useToast } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
@@ -66,10 +67,8 @@ function User() {
         isClosable: true,
         position: 'top-right',
       })
-      push('/login')
+      push(CLIENT.LOGIN)
     }
-
-    // return reload()
   }, [])
 
   {

@@ -4,11 +4,11 @@
 
 @layer base {
   @font-face {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/fonts/Roboto-Medium.woff2) format("woff2");
+    src: url(/fonts/Roboto-Medium.woff2) format('woff2');
   }
 }
 
@@ -29,6 +29,24 @@
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgb(239, 93, 168);
+  }
+
+  .scrollbarClient::-webkit-scrollbar {
+    width: 6px;
+    height: 2px;
+  }
+
+  .scrollbarClient::-webkit-scrollbar-track {
+    border-radius: 100vh;
+  }
+
+  .scrollbarClient::-webkit-scrollbar-thumb {
+    background: #d63626;
+    border-radius: 100vh;
+  }
+
+  .scrollbarClient::-webkit-scrollbar-thumb:hover {
+    background: #d63626;
   }
 }
 

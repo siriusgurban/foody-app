@@ -1,3 +1,4 @@
+import { CLIENT } from '@/shared/constants/router'
 import { Box, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -15,7 +16,7 @@ function UserAsideMenu() {
   function deleteUser() {
     localStorage.removeItem('userInfo')
     setTimeout(() => {
-      push('/')
+      push(CLIENT.HOME)
     }, 1000)
     setTimeout(() => {
       reload()
