@@ -1,6 +1,6 @@
 export const CLIENT = {
     HOME: "/",
-    RESTAURANTS: "/restaurants",
+    RESTAURANTS: "/restaurants/",
     USER: "/user",
     ABOUTUS: "/about-us",
     HOWITWORKS: "/how-it-works",

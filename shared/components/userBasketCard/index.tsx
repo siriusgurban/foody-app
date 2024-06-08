@@ -11,9 +11,10 @@ interface Props {
   count?: number
   alt?: string
   key?: number
-  clearBasket: () => void
-  increaseCount: () => void
-  decreaseCount: () => void
+  clearBasket: any
+  increaseCount: any
+  decreaseCount: any
+  id: string
 }
 const UserBasketCard: FC<Props> = ({
   increaseCount,
@@ -25,6 +26,7 @@ const UserBasketCard: FC<Props> = ({
   count,
   alt,
   key,
+  id,
 }) => {
   return (
     <div
@@ -38,11 +40,11 @@ const UserBasketCard: FC<Props> = ({
       </div>
 
       <div className="flex flex-col    bg-client-gray7 sm:bg-white py-2 px-2 rounded-full gap-3 items-center">
-        <button onClick={increaseCount}>
+        <button onClick={() => increaseCount(id)}>
           <IoIosAdd className="cursor-pointer w-7" />
         </button>
         <p className="text-xl font-medium">{count}</p>
-        <button onClick={decreaseCount}>
+        <button onClick={() => decreaseCount(id)}>
           <FiMinus className="cursor-pointer w-7" />
         </button>
       </div>

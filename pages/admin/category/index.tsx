@@ -22,11 +22,8 @@ import AdminUpdateModalCategory from '@/shared/components/adminUpdateModalCatego
 import AdminAddModalCategory from '@/shared/components/adminAddModalCategory'
 import DeleteModal from '@/shared/components/deleteModal'
 import AdminLayout from '@/shared/components/adminLayout'
-
-import 'react-loading-skeleton/dist/skeleton.css'
-import SkeletonRestaurant from '@/shared/components/skeleton/SkeletonRestaurant'
-import SkeletonProduct from '@/shared/components/skeleton/SkeletonProduct'
 import SkeletonTable from '@/shared/components/skeleton/SkeletonTable'
+import { QUERY } from '@/shared/constants/query'
 
 function Category() {
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
@@ -42,7 +39,7 @@ function Category() {
 
   const { data, isLoading } = useQuery({
     queryFn: getCategories,
-    queryKey: ['categories'],
+    queryKey: [QUERY.CATEGORIES],
   })
 
   console.log(data?.data.result.data, 'datacategory')
@@ -62,7 +59,7 @@ function Category() {
       console.log(data, 'error')
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY.CATEGORIES] })
     },
   })
 

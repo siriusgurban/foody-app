@@ -24,5 +24,11 @@
     "Your Orders":"Your Orders",
     "Checkout":"Checkout",
     "Your Checkout":"Your Checkout",
-    "Log Out":"Log Out"
+    "Log Out":"Log Out",
+
+    "Delivery":"Delivery",
+    "Min":"Min",
+
+    "Cuisine":"Cuisine",
+    "Go Back":"Go Back"
 }
