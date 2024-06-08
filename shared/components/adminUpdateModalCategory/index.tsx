@@ -6,11 +6,11 @@ import { FormControl, useToast } from '@chakra-ui/react'
 import { getCategoryById, updateCategory } from '@/shared/services/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
-import { IoMdCloudUpload } from 'react-icons/io'
 import { useRouter } from 'next/router'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import AdminModalUploadImage from '../adminModalUploadImage'
 import { QUERY } from '@/shared/constants/query'
+import { useCORP } from '@/shared/hooks/useCORP'
 
 interface Props {
   show?: boolean
@@ -24,9 +24,7 @@ const AdminUpdateModalCategory = ({
   text,
 }: Props) => {
   const { t } = useTranslation('admin')
-  const toast = useToast()
   const { query } = useRouter()
-  const queryClient = useQueryClient()
 
   const { data } = useQuery({
     queryFn: () => getCategoryById(query.id as string),
@@ -46,26 +44,11 @@ const AdminUpdateModalCategory = ({
     }
   }, [query.id, data])
 
-  const { mutate } = useMutation({
-    mutationFn: updateCategory,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Category updated',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClickClose()
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY.CATEGORIES],
-      })
-    },
+  const { mutate } = useCORP({
+    queryFn: updateCategory,
+    queryKey: [QUERY.CATEGORIES],
+    toastText: 'Category updated',
+    onClickClose: () => onClickClose(),
   })
 
   function handleCategory() {

@@ -38,31 +38,11 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
     nameRef.current.value = ''
   }
 
-  // const { mutate } = useCORP({
-  //   queryFn: postCategory,
-  //   queryKey: [QUERY.CATEGORIES],
-  //   toastText: 'Category added',
-  //   onClickClose: onClickClose(),
-  // })
-
-  const { mutate } = useMutation({
-    mutationFn: postCategory,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Category added',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClickClose()
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
-    },
+  const { mutate } = useCORP({
+    queryFn: postCategory,
+    queryKey: [QUERY.CATEGORIES],
+    toastText: 'Category added',
+    onClickClose: () => onClickClose(),
   })
 
   const { loading, imgUrl, getImage } = useImageUpload()
