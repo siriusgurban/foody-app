@@ -6,7 +6,7 @@ function SkeletonProduct() {
     <Box
       padding="3"
       boxShadow="lg"
-      bg="white"
+      // bg="white"
       rounded={4}
       width="180px"
       // w="100%"

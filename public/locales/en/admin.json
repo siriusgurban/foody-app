@@ -32,8 +32,8 @@
     "search":"Search",
     "history":"History",
     "Delete":"Delete",
-    "AreYouSure":"Are you sure? You can not undo this action afterwards.",
-    "DeleteProduct": "Delete Product",
+    "AreYouSure":"Attention! If you delete this product, it will not come back...",
+    "DeleteProduct": "Are you sure it’s deleted?",
     "addсategory":"Add Category",
     "Image":"Image",
     "Slug":"Slug"
