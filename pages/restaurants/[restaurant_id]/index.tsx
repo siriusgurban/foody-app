@@ -1,5 +1,5 @@
-import BasketEmpty from '@/shared/components/basketEmpty'
-import BasketList from '@/shared/components/basketList'
+import BasketEmpty from '@/shared/components/client/basketEmpty'
+import BasketList from '@/shared/components/client/basketList'
 import { getBasket, postBasket } from '@/shared/services/basket'
 import { CustomMutationOptions } from '@/shared/types/admin'
 import { getRestuarantById } from '@/shared/services/restaurants'
@@ -22,8 +22,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ClientLayout from '@/shared/components/clientLayout'
-import SkeletonCover from '@/shared/components/skeleton/SkeletonCover'
+import ClientLayout from '@/shared/components/layout/clientLayout'
+import SkeletonCover from '@/shared/components/common/skeleton/SkeletonCover'
 import { QUERY } from '@/shared/constants/query'
 import { CLIENT } from '@/shared/constants/router'
 import { useBasket } from '@/shared/hooks/useBasket'
@@ -77,7 +77,7 @@ function RestaurantId() {
 
   function checkUser() {
     if (userInfo !== undefined && data !== undefined) {
-      push('/user?page=' + query?.page)
+      push('/user?page=checkout')
     } else {
       toast({
         description: 'Please, login first',

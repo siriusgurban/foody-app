@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Image } from '@chakra-ui/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import ClientLayout from '@/shared/components/clientLayout'
+import ClientLayout from '@/shared/components/layout/clientLayout'
 
 function NotFound() {
   return (

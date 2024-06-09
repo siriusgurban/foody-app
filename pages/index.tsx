@@ -3,19 +3,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from 'axios'
-import ClientHeader from '@/shared/components/clientHeader'
+import ClientHeader from '@/shared/components/client/clientHeader'
 import { useTranslation } from 'react-i18next'
-import AdminModalButton from '@/shared/components/adminModalButton'
+import AdminModalButton from '@/shared/components/admin/adminModalButton'
 import { useRouter } from 'next/router'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { useQuery } from '@tanstack/react-query'
 import { getOffers } from '@/shared/services/offers'
-import ClientFooter from '@/shared/components/clientFooter'
+import ClientFooter from '@/shared/components/client/clientFooter'
 import { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import ClientLayout from '@/shared/components/clientLayout'
+import ClientLayout from '@/shared/components/layout/clientLayout'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('client')

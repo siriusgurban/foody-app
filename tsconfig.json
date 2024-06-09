@@ -23,10 +23,10 @@
     "next-i18next.config.js",
     "shared/components/Piechartt.tsx",
     "styles/colors.js",
-    "shared/components/AdminAsideMenu/index.tsx",
-    "shared/components/AdminAsideMenuResponsive/index.tsx",
-    "shared/components/AdminHeader/index.tsx",
-    "shared/components/foody/index.tsx"
+    "shared/components/admin/AdminAsideMenu/index.tsx",
+    "shared/components/admin/AdminAsideMenuResponsive/index.tsx",
+    "shared/components/admin/AdminHeader/index.tsx",
+    "shared/components/common/foody/index.tsx"
   ],
   "exclude": ["node_modules"]
 }

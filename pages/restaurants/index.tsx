@@ -1,10 +1,8 @@
-//@ts- nocheck
-
-import SkeletonRestaurantClient from '@/shared/components/skeleton/SkeletonRestaurantClient'
-import SkeletonRestaurantClientAside from '@/shared/components/skeleton/SkeletonRestaurantClientAside'
-import ClientLayout from '@/shared/components/clientLayout'
-import ClientRestaurantAsideMenu from '@/shared/components/clientRestaurantAsideMenu'
-import ClientRestaurantCard from '@/shared/components/clientRestaurantCard'
+import SkeletonRestaurantClient from '@/shared/components/common/skeleton/SkeletonRestaurantClient'
+import SkeletonRestaurantClientAside from '@/shared/components/common/skeleton/SkeletonRestaurantClientAside'
+import ClientLayout from '@/shared/components/layout/clientLayout'
+import ClientRestaurantAsideMenu from '@/shared/components/client/clientRestaurantAsideMenu'
+import ClientRestaurantCard from '@/shared/components/client/clientRestaurantCard'
 import { QUERY } from '@/shared/constants/query'
 import {
   getRestuarantById,

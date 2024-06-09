@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ClientLayout from '@/shared/components/clientLayout'
+import ClientLayout from '@/shared/components/layout/clientLayout'
 import {
   Accordion,
   AccordionButton,

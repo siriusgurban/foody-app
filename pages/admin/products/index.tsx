@@ -16,13 +16,13 @@ import { useRouter } from 'next/router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getProducts, postProduct } from '../../../shared/services/products'
 import Head from 'next/head'
-import AdminHeader from '@/shared/components/AdminHeader'
-import AdminAsideMenu from '@/shared/components/AdminAsideMenu'
+import AdminHeader from '@/shared/components/admin/AdminHeader'
+import AdminAsideMenu from '@/shared/components/admin/AdminAsideMenu'
 
-import AdminProductsSide from '@/shared/components/adminProductsSide/AdminProductsSide'
-import AdminAsideMenuResponsive from '@/shared/components/AdminAsideMenuResponsive'
+import AdminProductsSide from '@/shared/components/admin/adminProductsSide/AdminProductsSide'
+import AdminAsideMenuResponsive from '@/shared/components/admin/AdminAsideMenuResponsive'
 import AdminSecondaryComponent from '@/shared/components/adminSecondaryComponent'
-import AdminLayout from '@/shared/components/adminLayout'
+import AdminLayout from '@/shared/components/layout/adminLayout'
 
 const newPost = {
   img_url:
