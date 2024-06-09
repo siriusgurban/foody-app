@@ -3,7 +3,7 @@ import AdminRestaurantsCard from '@/shared/components/admin/adminRestaurantCards
 import AdminSecondaryComponent from '@/shared/components/admin/adminSecondaryComponent'
 import Head from 'next/head'
 import { useTranslation } from 'react-i18next'
-import { Box, Toast } from '@chakra-ui/react'
+import { Box, Toast, useDisclosure } from '@chakra-ui/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteRestuarant, getRestuarants } from '@/shared/services/restaurants'
@@ -13,12 +13,16 @@ import { Restaurant } from '@/shared/types/admin'
 import AdminLayout from '@/shared/components/layout/adminLayout'
 import SkeletonRestaurant from '@/shared/components/common/skeleton/SkeletonRestaurant'
 import { QUERY } from '@/shared/constants/query'
+import { useCORP } from '@/shared/hooks/useCORP'
+import DeleteModal from '@/shared/components/common/deleteModal'
 
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [hideModal, setHideModal] = useState<boolean>(false)
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(false)
   const [filterCategory, setFilterCategory] = useState<string>('All')
+  const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
 
   // get restaurants
   const { data, isLoading, isError } = useQuery({
@@ -35,32 +39,6 @@ const Restaurants: React.FC = () => {
       : restaurantsDatas.filter(
           (restaurant: any) => restaurant?.category_id == filterCategory,
         )
-
-  // delete
-  const QueryClient = useQueryClient()
-  const { mutate } = useMutation({
-    mutationFn: deleteRestuarant,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      Toast({
-        title: 'Restaurant deleted',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-    onSettled: () => {
-      QueryClient.invalidateQueries({ queryKey: [QUERY.RESTAURANTS] })
-    },
-  })
-
-  function handleDelete(restaurantId: any) {
-    console.log('deleting restaurant :', restaurantId)
-    mutate(restaurantId)
-  }
 
   function showHideModalUpdate() {
     setHideModalUpdate((prev) => !prev)
@@ -107,7 +85,7 @@ const Restaurants: React.FC = () => {
               filteredRestaurants &&
               filteredRestaurants.map((restaurant, index) => (
                 <AdminRestaurantsCard
-                  onDelete={handleDelete}
+                  // onDelete={handleDelete}
                   key={index}
                   img_url={restaurant.img_url}
                   name={restaurant.name}

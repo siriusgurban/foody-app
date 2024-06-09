@@ -33,14 +33,14 @@ function Category() {
   const [hideModalAdd, setHideModalAdd] = useState<boolean>(true)
   const { push, pathname } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
 
   const { data, isLoading } = useQuery({
     queryFn: getCategories,
     queryKey: [QUERY.CATEGORIES],
   })
 
-  console.log(data?.data.result.data, 'datacategory')
+  console.log(data?.data?.result?.data, 'datacategory')
 
   const { mutate } = useCORP({
     queryFn: deleteCategory,
@@ -48,25 +48,22 @@ function Category() {
     toastText: 'Category deleted',
   })
 
+  const handleDeleteClick = (productId: string) => {
+    setDeleteProductId(productId)
+    onOpen()
+  }
+
+  const handleDeleteConfirm = () => {
+    mutate(deleteProductId)
+    onClose()
+  }
+
   function showHideModalUpdate() {
-    console.log('hideModalUpdate clicked')
     setHideModalUpdate((prev) => !prev)
   }
+
   function showHideModalAdd() {
     setHideModalAdd((prev) => !prev)
-  }
-
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true)
-  }
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false)
-  }
-
-  const handleDeleteConfirm = (id: string) => {
-    mutate(id)
-    closeDeleteModal()
   }
 
   return (
@@ -93,6 +90,11 @@ function Category() {
                 p={t('category')}
                 onClick={showHideModalAdd}
                 visible={false}
+              />
+              <DeleteModal
+                isOpen={isOpen}
+                onClose={onClose}
+                handleDeleteConfirm={handleDeleteConfirm}
               />
             </div>
           </div>
@@ -135,13 +137,13 @@ function Category() {
                               <MdEdit className="fill-admin-edit-icon w-5 h-5" />
                             </span>
                           </Button>
-                          <button onClick={() => handleDeleteConfirm(item?.id)}>
+                          <button onClick={() => handleDeleteClick(item?.id)}>
                             <span>
-                              <DeleteModal
+                              {/* <DeleteModal
                                 // isOpen={isDeleteModalOpen}
                                 // onClose={closeDeleteModal}
                                 onClick={() => handleDeleteConfirm(item?.id)}
-                              />
+                              /> */}
                               <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
                             </span>
                           </button>

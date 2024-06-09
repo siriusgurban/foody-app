@@ -16,6 +16,8 @@ import {
 } from '@/shared/services/restaurants'
 import AdminModalUploadImage from '../adminModalUploadImage'
 import { updateCategory } from '@/shared/services/category'
+import { QUERY } from '@/shared/constants/query'
+import { useCORP } from '@/shared/hooks/useCORP'
 
 interface Props {
   show?: boolean
@@ -81,24 +83,11 @@ const AdminUpdateModalProduct = ({
     priceRef.current.value = ''
   }
 
-  const { mutate } = useMutation({
-    mutationFn: updateCategory,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Product updated',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClickClose()
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] })
-    },
+  const { mutate } = useCORP({
+    queryFn: updateCategory,
+    queryKey: [QUERY.PRODUCTS],
+    toastText: 'Product updated',
+    onClickClose: () => onClickClose(),
   })
 
   return (

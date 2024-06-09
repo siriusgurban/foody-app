@@ -1,4 +1,4 @@
-import { getRestuarants } from '@/shared/services/restaurants'
+import { deleteRestuarant, getRestuarants } from '@/shared/services/restaurants'
 import { useQuery } from '@tanstack/react-query'
 import { resolveSoa } from 'dns'
 import Image from 'next/image'
@@ -7,9 +7,13 @@ import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import DeleteModalRestaurant from '../deleteModalRestaurantCards'
 import { useRouter } from 'next/router'
 import { getCategories, getCategoryById } from '@/shared/services/category'
+import { QUERY } from '@/shared/constants/query'
+import DeleteModal from '../../common/deleteModal'
+import { useDisclosure } from '@chakra-ui/react'
+import { useCORP } from '@/shared/hooks/useCORP'
 
 interface AdminRestaurantsCardProps {
-  onDelete: (id: any) => void
+  onDelete?: (id: any) => void
   key: number
   img_url: string
   name: string
@@ -27,34 +31,18 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
   category_id,
   onClickClose,
 }) => {
-  const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const { push, pathname } = useRouter()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
 
   const { data, isLoading, isError } = useQuery<any, any>({
     queryFn: () => getCategoryById(category_id),
     queryKey: ['category'],
   })
 
-  const categoryData: any = data?.result?.data.name
+  const categoryData: any = data?.result?.data?.name
 
   console.log(categoryData, 'categoryData')
-  function showHideModalUpdate() {
-    setHideModalUpdate((prev) => !prev)
-  }
-
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true)
-  }
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false)
-  }
-
-  const handleDeleteConfirm = () => {
-    onDelete(restaurant_id)
-    closeDeleteModal()
-  }
 
   const truncateText = (text: any, length: any) => {
     if (text?.length > length) {
@@ -65,13 +53,30 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
 
   const { data: categories } = useQuery({
     queryFn: getCategories,
-    queryKey: ['categories'],
+    queryKey: [QUERY.CATEGORIES],
   })
+
+  // delete
+  const { mutate } = useCORP({
+    queryFn: deleteRestuarant,
+    queryKey: [QUERY.RESTAURANTS],
+    toastText: 'Restaurant deleted',
+  })
+
+  const handleDeleteClick = (productId: string) => {
+    setDeleteProductId(productId)
+    onOpen()
+  }
+
+  const handleDeleteConfirm = () => {
+    mutate(deleteProductId)
+    onClose()
+  }
 
   console.log(categories, 'categories')
 
   function handleRestCat(id: string) {
-    let CateName = categories?.data?.result?.data.find(
+    let CateName = categories?.data?.result?.data?.find(
       (item: any, index: number) => id == item?.id,
     )
 
@@ -106,7 +111,7 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
             </p>
           </div>
           <div className="flex flex-col gap-4">
-            <button onClick={openDeleteModal}>
+            <button onClick={() => handleDeleteClick(restaurant_id)}>
               <span>
                 <MdDeleteForever className="fill-admin-delete-icon w-5 h-5    hover:fill-pink-900  hover:scale-95 transition-all duration-500 " />
               </span>
@@ -122,10 +127,10 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
             </button>
           </div>
         </div>
-        <DeleteModalRestaurant
-          isOpen={isDeleteModalOpen}
-          onClose={closeDeleteModal}
-          onDeleteConfirm={handleDeleteConfirm}
+        <DeleteModal
+          isOpen={isOpen}
+          onClose={onClose}
+          handleDeleteConfirm={handleDeleteConfirm}
         />
       </div>
     </>
