@@ -1,4 +1,3 @@
-//@ts- nocheck
 import { Box, Image, Text, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { getProducts, deleteProduct } from '../../../services/products'
@@ -12,29 +11,16 @@ import AdminUpdateModalProduct from '../adminUpdateModalProduct'
 import { Product, Restaurant } from '@/shared/types/admin'
 import { useRouter } from 'next/router'
 import { QUERY } from '@/shared/constants/query'
-import SkeletonRestaurant from '@/shared/components/common/skeleton/SkeletonRestaurant'
 import SkeletonProduct from '../../common/skeleton/SkeletonProduct'
-
-// interface Product {
-//   id: number
-//   name: string
-//   description: string
-//   price: number
-//   img_url: string
-// }
+import { useCORP } from '@/shared/hooks/useCORP'
 
 function AdminProductsSide() {
   const { t } = useTranslation('admin')
-
-  const [products, setProducts] = useState<Product[]>([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
-  const [isDrawerOpen, setDrawerOpen] = useState(false)
-  const [rest, setRest] = useState()
   const [hideModalAddPro, setHideModalAddPro] = useState<boolean>(true)
   const [filterRest, setFilterRest] = useState<string>('All')
-
-  const { query, pathname, push } = useRouter()
+  const { pathname, push } = useRouter()
 
   const { data, isLoading } = useQuery({
     queryFn: getProducts,
@@ -49,7 +35,7 @@ function AdminProductsSide() {
   const productsDatas: Product[] = data?.data?.result?.data ?? []
 
   // filter restuarants
-  const filteredRestaurants =
+  const filteredProducts =
     filterRest == 'All'
       ? productsDatas
       : productsDatas.filter((product: any) => product?.rest_id == filterRest)
@@ -58,53 +44,23 @@ function AdminProductsSide() {
     let RestName = resto?.data?.result?.data.find(
       (item: any, index: number) => id == item?.id,
     )
-
     return RestName?.name
   }
 
-  // console.log(data?.data?.result?.data, 'restaurant')
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await getProducts()
-        if (response && response.data && response.data.result) {
-          setProducts(response.data.result.data)
-          console.log('API dan gelenler:', response.data.result.data)
-        } else {
-          console.error(
-            'Error fetching products: Response format is incorrect.',
-          )
-        }
-      } catch (error) {
-        console.error('Error fetching products:', error)
-      }
-    }
-
-    fetchProducts()
-  }, [data])
+  const { mutate } = useCORP({
+    queryFn: deleteProduct,
+    queryKey: [QUERY.PRODUCTS],
+    toastText: 'Product deleted',
+  })
 
   const handleDeleteClick = (productId: string) => {
     setDeleteProductId(productId)
     onOpen()
   }
 
-  const deleteProductById = async (productId: string) => {
-    try {
-      await deleteProduct(productId)
-      console.log(`Product with ID ${productId} deleted`)
-    } catch (error) {
-      console.error('Error deleting product:', error)
-    }
-  }
-
-  const handleDeleteConfirm = async () => {
-    if (deleteProductId !== null) {
-      console.log('Deleting product with ID:', deleteProductId)
-      await deleteProductById(deleteProductId)
-      setProducts(products.filter((product) => product.id != deleteProductId))
-      onClose()
-    }
+  const handleDeleteConfirm = () => {
+    mutate(deleteProductId)
+    onClose()
   }
 
   function showHideModalAdd() {
@@ -147,8 +103,8 @@ function AdminProductsSide() {
               })}
             </Box>
           ) : (
-            filteredRestaurants &&
-            filteredRestaurants.map((product, index) => (
+            filteredProducts &&
+            filteredProducts.map((product, index) => (
               <Box
                 key={index}
                 className="productCards"

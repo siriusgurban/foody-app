@@ -12,6 +12,7 @@ import { postProduct } from '@/shared/services/products'
 import AdminModalDropdown from '../adminModalDropdown'
 import { getRestuarants } from '@/shared/services/restaurants'
 import { QUERY } from '@/shared/constants/query'
+import { useCORP } from '@/shared/hooks/useCORP'
 
 interface Props {
   show?: boolean
@@ -20,9 +21,6 @@ interface Props {
 }
 const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
   const { t } = useTranslation('admin')
-  const toast = useToast()
-  const queryClient = useQueryClient()
-
   const nameRef = useRef<any>('')
   const descriptionRef = useRef<any>('')
   const priceRef = useRef<any>('')
@@ -51,24 +49,11 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
     priceRef.current.value = ''
   }
 
-  const { mutate } = useMutation({
-    mutationFn: postProduct,
-    onSuccess(data, variables, context) {
-      console.log(data, 'success')
-      toast({
-        title: 'Product added',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClickClose()
-    },
-    onError(data, variables, context) {
-      console.log(data, 'error')
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY.PRODUCTS] })
-    },
+  const { mutate } = useCORP({
+    queryFn: postProduct,
+    queryKey: [QUERY.PRODUCTS],
+    toastText: 'Product added',
+    onClickClose: () => onClickClose(),
   })
 
   const { loading, imgUrl, getImage } = useImageUpload()
