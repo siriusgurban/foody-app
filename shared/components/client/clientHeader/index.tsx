@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect,ChangeEvent, useState } from 'react'
 import Navbar from '../clientHeaderNavbar'
 import Image from 'next/image'
 import ClientHeaderRightSideComponents from '../clientHeaderRightSideComponents'
@@ -13,14 +13,31 @@ import { getUser } from '@/shared/services/admin'
 import { useQuery } from '@tanstack/react-query'
 import Foody from '../../common/foody'
 import { CLIENT } from '@/shared/constants/router'
+import { QUERY } from '@/shared/constants/query'
+import { getRestuarants } from '@/shared/services/restaurants'
 
+
+
+interface RestaurantPostDataType {
+  id?: number | string | any;
+  category_id: number | string | undefined;
+  img_url: string | null | undefined;
+  cuisine: string | undefined;
+  address: string | undefined;
+  delivery_min: number | undefined;
+  delivery_price: number | undefined;
+  name?: string;
+}
 const ClientHeader = () => {
   const { t } = useTranslation('client')
   const [isModalOpen, setModalOpen] = useState(false)
   const [searchModal, setSearchModal] = useState(false)
   const [testState, setTestState] = useState(false)
   const [userInfo, setUserInfo] = useState({})
-
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<RestaurantPostDataType[]>(
+    []
+  );
   const { push, reload } = useRouter()
 
   function deleteUser() {
@@ -37,9 +54,11 @@ const ClientHeader = () => {
     queryFn: getUser,
     queryKey: ['user'],
   })
-
-  // console.log(userInfo, 'statusstatus')
-
+  const { data: restaurantData, status: restaurantStatus, error: restaurantError } = useQuery({
+    queryFn: getRestuarants,
+    queryKey: [QUERY.RESTAURANTS],
+  });
+const restaurants = restaurantData?.data?.result?.data
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
       const userInfoString = localStorage.getItem('userInfo')
@@ -72,10 +91,24 @@ const ClientHeader = () => {
     setSearchModal(true)
   }
 
-  async function searchRestaurant(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value)
+ const searchRestaurant=(event: ChangeEvent<HTMLInputElement>) => {
+  const term = event.target.value;
+  setSearchTerm(term);
+
+  if (term.trim() === "") {
+    setSearchResults([]);
+    return;
   }
 
+  const filteredRestaurants = (restaurants || []).filter(
+    (restaurant: RestaurantPostDataType) =>
+      restaurant.name?.toLowerCase().includes(term.toLowerCase()) ||
+      restaurant.cuisine?.toLowerCase().includes(term.toLowerCase())
+  );
+
+  setSearchResults(filteredRestaurants);
+};
+console.log("searchResults",searchResults)
   return (
     <nav className="flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer   bg-client-fill-gray sm:p-11">
       <h1
@@ -100,8 +133,9 @@ const ClientHeader = () => {
                 onFocus={openSearchModal}
                 // onBlur={closeSearchModal}
               />
-              {searchModal && (
-                <HeaderSearchRestaurantModal onClose={closeSearchModal} />
+             {searchModal && searchResults.length > 0 && (
+                <HeaderSearchRestaurantModal onClose={closeSearchModal} searchResults={searchResults}/>
+                  
               )}
             </div>
             {/* <Lang bg={'white'} /> */}
