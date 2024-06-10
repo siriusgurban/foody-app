@@ -12,6 +12,8 @@ import { useToast } from '@chakra-ui/react'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import Image from 'next/image'
 import { getCategories } from '@/shared/services/category'
+import { useCORP } from '@/shared/hooks/useCORP'
+import { QUERY } from '@/shared/constants/query'
 
 interface Props {
   show?: boolean
@@ -32,8 +34,6 @@ const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
   const [category, setCategory] = useState<string | null>(null)
   const img = imgUrl
 
-  const queryClient = useQueryClient()
-  const toast = useToast()
   const { t } = useTranslation('admin')
 
   async function addRestaurant() {
@@ -52,23 +52,11 @@ const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
     mutate(form)
   }
 
-  const { mutate } = useMutation({
-    mutationFn: postRestuarant,
-    onSuccess: () => {
-      toast({
-        title: 'Restaurant added',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClickClose()
-    },
-    onError: (error) => {
-      console.error('Error adding restaurant:', error)
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['restaurants'] })
-    },
+  const { mutate } = useCORP({
+    queryFn: postRestuarant,
+    queryKey: [QUERY.RESTAURANTS],
+    toastText: 'Restaurant added',
+    onClickClose: () => onClickClose(),
   })
 
   return (
@@ -118,7 +106,7 @@ const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
                 <AdminModalInput
                   p={t('Name')}
                   className2="flex flex-col gap-2"
-                  placeHolder="Mc Donald’s"
+                  ph="Mc Donald’s"
                   getText={setName}
                 />
                 <AdminModalTextArea
@@ -131,20 +119,20 @@ const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
                   type="number"
                   p={t('Delivery Price $')}
                   className2="flex flex-col gap-2 mt-8"
-                  placeHolder="5"
+                  ph="5"
                   getText={(text) => setDeliveryPrice(parseInt(text))}
                 />
                 <AdminModalInput
                   type="number"
                   p={t('Delivery Mi')}
                   className2="flex flex-col gap-2 mt-6"
-                  placeHolder="11"
+                  ph="11"
                   getText={(text) => setDeliveryMin(parseInt(text))}
                 />
                 <AdminModalInput
                   p={t('Address')}
                   className2="flex flex-col gap-2 mt-4"
-                  placeHolder="Nizami street 45 Baku Azerbaijan"
+                  ph="Nizami street 45 Baku Azerbaijan"
                   getText={setAddress}
                 />
                 <AdminModalDropdown
