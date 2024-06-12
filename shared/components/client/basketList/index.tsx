@@ -1,9 +1,6 @@
-//@ts- nocheck
-
 import { Box, Text, useDisclosure, useToast } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -12,7 +9,6 @@ import {
   deleteBasket,
   clearBasket,
 } from '@/shared/services/basket'
-import { AxiosResponse } from 'axios'
 import { CustomMutationOptions, Product } from '@/shared/types/admin'
 import { useBasket } from '@/shared/hooks/useBasket'
 import { QUERY } from '@/shared/constants/query'
