@@ -22,7 +22,7 @@ export function useBasket({
       toast({
         title: toastText,
         status: 'success',
-        duration: 3000,
+        duration: 1000,
         isClosable: true,
       })
     },

@@ -41,24 +41,29 @@ function RestaurantId() {
     queryKey: [QUERY.BASKET],
   })
 
-  console.log(basket, 'basket')
-
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.restaurant_id as string),
     queryKey: [QUERY.RESTAURANTS, query.restaurant_id],
   })
 
-  const [inBasket, setInBasket] = useState(true)
+  const [inBasket, setInBasket] = useState<any>([])
 
-  console.log(restaurant?.data?.result?.data?.products, 'restaurant.products')
+  function handleBasketFilter() {
+    let newBasket = basket?.data?.result?.data?.items.map(
+      (item: Product, index: string) => item?.id,
+    )
+    console.log(
+      basket?.data?.result?.data?.items,
+      'newBasketnewBasketnewBasket',
+    )
+    setInBasket(newBasket)
+  }
 
-  // function handleBasketFilter(id) {
-  //   let newBasket = basket?.data?.result?.data?.items.includes(
-  //     (item) => item?.id === id,
-  //   )
-  //   console.log(newBasket, 'newBasketnewBasketnewBasket')
-  //   setInBasket(newBasket)
-  // }
+  function handleAdded(id: string) {
+    return inBasket?.includes(id)
+  }
+
+  console.log(inBasket, 'inBasket')
 
   const { data, status, error } = useQuery({
     queryFn: getUser,
@@ -74,6 +79,10 @@ function RestaurantId() {
       }
     }
   }, []) // Empty dependency array ensures this effect runs only once after component mount
+
+  useEffect(() => {
+    handleBasketFilter()
+  }, [basket])
 
   function checkUser() {
     if (userInfo !== undefined && data !== undefined) {
@@ -96,6 +105,7 @@ function RestaurantId() {
 
   function basketVerify(id: string) {
     if (userInfo !== undefined && data !== undefined) {
+      handleBasketFilter()
       return handleAddBasket(id)
     }
     return toast({
@@ -135,15 +145,15 @@ function RestaurantId() {
                 </Box>
 
                 <Box className="w-full flex xl:flex-row lg:flex-row md:flex-col xs:flex-col xl:px-8 md:px-4 xs:px-2 border-b border-b-client-rest-grey py-5">
-                  <Box className="flex flex-col justify-start md:w-full w-3/5">
-                    <Text className="xs:text-base md:text-xl xl:text-2xl font-bold text">
+                  <Box className="flex flex-col justify-start md:w-full  sm:w-full xs:w-full xl:w-8/12 lg:w-8/12 xl:border-0 lg:border-0 md:border-b sm:border-b xs:border-b border-b-client-rest-grey xl:pb-0 lg:pb-0 md:pb-2.5 sm:pb-2.5 xs:pb-2.5">
+                    <Text className="xs:text-base md:text-xl xl:text-2xl font-bold ">
                       {restaurant?.data?.result?.data?.name}
                     </Text>
                     <Text className="text-client-main-gray1 xs:text-xs md:text-sm xl:text-sm ">
                       {restaurant?.data?.result?.data?.address}
                     </Text>
                   </Box>
-                  <Box className="flex justify-between gap-7 w-2/5 md:w-full">
+                  <Box className="flex justify-between gap-7 xl:w-4/12 lg:w-4/12 md:w-full sm:w-full xs:w-full xl:pt-0 lg:pt-0 md:pt-2.5 sm:pt-2.5 xs:pt-2.5">
                     <Box className="">
                       <Text className=" xs:text-xs md:text-base xl:text-lg text-client-main-gray1">
                         {t('Cuisine')}
@@ -153,7 +163,7 @@ function RestaurantId() {
                       </Text>
                     </Box>
                     <Box className="flex justify-between gap-7">
-                      <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border border-client-main-red text-client-main-red rounded-md py-1 px-2">
+                      <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12  md:w-16 md:h-12 sm:w-14 sm:h-10 xs:w-14 xs:h-10 border border-client-main-red text-client-main-red rounded-md py-1 px-2 xs:py-0.5 xs:px-0.5 sm:py-1 sm:px-0.5">
                         ${restaurant?.data?.result?.data?.delivery_price}{' '}
                         {t('Delivery')}
                       </Box>
@@ -168,7 +178,7 @@ function RestaurantId() {
                 </Box>
 
                 <Box className="flex justify-center xl:gap-12 lg:gap-10 md:gap-0 sm:gap-0  xs:gap-0 xl:py-12 xl:px-4 md:py-8 md:px-6 xs:py-4 xs:px-0">
-                  <Box className=" bg-client-fill-gray max-w-[846px] w-full max-h-[960px]">
+                  <Box className=" bg-client-fill-gray max-w-[846px] w-full max-h-[960px] pb-6">
                     <Text className="xs:text-lg md:text-xl xl:text-2xl font-bold text-center xl:py-10 md:py-7 xs:py-4">
                       {t('Products')}
                     </Text>
@@ -216,7 +226,9 @@ function RestaurantId() {
                                     height={40}
                                     alt="plus image"
                                     src={`${
-                                      inBasket ? '/plusgreen.svg' : '/plus.svg'
+                                      handleAdded(item?.id)
+                                        ? '/plusgreen.svg'
+                                        : '/plus.svg'
                                     }`}
                                     className="cursor-pointer"
                                   />
@@ -230,11 +242,11 @@ function RestaurantId() {
                       <Box
                         onClick={() => onOpen()}
                         className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
-                          basket?.data?.result?.data?.items.length == 0 ||
-                          basket?.data?.result?.data?.items.length == undefined
+                          basket?.data?.result?.data?.total_item == 0 ||
+                          basket?.data?.result?.data?.total_item == undefined
                             ? 'client-rest-grey1'
                             : 'client-main-red'
-                        } max-w-[372px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
+                        } max-w-[820px] w-full mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
                       >
                         <Box className="flex gap-1.5 py-auto">
                           <Image
@@ -245,7 +257,7 @@ function RestaurantId() {
                               basket?.data?.result?.data?.total_item == 0 ||
                               basket?.data?.result?.data?.total_item ==
                                 undefined
-                                ? '/basketRed.svg'
+                                ? '/basketWhite.svg'
                                 : '/basket.svg'
                             }`}
                             className="text-client-rest-grey"
@@ -393,7 +405,7 @@ function RestaurantId() {
                                 undefined
                                 ? 'client-rest-grey1'
                                 : 'client-main-red'
-                            } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                            } max-w-[820px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
                           >
                             <Text className="text-white my-auto">
                               {t('Checkout')}
@@ -405,7 +417,7 @@ function RestaurantId() {
                                   undefined
                                   ? 'client-rest-grey'
                                   : 'client-main-red'
-                              } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
+                              } px-5 h-8 bg-white rounded-full my-auto text-center text-sm pt-2`}
                             >
                               $
                               {basket?.data?.result?.data?.total_amount
