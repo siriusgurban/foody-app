@@ -167,7 +167,7 @@ function RestaurantId() {
                   </Box>
                 </Box>
 
-                <Box className="flex gap-12 xl:py-12 xl:px-4 md:py-8 md:px-6 xs:py-4 xs:px-0">
+                <Box className="flex justify-center xl:gap-12 lg:gap-10 md:gap-0 sm:gap-0  xs:gap-0 xl:py-12 xl:px-4 md:py-8 md:px-6 xs:py-4 xs:px-0">
                   <Box className=" bg-client-fill-gray max-w-[846px] w-full max-h-[960px]">
                     <Text className="xs:text-lg md:text-xl xl:text-2xl font-bold text-center xl:py-10 md:py-7 xs:py-4">
                       {t('Products')}
@@ -230,22 +230,51 @@ function RestaurantId() {
                       <Box
                         onClick={() => onOpen()}
                         className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
-                          basket?.data?.result?.data?.items.length == 0
+                          basket?.data?.result?.data?.items.length == 0 ||
+                          basket?.data?.result?.data?.items.length == undefined
                             ? 'client-rest-grey1'
                             : 'client-main-red'
-                        } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
+                        } max-w-[372px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
                       >
-                        <Text className="text-white my-auto">
-                          {t('Checkout')}
-                        </Text>
+                        <Box className="flex gap-1.5 py-auto">
+                          <Image
+                            width={19}
+                            height={17}
+                            alt="basket"
+                            src={`${
+                              basket?.data?.result?.data?.total_item == 0 ||
+                              basket?.data?.result?.data?.total_item ==
+                                undefined
+                                ? '/basketRed.svg'
+                                : '/basket.svg'
+                            }`}
+                            className="text-client-rest-grey"
+                          />
+                          <Text
+                            className={`text-${
+                              basket?.data?.result?.data?.total_item == 0 ||
+                              basket?.data?.result?.data?.total_item ==
+                                undefined
+                                ? 'client-rest-grey'
+                                : 'white'
+                            } font-bold pt-2 text-sm`}
+                          >
+                            {basket?.data?.result?.data?.total_item} items
+                          </Text>
+                        </Box>
                         <Box
                           className={`text-${
-                            basket?.data?.result?.data?.items.length == 0
+                            basket?.data?.result?.data?.items.length == 0 ||
+                            basket?.data?.result?.data?.items.length ==
+                              undefined
                               ? 'client-rest-grey'
                               : 'client-main-red'
-                          } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
+                          } px-5 h-8 bg-white rounded-full my-auto text-center pt-1.5`}
                         >
-                          ${basket?.data?.result?.data?.total_amount}
+                          $
+                          {basket?.data?.result?.data?.total_amount
+                            ? basket?.data?.result?.data?.total_amount
+                            : '0.00'}
                         </Box>
                       </Box>
                     </Box>
@@ -281,12 +310,15 @@ function RestaurantId() {
                           {basket?.data?.result?.data?.total_item} items
                         </Text>
                       </Box>
-                      {basket?.data?.result?.data?.total_item == 0 ||
-                      basket?.data?.result?.data?.total_item == undefined ? (
-                        <BasketEmpty />
-                      ) : (
-                        <BasketList />
-                      )}
+
+                      <Box className="overflow-y-auto scrollbarClient h-[400px] ">
+                        {basket?.data?.result?.data?.total_item == 0 ||
+                        basket?.data?.result?.data?.total_item == undefined ? (
+                          <BasketEmpty />
+                        ) : (
+                          <BasketList />
+                        )}
+                      </Box>
 
                       {/* checkout */}
                       <Box
@@ -315,7 +347,10 @@ function RestaurantId() {
                               : 'client-main-red'
                           } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
                         >
-                          ${basket?.data?.result?.data?.total_amount}
+                          ${' '}
+                          {basket?.data?.result?.data?.total_amount
+                            ? basket?.data?.result?.data?.total_amount
+                            : '0.00'}
                         </Box>
                       </Box>
                     </Box>
@@ -353,22 +388,29 @@ function RestaurantId() {
                           <Box
                             onClick={() => checkUser()}
                             className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
-                              basket?.data?.result?.data?.total_item == 0
+                              basket?.data?.result?.data?.total_item == 0 ||
+                              basket?.data?.result?.data?.total_item ==
+                                undefined
                                 ? 'client-rest-grey1'
                                 : 'client-main-red'
-                            } bg- max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                            } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
                           >
                             <Text className="text-white my-auto">
                               {t('Checkout')}
                             </Text>
                             <Box
                               className={`text-${
-                                basket?.data?.result?.data?.total_item == 0
+                                basket?.data?.result?.data?.total_item == 0 ||
+                                basket?.data?.result?.data?.total_item ==
+                                  undefined
                                   ? 'client-rest-grey'
                                   : 'client-main-red'
                               } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
                             >
-                              ${basket?.data?.result?.data?.total_amount}
+                              $
+                              {basket?.data?.result?.data?.total_amount
+                                ? basket?.data?.result?.data?.total_amount
+                                : '0.00'}
                             </Box>
                           </Box>
                         </DrawerBody>

@@ -39,7 +39,7 @@ const UserBasketCard: FC<Props> = ({
         <p className="font-medium text-client-main-gray2 text-lg">{price}</p>
       </div>
 
-      <div className="flex flex-col    bg-client-gray7 sm:bg-white py-2 px-2 rounded-full gap-3 items-center">
+      <div className="flex flex-col bg-client-gray7 sm:bg-white py-2 px-2 rounded-full gap-3 items-center">
         <button onClick={() => increaseCount(id)}>
           <IoIosAdd className="cursor-pointer w-7" />
         </button>
