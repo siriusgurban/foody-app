@@ -33,7 +33,12 @@ export function useBasket({
 
   function handle(id: string) {
     console.log('handled')
-    const newData: any = { product_id: id }
+    let newData: any
+
+    toastText == 'Basket cleared'
+      ? (newData = { basket_id: id })
+      : (newData = { product_id: id })
+
     mutate(newData)
   }
   return { handle }
