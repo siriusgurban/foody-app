@@ -46,7 +46,8 @@
   }
 
   .scrollbarClient::-webkit-scrollbar-thumb:hover {
-    background: #d63626;
+    background: #872e25;
+    cursor: pointer;
   }
 }
 
