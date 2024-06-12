@@ -38,7 +38,7 @@ function BasketList() {
   const { handle: handleBasketClear } = useBasket({
     queryFn: clearBasket,
     queryKey: QUERY.BASKET,
-    toastText: 'Item cleared',
+    toastText: 'Basket cleared',
   })
 
   return (

@@ -51,7 +51,7 @@ const UserBasket: FC<any> = ({}) => {
   const { handle: handleBasketClear } = useBasket({
     queryFn: clearBasket,
     queryKey: QUERY.BASKET,
-    toastText: 'Item cleared',
+    toastText: 'Basket cleared',
   })
 
   return (
@@ -70,7 +70,9 @@ const UserBasket: FC<any> = ({}) => {
           (item: Product, index: number) => (
             <UserBasketCard
               key={index}
-              clearBasket={handleBasketClear}
+              clearBasket={() =>
+                handleBasketClear(data?.data?.result?.data?.id)
+              }
               decreaseCount={handleBasketDelete}
               increaseCount={handleAddBasket}
               name={item?.name}

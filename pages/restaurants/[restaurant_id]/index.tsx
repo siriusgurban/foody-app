@@ -62,7 +62,7 @@ function RestaurantId() {
 
   const { data, status, error } = useQuery({
     queryFn: getUser,
-    queryKey: ['user'],
+    queryKey: [QUERY.USER],
   })
 
   useLayoutEffect(() => {
@@ -94,6 +94,19 @@ function RestaurantId() {
     toastText: 'Item added',
   })
 
+  function basketVerify(id: string) {
+    if (userInfo !== undefined && data !== undefined) {
+      return handleAddBasket(id)
+    }
+    return toast({
+      description: 'Please, login first',
+      status: 'warning',
+      duration: 3000,
+      isClosable: true,
+      position: 'top-right',
+    })
+  }
+
   return (
     <div>
       <div>
@@ -120,8 +133,9 @@ function RestaurantId() {
                     <SkeletonCover />
                   )}
                 </Box>
-                <Box className="max-w-full flex xl:flex-row md:flex-col xs:flex-col xl:px-8 md:px-4 xs:px-2 border-b border-b-client-rest-grey py-5">
-                  <Box className="flex flex-col justify-start xl:w-3/5 md:w-full xs:w-full ">
+
+                <Box className="w-full flex xl:flex-row lg:flex-row md:flex-col xs:flex-col xl:px-8 md:px-4 xs:px-2 border-b border-b-client-rest-grey py-5">
+                  <Box className="flex flex-col justify-start md:w-full w-3/5">
                     <Text className="xs:text-base md:text-xl xl:text-2xl font-bold text">
                       {restaurant?.data?.result?.data?.name}
                     </Text>
@@ -129,7 +143,7 @@ function RestaurantId() {
                       {restaurant?.data?.result?.data?.address}
                     </Text>
                   </Box>
-                  <Box className="flex justify-start gap-7 xl:w-2/5 md:w-full xs:w-full">
+                  <Box className="flex justify-between gap-7 w-2/5 md:w-full">
                     <Box className="">
                       <Text className=" xs:text-xs md:text-base xl:text-lg text-client-main-gray1">
                         {t('Cuisine')}
@@ -138,24 +152,27 @@ function RestaurantId() {
                         {restaurant?.data?.result?.data?.cuisine}
                       </Text>
                     </Box>
-                    <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border border-client-main-red text-client-main-red rounded-md py-1 px-2">
-                      ${restaurant?.data?.result?.data?.delivery_price}{' '}
-                      {t('Delivery')}
-                    </Box>
-                    <Box
-                      className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer  justify-center pt-3"
-                      onClick={() => push(CLIENT.HOME)}
-                    >
-                      {t('Go Back')}
+                    <Box className="flex justify-between gap-7">
+                      <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border border-client-main-red text-client-main-red rounded-md py-1 px-2">
+                        ${restaurant?.data?.result?.data?.delivery_price}{' '}
+                        {t('Delivery')}
+                      </Box>
+                      <Box
+                        className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer  justify-center pt-3"
+                        onClick={() => push(CLIENT.HOME)}
+                      >
+                        {t('Go Back')}
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
+
                 <Box className="flex gap-12 xl:py-12 xl:px-4 md:py-8 md:px-6 xs:py-4 xs:px-0">
-                  <Box className=" bg-client-fill-gray xl:max-w-[846px] lg:max-w-[750px] md:max-w-[550px]">
+                  <Box className=" bg-client-fill-gray max-w-[846px] w-full max-h-[960px]">
                     <Text className="xs:text-lg md:text-xl xl:text-2xl font-bold text-center xl:py-10 md:py-7 xs:py-4">
                       {t('Products')}
                     </Text>
-                    <Box className="xl:w-[846px]">
+                    <Box className="w-full">
                       {restaurant?.data?.result?.data?.products?.map(
                         (item: Product, index: number) => {
                           return (
@@ -170,7 +187,7 @@ function RestaurantId() {
                                   alt="cover image"
                                   src={item?.img_url}
                                   className="xl:block
-                                  block md:hidden xs:hidden"
+                                  lg:block md:hidden xs:hidden"
                                 />
                                 <Box className="flex flex-col ">
                                   <Text className="xs:text-sm md:text-base xl:text-lg my-auto">
@@ -191,7 +208,7 @@ function RestaurantId() {
                                   </Text>
                                 </Box>
                                 <Box
-                                  onClick={() => handleAddBasket(item?.id)}
+                                  onClick={() => basketVerify(item?.id)}
                                   className="xl:w-10 md:w-8 xs:w-5 my-auto"
                                 >
                                   <Image
@@ -209,13 +226,14 @@ function RestaurantId() {
                           )
                         },
                       )}
+
                       <Box
                         onClick={() => onOpen()}
                         className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
                           basket?.data?.result?.data?.items.length == 0
                             ? 'client-rest-grey1'
                             : 'client-main-red'
-                        } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                        } max-w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
                       >
                         <Text className="text-white my-auto">
                           {t('Checkout')}
@@ -232,10 +250,11 @@ function RestaurantId() {
                       </Box>
                     </Box>
                   </Box>
+
                   {/* basket */}
                   <Box
                     as="section"
-                    className="p-2 bg-client-fill-gray w-[400px] h-[548px]  border border-dashed border-client-rest-grey relative xl:block lg:block md:hidden xs:hidden"
+                    className="p-2 bg-client-fill-gray w-full max-w-[400px] h-[548px]  border border-dashed border-client-rest-grey relative xl:block lg:block md:hidden xs:hidden"
                   >
                     <Box className="flex p-3 flex-col ">
                       <Box className="flex gap-1.5 pb-4">
@@ -244,7 +263,8 @@ function RestaurantId() {
                           height={22}
                           alt="basket"
                           src={`${
-                            basket?.data?.result?.data?.total_item == 0
+                            basket?.data?.result?.data?.total_item == 0 ||
+                            basket?.data?.result?.data?.total_item == undefined
                               ? '/basket.svg'
                               : '/basketRed.svg'
                           }`}
@@ -252,7 +272,8 @@ function RestaurantId() {
                         />
                         <Text
                           className={`text-${
-                            basket?.data?.result?.data?.total_item == 0
+                            basket?.data?.result?.data?.total_item == 0 ||
+                            basket?.data?.result?.data?.total_item == undefined
                               ? 'client-rest-grey'
                               : 'client-main-red'
                           } font-bold`}
@@ -260,11 +281,13 @@ function RestaurantId() {
                           {basket?.data?.result?.data?.total_item} items
                         </Text>
                       </Box>
-                      {basket?.data?.result?.data?.total_item == 0 ? (
+                      {basket?.data?.result?.data?.total_item == 0 ||
+                      basket?.data?.result?.data?.total_item == undefined ? (
                         <BasketEmpty />
                       ) : (
                         <BasketList />
                       )}
+
                       {/* checkout */}
                       <Box
                         as="button"
@@ -275,7 +298,8 @@ function RestaurantId() {
                         }
                         onClick={() => checkUser()}
                         className={` bg-${
-                          basket?.data?.result?.data?.total_item == 0
+                          basket?.data?.result?.data?.total_item == 0 ||
+                          basket?.data?.result?.data?.total_item == undefined
                             ? 'client-rest-grey1'
                             : 'client-main-red'
                         }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
@@ -285,7 +309,8 @@ function RestaurantId() {
                         </Text>
                         <Box
                           className={`text-${
-                            basket?.data?.result?.data?.total_item == 0
+                            basket?.data?.result?.data?.total_item == 0 ||
+                            basket?.data?.result?.data?.total_item == undefined
                               ? 'client-rest-grey'
                               : 'client-main-red'
                           } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
@@ -295,8 +320,8 @@ function RestaurantId() {
                       </Box>
                     </Box>
                   </Box>
-                  {/* basket responsive */}
 
+                  {/* basket responsive */}
                   <section>
                     <Drawer
                       placement="bottom"
