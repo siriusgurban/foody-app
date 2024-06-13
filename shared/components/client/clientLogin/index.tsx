@@ -3,7 +3,7 @@ import ClientInput from '../clientInput'
 import { useFormik } from 'formik'
 import { adminLogin } from '@/shared/types/admin'
 import { postAdmin } from '@/shared/services/admin'
-import { Button, useToast } from '@chakra-ui/react'
+import { Box, Button, FormHelperText, Text, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { LuEye, LuEyeOff } from 'react-icons/lu'
 import { useTranslation } from 'react-i18next'
@@ -39,15 +39,19 @@ function ClientLogin() {
       const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
       if (!form?.email?.trim()) {
-        error.email = 'Require field'
+        error.email = '*Require field'
       }
 
       if (!regEmail.test(form?.email?.trim())) {
-        error.email = 'Enter correct email'
+        error.email = '*Enter correct email'
       }
 
       if (!form?.password?.trim()) {
-        error.password = 'Require field'
+        error.password = '*Require field'
+      }
+
+      if (form?.password?.trim().length < 7) {
+        error.password = '*Min 6 symbols'
       }
 
       return error
@@ -100,43 +104,51 @@ function ClientLogin() {
   }
   return (
     <form className="w-full flex flex-col items-center gap-6 mx-auto sm:w-4/5">
-      <ClientInput
-        p={t('Email')}
-        classNameDiv="w-full flex flex-col gap-2"
-        classNameLabel="font-medium text-client-main-gray2 text-xl"
-        classNameInput="outline-none p-4 rounded-md bg-client-light-red w-full"
-        type="email"
-        name="email"
-        onChange={handleChange}
-      />
-      <ClientInput
-        p={t('Password')}
-        classNameDiv="w-full flex flex-col gap-2 mb-8"
-        classNameLabel="font-medium text-client-main-gray2 text-xl"
-        classNameInput="outline-none p-4 rounded-md bg-client-light-red w-full"
-        type={showPassword ? 'text' : 'password'}
-        onChange={(e: any) => {
-          handlePasswordChange(e), handleChange(e)
-        }}
-        name="password"
-      >
-        {showPassword ? (
-          <LuEye
-            className=" w-8 h-5 absolute inset-y-0 right-0  top-4 flex items-center pr-2 cursor-pointer"
-            onClick={togglePasswordVisibility}
-          />
-        ) : (
-          <LuEyeOff
-            className=" w-8 h-5 absolute inset-y-0 right-0  top-4 flex items-center pr-2 cursor-pointer"
-            onClick={togglePasswordVisibility}
-          />
-        )}
-      </ClientInput>
+      <Box className="md:mb-6 xs:mb-3 flex flex-col w-full">
+        <ClientInput
+          p={t('Email')}
+          classNameDiv="w-full flex flex-col gap-2"
+          classNameLabel="font-medium text-client-main-gray2 text-xl"
+          classNameInput="outline-none p-4 rounded-md bg-client-light-red w-full"
+          type="text"
+          name="email"
+          onChange={handleChange}
+        />
+        {errors?.email && <Text color="red">{errors?.email}</Text>}
+      </Box>
+      <Box className="md:mb-6 xs:mb-3 flex flex-col w-full">
+        <ClientInput
+          p={t('Password')}
+          classNameDiv="w-full flex flex-col gap-2 mb-2"
+          classNameLabel="font-medium text-client-main-gray2 text-xl"
+          classNameInput="outline-none p-4 rounded-md bg-client-light-red w-full"
+          type={showPassword ? 'text' : 'password'}
+          onChange={(e: any) => {
+            handlePasswordChange(e), handleChange(e)
+          }}
+          name="password"
+        >
+          {showPassword ? (
+            <LuEye
+              className=" w-8 h-5 absolute inset-y-0 right-0  top-4 flex items-center pr-2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            />
+          ) : (
+            <LuEyeOff
+              className=" w-8 h-5 absolute inset-y-0 right-0  top-4 flex items-center pr-2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            />
+          )}
+        </ClientInput>
+        {errors?.email && <Text color="red">{errors?.password}</Text>}
+      </Box>
       <Button
         variant="danger"
         type="submit"
         fontSize="20px"
-        onClick={() => handleSubmit()}
+        onClick={(e) => {
+          e.preventDefault(), handleSubmit()
+        }}
         className="bg-client-login-mainColor w-full font-medium p-7 text-xl rounded-md text-white hover:scale-95 transition-all duration-500"
         isLoading={disable}
       >
