@@ -50,7 +50,7 @@ function ClientLogin() {
         error.password = '*Require field'
       }
 
-      if (form?.password?.trim().length < 7) {
+      if (form?.password?.trim().length < 6) {
         error.password = '*Min 6 symbols'
       }
 
