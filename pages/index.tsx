@@ -21,6 +21,7 @@ import { Offer, Product } from '@/shared/types/admin'
 import { QUERY } from '@/shared/constants/query'
 import { getProducts } from '@/shared/services/products'
 import HomeProductCard from '@/shared/components/client/homeProductCard/homeProductCard'
+import { CLIENT } from '@/shared/constants/router'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('client')
@@ -54,12 +55,12 @@ const Home: NextPage = () => {
 
       <header className="bg-client-fill-gray m-0 sm:m-8 flex-col rounded-md">
         <ClientHeader />
-        <div className="flex flex-col-reverse sm:flex-row justify-center items-center h-screen px-1 sm:px-11 -mt-24">
+        <div className="flex flex-col-reverse sm:flex-row justify-center items-center h-[520px] sm:h-screen px-1 sm:px-11 -mt-24">
           <div
             data-aos="fade-up"
             className="w-full sm:w-1/2 flex flex-col gap-9"
           >
-            <h1 className="sm:text-6xl text-center   text-2xl font-black leading-tight sm:text-start text-client-manin-black">
+            <h1 className="sm:text-6xl text-center text-xl font-black leading-tight sm:text-start text-client-manin-black">
               {/* {t("homeHeading")} */}Our Food site makes it easy to find
               local food
             </h1>
@@ -68,16 +69,16 @@ const Home: NextPage = () => {
               print, and publishing industries for previewing layouts and visual
               mockups.
             </p>
-            <div className="mx-auto flex-col sm:flex-row sm:mx-0 flex gap-10 w-max">
+            <div className="mx-auto flex-col sm:flex-row sm:mx-0 flex gap-3 sm:gap-10 w-max">
               <AdminModalButton
                 text={t('Register')}
-                className="bg-client-main-red text-white   text-lg sm:text-2xl sm:px-8  px-12 py-3 rounded-[30px] font-medium shadow-md   hover:scale-95 transition-all duration-500    hover:bg-client-main-orange"
-                onClick={() => navigate.push('/login')}
+                className="bg-client-main-red text-white   text-lg sm:text-2xl sm:px-8  px-12 py-2 rounded-[30px] font-medium shadow-md   hover:scale-95 transition-all duration-500    hover:bg-client-main-orange"
+                onClick={() => navigate.push(CLIENT.LOGIN)}
               />
               <AdminModalButton
                 text={t('OrderNow')}
-                className="rounded-[30px] border-client-main-gray1 border-2 sm:px-8  px-12 py-3 text-client-main-gray1 text-lg sm:text-2xl font-medium shadow-md hover:scale-95 transition-all duration-500"
-                onClick={() => navigate.push('/restaurants')}
+                className="rounded-[30px] border-client-main-gray1 border-2 sm:px-8  px-12 py-2 text-client-main-gray1 text-lg sm:text-2xl font-medium shadow-md hover:scale-95 transition-all duration-500"
+                onClick={() => navigate.push(CLIENT.RESTAURANTS)}
               />
             </div>
           </div>
@@ -123,15 +124,15 @@ const Home: NextPage = () => {
 
       {/* main section */}
       <main>
-        <section className="flex flex-col gap-10 justify-center my-14 px-3 sm:px-14">
+        <section className="flex flex-col gap-10 justify-center mt-4 sm:my-14 px-3 sm:px-14">
           <div
             data-aos="flip-up"
-            className="flex flex-col items-center gap-4 text-center mb-12"
+            className="flex flex-col items-center gap-4 text-center mb-0 sm:mb-12"
           >
-            <h2 className="text-4xl font-extrabold text-client-manin-black">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-client-manin-black">
               {t('features')}
             </h2>
-            <p className="text-client-main-gray1 w-full sm:w-2/3 text-2xl">
+            <p className="text-client-main-gray1 w-5/6 sm:w-2/3 sm:text-2xl text-base leading-7">
               Lorem ipsum is placeholder text commonly used in the graphic,
               print, and publishing industries for previewing layouts and visual
               mockups.
