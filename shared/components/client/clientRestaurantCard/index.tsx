@@ -8,11 +8,18 @@ import { Product } from '@/shared/types/admin'
 import { QUERY } from '@/shared/constants/query'
 import { CLIENT } from '@/shared/constants/router'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { isAllProducts } from '@/shared/store/productsSlice/productsSlice'
 
 function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
   const { push, query } = useRouter()
   const toast = useToast()
   const { t } = useTranslation('client')
+
+  const { allProducts }: any = useSelector((state) => state)
+  const dispatch = useDispatch()
+
+  console.log(allProducts.value, 'allProducts')
 
   const { data: restaurant } = useQuery({
     queryFn: () => getRestuarantById(query.id as string),
@@ -24,7 +31,10 @@ function ClientRestaurantCard({ item, key }: { item: Product; key: number }) {
       className="md:w-60 md:h-80 w-32 flex flex-col shadow-lg px-2 pt-3 pb-2.5 md:px-4 md:pt-4 md:pb-6 cursor-pointer hover:rounded-md bg-white hover:brightness-75 transition-all hover:scale-105 duration-500 "
       key={key}
       onClick={() => {
-        push(CLIENT.RESTAURANTS + query?.id)
+        {
+          // dispatch(isAllProducts(false))
+          push(CLIENT.RESTAURANTS + query?.id)
+        }
       }}
     >
       {/* <Box className=" w-[174px] h-[160px] border border-2-black overflow-hidden m-auto"> */}

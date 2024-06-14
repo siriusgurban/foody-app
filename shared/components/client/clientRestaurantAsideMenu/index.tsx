@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from '@/shared/store/hooks'
+import { isAllProducts } from '@/shared/store/productsSlice/productsSlice'
 import { Restaurant, token } from '@/shared/types/admin'
 import { Box, Text, useToast } from '@chakra-ui/react'
 import Image from 'next/image'
@@ -16,6 +18,7 @@ function ClientRestaurantAsideMenu({
     query.id === path ? 'client-light-red' : 'none'
   const isActiveText = (path: string) =>
     query.id === path ? 'client-main-red' : 'client-main-gray1'
+  const dispatch = useAppDispatch()
 
   return (
     <Box
@@ -25,7 +28,9 @@ function ClientRestaurantAsideMenu({
         item?.id,
       )}`}
       key={key}
-      onClick={() => push('?id=' + item?.id)}
+      onClick={() => {
+        dispatch(isAllProducts(false)), push('?id=' + item?.id)
+      }}
     >
       <Image
         width={28}

@@ -29,6 +29,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getProducts } from '@/shared/services/products'
+import { useAppSelector } from '@/shared/store/hooks'
 
 const emptyData: any = []
 
@@ -38,6 +39,7 @@ function Restaurants() {
   const isActive = (path: string) => (query.id === path ? '[#F0E1E1]' : 'none')
   const [size, setSize] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { allProducts } = useAppSelector((state) => state)
 
   const { data, isLoading } = useQuery({
     queryFn: getRestuarants,
@@ -162,21 +164,22 @@ function Restaurants() {
               </Box>
             </Box>
 
-            <Box className="flex flex-wrap md:gap-7 gap-5 justify-center md:justify-start">
+            <Box className="flex flex-wrap md:gap-x-7 md:gap-y-12 gap-5 justify-center md:justify-start">
               {isLoadingRest ? (
                 <Box className="flex justify-center gap-5 flex-wrap">
                   {[1, 2, 3, 4].map((item, index) => {
                     return <SkeletonRestaurantClient key={index} />
                   })}
                 </Box>
-              ) : restaurant?.data?.result?.data?.products != emptyData ? (
-                restaurant?.data?.result?.data?.products?.map(
+              ) : // allProducts
+              false ? (
+                products?.data?.result?.data?.map(
                   (item: Product, index: number) => {
                     return <ClientRestaurantCard key={index} item={item} />
                   },
                 )
               ) : (
-                products?.data?.result?.data?.map(
+                restaurant?.data?.result?.data?.products?.map(
                   (item: Product, index: number) => {
                     return <ClientRestaurantCard key={index} item={item} />
                   },
