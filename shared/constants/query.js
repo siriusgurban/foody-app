@@ -3,5 +3,6 @@ export const QUERY = {
     CATEGORIES: "categories",
     PRODUCTS: "products",
     BASKET: "basket",
-    USER: "user"
+    USER: "user",
+    OFFER: "offer"
 };
