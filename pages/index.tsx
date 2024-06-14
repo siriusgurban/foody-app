@@ -156,15 +156,15 @@ const Home: NextPage = () => {
           })}
         </section>
 
-        <section className="flex flex-col gap-10 justify-center my-14 px-3 sm:px-14">
+        <section className="flex flex-col gap-10 justify-center my-14 px-3 sm:px-14 mt-40">
           <div
             data-aos="flip-up"
             className="flex flex-col items-center gap-4 text-center mb-12"
           >
-            <h2 className="text-4xl font-extrabold text-client-manin-black">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-client-manin-black sm:max-w-96 max-w-60">
               {t('Our Popular Update New Foods')}
             </h2>
-            <p className="text-client-main-gray1 w-full sm:w-2/3 text-2xl">
+            <p className="text-client-main-gray1 w-5/6 sm:w-2/3 sm:text-2xl text-base leading-7">
               Lorem ipsum is placeholder text commonly used in the graphic,
               print, and publishing industries for previewing layouts and visual
               mockups.

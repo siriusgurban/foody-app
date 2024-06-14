@@ -73,7 +73,7 @@ function HomeOfferCard({
         <h3 className="text-2xl leading-loose font-black text-client-manin-black w-full sm:w-full sm:text-6xl text-center mx-auto sm:mx-0 sm:text-start">
           {offer?.name}
         </h3>
-        <p className="text-client-main-gray1 font-normal text-base sm:text-2xl w-full mb-8 sm:mb-0 sm:w-3/5 mx-auto text-center sm:text-start sm:mx-0">
+        <p className="text-client-main-gray1 leading-7 font-normal text-base sm:text-2xl w-full mb-8 sm:mb-0 sm:w-3/5 mx-auto text-center sm:text-start sm:mx-0">
           {offer?.description}
         </p>
       </div>
