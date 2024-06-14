@@ -25,7 +25,7 @@ const ClientHeaderRightSideComponents = () => {
 
   const { data, status, error } = useQuery({
     queryFn: getUser,
-    queryKey: ['user'],
+    queryKey: [QUERY.USER],
   })
 
   // console.log(data, 'user')

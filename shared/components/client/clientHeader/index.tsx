@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect,ChangeEvent, useState } from 'react'
+import React, { useEffect, useLayoutEffect, ChangeEvent, useState } from 'react'
 import Navbar from '../clientHeaderNavbar'
 import Image from 'next/image'
 import ClientHeaderRightSideComponents from '../clientHeaderRightSideComponents'
@@ -16,17 +16,15 @@ import { CLIENT } from '@/shared/constants/router'
 import { QUERY } from '@/shared/constants/query'
 import { getRestuarants } from '@/shared/services/restaurants'
 
-
-
 interface RestaurantPostDataType {
-  id?: number | string | any;
-  category_id: number | string | undefined;
-  img_url: string | null | undefined;
-  cuisine: string | undefined;
-  address: string | undefined;
-  delivery_min: number | undefined;
-  delivery_price: number | undefined;
-  name?: string;
+  id?: number | string | any
+  category_id: number | string | undefined
+  img_url: string | null | undefined
+  cuisine: string | undefined
+  address: string | undefined
+  delivery_min: number | undefined
+  delivery_price: number | undefined
+  name?: string
 }
 const ClientHeader = () => {
   const { t } = useTranslation('client')
@@ -34,10 +32,10 @@ const ClientHeader = () => {
   const [searchModal, setSearchModal] = useState(false)
   const [testState, setTestState] = useState(false)
   const [userInfo, setUserInfo] = useState({})
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchResults, setSearchResults] = useState<RestaurantPostDataType[]>(
-    []
-  );
+    [],
+  )
   const { push, reload } = useRouter()
 
   function deleteUser() {
@@ -52,13 +50,17 @@ const ClientHeader = () => {
 
   const { data, status, error } = useQuery({
     queryFn: getUser,
-    queryKey: ['user'],
+    queryKey: [QUERY.USER],
   })
-  const { data: restaurantData, status: restaurantStatus, error: restaurantError } = useQuery({
+  const {
+    data: restaurantData,
+    status: restaurantStatus,
+    error: restaurantError,
+  } = useQuery({
     queryFn: getRestuarants,
     queryKey: [QUERY.RESTAURANTS],
-  });
-const restaurants = restaurantData?.data?.result?.data
+  })
+  const restaurants = restaurantData?.data?.result?.data
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
       const userInfoString = localStorage.getItem('userInfo')
@@ -91,24 +93,24 @@ const restaurants = restaurantData?.data?.result?.data
     setSearchModal(true)
   }
 
- const searchRestaurant=(event: ChangeEvent<HTMLInputElement>) => {
-  const term = event.target.value;
-  setSearchTerm(term);
+  const searchRestaurant = (event: ChangeEvent<HTMLInputElement>) => {
+    const term = event.target.value
+    setSearchTerm(term)
 
-  if (term.trim() === "") {
-    setSearchResults([]);
-    return;
+    if (term.trim() === '') {
+      setSearchResults([])
+      return
+    }
+
+    const filteredRestaurants = (restaurants || []).filter(
+      (restaurant: RestaurantPostDataType) =>
+        restaurant.name?.toLowerCase().includes(term.toLowerCase()) ||
+        restaurant.cuisine?.toLowerCase().includes(term.toLowerCase()),
+    )
+
+    setSearchResults(filteredRestaurants)
   }
-
-  const filteredRestaurants = (restaurants || []).filter(
-    (restaurant: RestaurantPostDataType) =>
-      restaurant.name?.toLowerCase().includes(term.toLowerCase()) ||
-      restaurant.cuisine?.toLowerCase().includes(term.toLowerCase())
-  );
-
-  setSearchResults(filteredRestaurants);
-};
-console.log("searchResults",searchResults)
+  console.log('searchResults', searchResults)
   return (
     <nav className="flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer   bg-client-fill-gray sm:p-11">
       <h1
@@ -133,9 +135,11 @@ console.log("searchResults",searchResults)
                 onFocus={openSearchModal}
                 // onBlur={closeSearchModal}
               />
-             {searchModal && searchResults.length > 0 && (
-                <HeaderSearchRestaurantModal onClose={closeSearchModal} searchResults={searchResults}/>
-                  
+              {searchModal && searchResults.length > 0 && (
+                <HeaderSearchRestaurantModal
+                  onClose={closeSearchModal}
+                  searchResults={searchResults}
+                />
               )}
             </div>
             {/* <Lang bg={'white'} /> */}
@@ -176,10 +180,10 @@ console.log("searchResults",searchResults)
             {testState ? (
               <AdminModalButton
                 className="text-client-zero-black w-full mt-8 mx-auto py-4 rounded-full text-2xl font-medium flex items-center   justify-start"
-                text="MR"
+                text={data?.data?.user?.email[0].toUpperCase()}
               >
                 <Image
-                  src="/userAvatar.svg"
+                  src={`${'/userAvatar.svg'}`}
                   width={40}
                   height={40}
                   alt="userAvatar"
@@ -203,25 +207,33 @@ console.log("searchResults",searchResults)
               {testState && (
                 <>
                   <li
-                    onClick={() => push('/user?=profile')}
+                    onClick={() => {
+                      showHideModal(), push('/user?page=profile')
+                    }}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
                     {t('Profile')}
                   </li>
                   <li
-                    onClick={() => push('/user?=basket')}
+                    onClick={() => {
+                      showHideModal(), push('/user?page=basket')
+                    }}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
                     {t('Your Basket')}
                   </li>
                   <li
-                    onClick={() => push('/user?=orders')}
+                    onClick={() => {
+                      showHideModal(), push('/user?page=orders')
+                    }}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
                     {t('Your Orders')}
                   </li>
                   <li
-                    onClick={() => push('/user?=checkout')}
+                    onClick={() => {
+                      showHideModal(), push('/user?page=checkout')
+                    }}
                     className="cursor-pointer hover:text-client-main-red transition-all  text-xl"
                   >
                     {t('Checkout')}
