@@ -18,6 +18,12 @@ interface Props {
   handleEvent: any
   children?: any
   handleEventText: string
+  text: string
+  imgRef: any
+  loading: boolean
+  imgUrl: string
+  getImage: any
+  modalText: string
 }
 
 const AdminAsideModal = ({
@@ -26,6 +32,12 @@ const AdminAsideModal = ({
   onClickClose,
   handleEvent,
   handleEventText,
+  text,
+  imgRef,
+  loading,
+  imgUrl,
+  getImage,
+  modalText,
 }: Props) => {
   const { t } = useTranslation('admin')
   const { query } = useRouter()
@@ -49,7 +61,40 @@ const AdminAsideModal = ({
           <IoClose className=" fill-admin-white h-4 w-6 pl-1" />
         </button>
         <div className="bg-admin-main flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14 max-h-screen overflow-y-auto">
-          {children}
+          <div>
+            <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
+          </div>
+          <div className="flex flex-col w-full lg:flex-row mb-16">
+            <div className="w-full h-36 lg:w-1/3">
+              <p className="font-medium text-lg text-admin-text mb-3">
+                {t('Upload Image')}
+              </p>
+              <Image
+                width={118}
+                height={122}
+                alt="Upload"
+                ref={imgRef}
+                src={`${
+                  loading
+                    ? '/loadingImage.png'
+                    : imgUrl
+                    ? imgUrl
+                    : '/upload.png'
+                }`}
+              />
+            </div>
+            <div className="w-full lg:w-2/3 h-38">
+              <AdminModalUploadImage onChange={getImage} />
+            </div>
+          </div>
+          <div className="flex flex-col lg:flex-row w-full mb-10">
+            <div className="w-full lg:w-1/3">
+              <p className="font-medium text-admin-text tracking-wide capitalize text-lg font-display">
+                {t(modalText)}
+              </p>
+            </div>
+            {children}
+          </div>
           <div className="flex justify-around  border-t-2   border-t-admin-cancel-btn pt-6  border-admin-main gap-10">
             <AdminModalButton
               onClick={onClickClose}

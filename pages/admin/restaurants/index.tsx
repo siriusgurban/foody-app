@@ -19,8 +19,8 @@ import DeleteModal from '@/shared/components/common/deleteModal'
 const Restaurants: React.FC = () => {
   const { t } = useTranslation('admin')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [hideModal, setHideModal] = useState<boolean>(false)
-  const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(false)
+  const [hideModal, setHideModal] = useState<boolean>(true)
+  const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
   const [filterCategory, setFilterCategory] = useState<string>('All')
   const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
 

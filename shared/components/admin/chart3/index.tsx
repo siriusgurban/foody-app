@@ -34,7 +34,7 @@ const data: DataItem[] = [
 const COLORS = ['#4CD964', '#8D43FF', '#EB5757']
 
 const FastFoodSalesBarChart: React.FC = () => (
-  <div className="flex flex-col items-start bg-admin-secondary p-4 rounded-lg shadow-lg w-[500px] h-[400px]">
+  <div className="flex flex-col items-start bg-admin-secondary p-4 rounded-lg shadow-lg w-[540px] h-[400px]">
     <h2 className="text-xl font-semibold mb-4 text-admin-text">
       Fast Food Sales
     </h2>

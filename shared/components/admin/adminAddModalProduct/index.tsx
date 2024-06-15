@@ -65,111 +65,73 @@ const AdminAddModalProduct = ({ show = true, onClickClose, text }: Props) => {
       onClickClose={onClickClose}
       handleEvent={addProduct}
       handleEventText="Add Product"
+      text={text}
+      imgRef={imgRef}
+      loading={loading}
+      imgUrl={imgUrl}
+      getImage={getImage}
+      modalText="Add your Product description and necessary information"
     >
-      <div>
-        <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
-      </div>
-      <div className=" flex flex-col  w-full lg:flex-row mb-16 ">
-        <div className=" w-full h-36 lg:w-1/3 ">
-          <p className="font-medium text-lg text-admin-text">
-            {t('Upload Image')}
-          </p>
-          <Image
-            width={118}
-            height={122}
-            alt="Upload"
-            ref={imgRef}
-            src={`${
-              loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
-            }`}
-          />
-        </div>
-        <div className=" w-full lg:w-2/3 h-38 ">
-          <div className="  bg-admin-modal-frame-bg h-full flex rounded-2xl items-center justify-center ">
-            <div className=" relative ">
-              <label htmlFor="img_url">
-                <IoMdCloudUpload className=" h-10 w-14 cursor-pointer fill-admin-modal-upload-icon" />{' '}
-                <Text className="text-white text-lg">Upload</Text>
-              </label>
-              <input
-                id="img_url"
-                name="img_url"
-                type="file"
-                src={imgUrl}
-                onChange={getImage}
-                className=" cursor-pointer absolute opacity-0 w-full h-full  font-display"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex   flex-col  lg:flex-row  w-full  mb-10 ">
-        <div className="w-full lg:w-1/3 ">
-          <p className="  font-medium text-admin-text  tracking-wide capitalize text-lg  font-display ">
-            {t('Add your Product description and necessary information')}
-          </p>
-        </div>
-        <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7    rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
-          <FormControl className="p-0">
-            <div className="flex flex-col gap-2 ">
-              <p className=" font-medium   text-admin-text  text-base font-display">
-                {t('Name')}
-              </p>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                ref={nameRef}
-                placeholder={t('name')}
-                className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-              />
-              {/* {errors?.slug && (
+      <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7    rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
+        <FormControl className="p-0">
+          <div className="flex flex-col gap-2 ">
+            <p className=" font-medium   text-admin-text  text-base font-display">
+              {t('Name')}
+            </p>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              ref={nameRef}
+              placeholder={t('name')}
+              className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+            />
+            {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
                 )} */}
-            </div>
+          </div>
 
-            <div className="flex flex-col gap-2 ">
-              <p className=" font-medium   text-admin-text  text-base font-display">
-                {t('Description')}
-              </p>
-              <input
-                type="string"
-                id="description"
-                name="description"
-                placeholder={t('Description')}
-                ref={descriptionRef}
-                className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-              />
-              {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.slug}</FormHelperText>
-                )} */}
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <p className=" font-medium   text-admin-text  text-base font-display">
-                {t('Price')}
-              </p>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                placeholder={t('Price')}
-                ref={priceRef}
-                className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-              />
-              {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.slug}</FormHelperText>
-                )} */}
-            </div>
-            <AdminModalDropdown
-              p={t('Restaurants')}
-              className="mt-4 mb-2 placeholder"
-              classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
-              getText={setRestId}
-              getData={getRestuarants}
-              queryKey="restaurants"
+          <div className="flex flex-col gap-2 ">
+            <p className=" font-medium   text-admin-text  text-base font-display">
+              {t('Description')}
+            </p>
+            <input
+              type="string"
+              id="description"
+              name="description"
+              placeholder={t('Description')}
+              ref={descriptionRef}
+              className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
             />
-          </FormControl>
-        </div>
+            {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.slug}</FormHelperText>
+                )} */}
+          </div>
+          <div className="flex flex-col gap-2 ">
+            <p className=" font-medium   text-admin-text  text-base font-display">
+              {t('Price')}
+            </p>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              placeholder={t('Price')}
+              ref={priceRef}
+              className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+            />
+            {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.slug}</FormHelperText>
+                )} */}
+          </div>
+          <AdminModalDropdown
+            p={t('Restaurants')}
+            className="mt-4 mb-2 placeholder"
+            classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
+            getText={setRestId}
+            getData={getRestuarants}
+            queryKey="restaurants"
+          />
+        </FormControl>
       </div>
     </AdminAsideModal>
   )

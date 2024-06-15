@@ -51,6 +51,11 @@ function AdminHeader() {
         />
         <Foody role="admin" />
       </Box>
+      <AdminAddModalProduct
+        onClickClose={showHideModalAdd}
+        show={hideModalAddPro}
+        text={t('addproduct')}
+      />
       <Box className="flex gap-5 my-auto">
         <button
           className="rounded-full bg-admin-btn font-bold px-3 text-white text-xs min-w-10"
@@ -58,11 +63,6 @@ function AdminHeader() {
         >
           + <span className="hidden  md:inline-block">{t('addproduct')}</span>
         </button>
-        <AdminAddModalProduct
-          onClickClose={showHideModalAdd}
-          show={hideModalAddPro}
-          text={t('addproduct')}
-        />
 
         <Lang />
         <button>
