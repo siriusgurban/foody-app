@@ -13,8 +13,9 @@ import {
 } from '@/shared/services/basket'
 import { CustomMutationOptions, Product } from '@/shared/types/admin'
 import { QUERY } from '@/shared/constants/query'
-import { useToast } from '@chakra-ui/react'
+import { Box, useToast } from '@chakra-ui/react'
 import { useBasket } from '@/shared/hooks/useBasket'
+import BasketEmpty from '../basketEmpty'
 
 interface Restaurant {
   name: string
@@ -55,45 +56,87 @@ const UserBasket: FC<any> = ({}) => {
   })
 
   return (
-    <section className="w-full flex flex-col px-3 sm:px-8 py-10 flex-wrap gap-0 sm:bg-client-gray7 ">
+    <section className="w-full flex flex-col px-4 sm:px-8 py-10 flex-wrap gap-0 sm:bg-client-gray7 ">
       <h2 className=" text-client-main-gray2 font-semibold text-3xl">
         {t('Your Basket')}
       </h2>
-      <div className="flex items-center gap-2 text-3xl border-b-2   border-client-gray5 pb-4">
-        <Image width={20} height={20} src="/basketRed.svg" alt="userBasket" />
-        <p className="  text-base  text-client-main-red font-medium">
+      <div className="hidden items-center gap-2 text-3xl border-b-2 border-client-gray5 pb-4 sm:flex ">
+        <Image
+          width={25}
+          height={22}
+          src={`${
+            data?.data?.result?.data?.total_item == 0 ||
+            data?.data?.result?.data?.total_item == undefined
+              ? '/basket.svg'
+              : '/basketRed.svg'
+          }`}
+          alt="userBasket"
+        />
+        <p
+          className={`text-base text-${
+            data?.data?.result?.data?.total_item == 0 ||
+            data?.data?.result?.data?.total_item == undefined
+              ? 'client-rest-grey'
+              : 'client-main-red'
+          }   font-medium`}
+        >
           {data?.data?.result?.data?.total_item} {t('items')}
         </p>
       </div>
       <div className="mb-5 h-[470px] w-full overflow-y-auto overflow-x-hidden scrollbarClient">
-        {data?.data?.result?.data?.items?.map(
-          (item: Product, index: number) => (
-            <UserBasketCard
-              key={index}
-              clearBasket={() =>
-                handleBasketClear(data?.data?.result?.data?.id)
-              }
-              decreaseCount={handleBasketDelete}
-              increaseCount={handleAddBasket}
-              name={item?.name}
-              price={item?.price}
-              count={item?.count}
-              src={item?.img_url}
-              alt={item?.name}
-              id={item?.id}
-            />
-          ),
+        {data?.data?.result?.data?.total_item == 0 ||
+        data?.data?.result?.data?.total_item == undefined ? (
+          <BasketEmpty />
+        ) : (
+          data?.data?.result?.data?.items?.map(
+            (item: Product, index: number) => (
+              <UserBasketCard
+                key={index}
+                clearBasket={() =>
+                  handleBasketClear(data?.data?.result?.data?.id)
+                }
+                decreaseCount={handleBasketDelete}
+                increaseCount={handleAddBasket}
+                name={item?.name}
+                price={item?.price}
+                count={item?.count}
+                src={item?.img_url}
+                alt={item?.name}
+                id={item?.id}
+              />
+            ),
+          )
         )}
       </div>
 
-      <div className="  bg-client-main-red text-white flex items-center mt-8 justify-between pl-10 pr-2 py-2 rounded-full shadow-md">
-        <p className="font-medium text-2xl">{t('Checkout')}</p>
+      <Box
+        as="button"
+        disabled={data?.data?.result?.data?.total_item == 0 ? true : false}
+        className={`bg-${
+          data?.data?.result?.data?.total_item == 0 ||
+          data?.data?.result?.data?.total_item == undefined
+            ? 'client-rest-grey1'
+            : 'client-main-red'
+        } text-white flex items-center mt-8 justify-between lg:pl-10 sm:pl-8 pl-6 pr-2 py-1 rounded-full shadow-md`}
+      >
+        <p className="font-medium text-sm sm:text-lg lg:text-2xl">
+          {t('Checkout')}
+        </p>
         <AdminModalButton
-          className="bg-white text-client-main-red rounded-full py-1 px-16 font-medium text-lg hover:scale-95 transition-all duration-500"
-          text={data?.data?.result?.data?.total_amount}
+          className={`bg-white text-${
+            data?.data?.result?.data?.total_item == 0 ||
+            data?.data?.result?.data?.total_item == undefined
+              ? 'client-rest-grey'
+              : 'client-main-red'
+          } rounded-full py-1 px-4 sm:px-8 lg:px-16 font-medium text-sm sm:text-base lg:text-lg hover:scale-95 transition-all duration-500`}
+          text={`$${
+            data?.data?.result?.data?.total_amount
+              ? data?.data?.result?.data?.total_amount
+              : '0.00'
+          }`}
           onClick={() => push('?page=' + 'checkout')}
         />
-      </div>
+      </Box>
     </section>
   )
 }
