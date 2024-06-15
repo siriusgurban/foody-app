@@ -80,7 +80,7 @@ function User() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <ClientLayout>
-          <main className="flex mx-8 gap-10">
+          <main className="flex mx-0.5 sm:mx-8 gap-10">
             <UserAsideMenu />
             {rightComponent}
           </main>

@@ -281,7 +281,7 @@ function RestaurantId() {
                               undefined
                               ? 'client-rest-grey'
                               : 'client-main-red'
-                          } px-5 h-8 bg-white rounded-full my-auto text-center pt-1.5`}
+                          } px-5 h-8 bg-white rounded-full my-auto text-center pt-1.5 hover:scale-95 transition-all duration-500`}
                         >
                           $
                           {basket?.data?.result?.data?.total_amount
@@ -346,7 +346,7 @@ function RestaurantId() {
                           basket?.data?.result?.data?.total_item == undefined
                             ? 'client-rest-grey1'
                             : 'client-main-red'
-                        }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
+                        }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer `}
                       >
                         <Text className="text-white my-auto">
                           {t('Checkout')}
@@ -357,7 +357,7 @@ function RestaurantId() {
                             basket?.data?.result?.data?.total_item == undefined
                               ? 'client-rest-grey'
                               : 'client-main-red'
-                          } w-32 h-11 bg-white rounded-full my-auto text-center pt-3`}
+                          } w-32 h-11 bg-white rounded-full my-auto text-center pt-3 hover:scale-95 transition-all duration-500`}
                         >
                           ${' '}
                           {basket?.data?.result?.data?.total_amount
@@ -417,7 +417,7 @@ function RestaurantId() {
                                   undefined
                                   ? 'client-rest-grey'
                                   : 'client-main-red'
-                              } px-5 h-8 bg-white rounded-full my-auto text-center text-sm pt-2`}
+                              } px-5 h-8 bg-white rounded-full my-auto text-center text-sm pt-2 hover:scale-95 transition-all duration-500`}
                             >
                               $
                               {basket?.data?.result?.data?.total_amount
