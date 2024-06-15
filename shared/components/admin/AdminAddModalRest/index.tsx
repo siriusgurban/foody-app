@@ -14,6 +14,7 @@ import Image from 'next/image'
 import { getCategories } from '@/shared/services/category'
 import { useCORP } from '@/shared/hooks/useCORP'
 import { QUERY } from '@/shared/constants/query'
+import AdminAsideModal from '../../layout/adminAsideModal'
 
 interface Props {
   show?: boolean
@@ -60,108 +61,65 @@ const AdminAddModalRest = ({ show = true, onClickClose, text }: Props) => {
   })
 
   return (
-    <div
-      className={`fixed z-10 w-full sm:w-3/4 sm:pl-10 ${
-        show ? 'right-0' : '-right-full'
-      } h-screen top-0 transition-all duration-700`}
+    <AdminAsideModal
+      show={show}
+      onClickClose={onClickClose}
+      handleEvent={addRestaurant}
+      handleEventText="Add Restaurant"
+      text={text}
+      imgRef={imgRef}
+      loading={loading}
+      imgUrl={imgUrl}
+      getImage={getImage}
+      modalText="Add Your Restaurant Information"
     >
-      <button
-        onClick={onClickClose}
-        className="rounded-full bg-admin-modal-upload-icon absolute right-5 sm:left-0 top-7 w-7 h-7 cursor-pointer"
-      >
-        <IoClose className="fill-admin-white h-4 w-6 pl-1" />
-      </button>
-      <div className="bg-admin-main flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14 max-h-screen overflow-y-auto">
+      <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 pt-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
         <div>
-          <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
-        </div>
-        <div className="flex flex-col w-full lg:flex-row mb-16">
-          <div className="w-full h-36 lg:w-1/3">
-            <p className="font-medium text-lg text-admin-text mb-3">
-              {t('Upload Image')}
-            </p>
-            <Image
-              width={118}
-              height={122}
-              alt="Upload"
-              ref={imgRef}
-              src={`${
-                loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
-              }`}
+          <>
+            <AdminModalInput
+              p={t('Name')}
+              className2="flex flex-col gap-2"
+              ph="Mc Donald’s"
+              getText={setName}
             />
-          </div>
-          <div className="w-full lg:w-2/3 h-38">
-            <AdminModalUploadImage onChange={getImage} />
-          </div>
-        </div>
-        <div className="flex flex-col lg:flex-row w-full mb-10">
-          <div className="w-full lg:w-1/3">
-            <p className="font-medium text-admin-text tracking-wide capitalize text-lg font-display">
-              {t(`Add Your Restaurant Information`)}
-            </p>
-          </div>
-          <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 pt-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
-            <div>
-              <>
-                <AdminModalInput
-                  p={t('Name')}
-                  className2="flex flex-col gap-2"
-                  ph="Mc Donald’s"
-                  getText={setName}
-                />
-                <AdminModalTextArea
-                  p={t('Cuisine')}
-                  className="mt-6"
-                  placeHolder="Fast Food , Drink, Ice Cream, Sea Food"
-                  getText={setCuisine}
-                />
-                <AdminModalInput
-                  type="number"
-                  p={t('Delivery Price $')}
-                  className2="flex flex-col gap-2 mt-8"
-                  ph="5"
-                  getText={(text) => setDeliveryPrice(parseInt(text))}
-                />
-                <AdminModalInput
-                  type="number"
-                  p={t('Delivery Mi')}
-                  className2="flex flex-col gap-2 mt-6"
-                  ph="11"
-                  getText={(text) => setDeliveryMin(parseInt(text))}
-                />
-                <AdminModalInput
-                  p={t('Address')}
-                  className2="flex flex-col gap-2 mt-4"
-                  ph="Nizami street 45 Baku Azerbaijan"
-                  getText={setAddress}
-                />
-                <AdminModalDropdown
-                  p={t('Category')}
-                  className="mt-4 mb-2 placeholder"
-                  classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
-                  getText={setCategory}
-                  getData={getCategories}
-                  queryKey="categories"
-                />
-              </>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-around border-t-2 border-t-admin-cancel-btn pt-6 border-admin-main gap-10">
-          <AdminModalButton
-            onClick={onClickClose}
-            className="text-admin-white bg-admin-cancel-btn py-3 w-1/2 rounded-2xl font-display"
-            text={t('Cancel')}
-          />
-
-          <AdminModalButton
-            onClick={addRestaurant}
-            className="text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t('Create Restaurant')}
-          />
+            <AdminModalTextArea
+              p={t('Cuisine')}
+              className="mt-6"
+              placeHolder="Fast Food , Drink, Ice Cream, Sea Food"
+              getText={setCuisine}
+            />
+            <AdminModalInput
+              type="number"
+              p={t('Delivery Price $')}
+              className2="flex flex-col gap-2 mt-8"
+              ph="5"
+              getText={(text) => setDeliveryPrice(parseInt(text))}
+            />
+            <AdminModalInput
+              type="number"
+              p={t('Delivery Mi')}
+              className2="flex flex-col gap-2 mt-6"
+              ph="11"
+              getText={(text) => setDeliveryMin(parseInt(text))}
+            />
+            <AdminModalInput
+              p={t('Address')}
+              className2="flex flex-col gap-2 mt-4"
+              ph="Nizami street 45 Baku Azerbaijan"
+              getText={setAddress}
+            />
+            <AdminModalDropdown
+              p={t('Category')}
+              className="mt-4 mb-2 placeholder"
+              classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
+              getText={setCategory}
+              getData={getCategories}
+              queryKey="categories"
+            />
+          </>
         </div>
       </div>
-    </div>
+    </AdminAsideModal>
   )
 }
 

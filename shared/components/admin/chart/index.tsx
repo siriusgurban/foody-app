@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react'
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 
 interface DataItem {
-  name: string;
-  value: number;
+  name: string
+  value: number
 }
 
 const data: DataItem[] = [
@@ -13,7 +13,7 @@ const data: DataItem[] = [
   { name: 'MC', value: 12 },
   { name: 'Burger King', value: 10 },
   { name: 'Unknown', value: 11 },
-];
+]
 
 const COLORS = [
   '#8D43FF',
@@ -22,32 +22,35 @@ const COLORS = [
   '#A84069',
   '#EAAB00',
   '#00B2A9',
-];
+]
 
 const DonutChart: React.FC = () => {
-  const [chartDimensions, setChartDimensions] = useState({ innerRadius: 70, outerRadius: 90 });
+  const [chartDimensions, setChartDimensions] = useState({
+    innerRadius: 70,
+    outerRadius: 90,
+  })
 
   const updateChartDimensions = () => {
-    const width = window.innerWidth;
+    const width = window.innerWidth
     if (width < 768) {
-      setChartDimensions({ innerRadius: 50, outerRadius: 70 });
+      setChartDimensions({ innerRadius: 50, outerRadius: 70 })
     } else if (width < 1024) {
-      setChartDimensions({ innerRadius: 60, outerRadius: 80 });
+      setChartDimensions({ innerRadius: 60, outerRadius: 80 })
     } else {
-      setChartDimensions({ innerRadius: 70, outerRadius: 90 });
+      setChartDimensions({ innerRadius: 70, outerRadius: 90 })
     }
-  };
+  }
 
   useEffect(() => {
-    updateChartDimensions();
-    window.addEventListener('resize', updateChartDimensions);
+    updateChartDimensions()
+    window.addEventListener('resize', updateChartDimensions)
     return () => {
-      window.removeEventListener('resize', updateChartDimensions);
-    };
-  }, []);
+      window.removeEventListener('resize', updateChartDimensions)
+    }
+  }, [])
 
   return (
-    <div className="flex flex-col items-start bg-admin-secondary p-4 rounded-lg shadow-lg w-[90%] max-w-[470px] h-[400px]">
+    <div className="flex flex-col items-start bg-admin-secondary p-4 rounded-lg shadow-lg w-[90%] max-w-[460px] h-[400px]">
       <h2 className="text-xl font-semibold mb-4 text-admin-text">Orders</h2>
       <div className="w-full h-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -85,8 +88,7 @@ const DonutChart: React.FC = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DonutChart;
-
+export default DonutChart
