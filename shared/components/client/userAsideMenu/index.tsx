@@ -26,12 +26,9 @@ function UserAsideMenu() {
       className="xl:min-w-80 lg:min-w-60 md:min-w-40 h-lvh bg-client-fill-gray xl:flex lg:flex md:hidden sm:hidden xs:hidden flex-col gap-5 max-h-[515px] scrollbar overflow-y-scroll pr-4 xl:px-10 lg:px-6 md:px-6 pt-14 cursor-pointer overflow-hidden"
     >
       <Box
-        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
-          query,
-          'profile',
-          'pink-200',
-          'none',
-        )}`}
+        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple ${
+          query.page == 'profile' ? 'bg-pink-200' : ''
+        }`}
         onClick={() => push('?page=' + 'profile')}
       >
         <Image
