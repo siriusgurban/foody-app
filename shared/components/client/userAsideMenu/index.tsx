@@ -29,7 +29,7 @@ function UserAsideMenu() {
         className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
           query,
           'profile',
-          'client-user-purple',
+          'pink-200',
           'none',
         )}`}
         onClick={() => push('?page=' + 'profile')}
@@ -61,7 +61,7 @@ function UserAsideMenu() {
         className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
           query,
           'basket',
-          'client-user-purple',
+          'pink-200',
           'none',
         )}`}
         onClick={() => push('?page=' + 'basket')}
@@ -92,7 +92,7 @@ function UserAsideMenu() {
         className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
           query,
           'orders',
-          'client-user-purple',
+          'pink-200',
           'none',
         )}`}
         onClick={() => push('?page=' + 'orders')}
@@ -120,7 +120,7 @@ function UserAsideMenu() {
         className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
           query,
           'checkout',
-          'client-user-purple',
+          'pink-200',
           'none',
         )}`}
         onClick={() => push('?page=' + 'checkout')}
