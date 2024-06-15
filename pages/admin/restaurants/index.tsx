@@ -56,7 +56,7 @@ const Restaurants: React.FC = () => {
       </Head>
       <AdminLayout>
         <div className="w-full">
-          <div className="m-5">
+          <div className="my-5">
             <AdminUpdateModalRest
               onClickClose={showHideModalUpdate}
               show={hideModalUpdate}
@@ -74,7 +74,7 @@ const Restaurants: React.FC = () => {
               getText={setFilterCategory}
             />
           </div>
-          <div className=" sm:w-auto m-2 sm:m-5 flex flex-wrap gap-4 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
+          <div className=" sm:w-auto m-2 sm:m-5 flex flex-wrap gap-x-7 justify-center overflow-y-scroll max-h-[390px] scrollbar ">
             {isLoading ? (
               <Box className="flex flex-wrap gap-2 justify-between ">
                 {[1, 2, 3, 4].map((item, index) => {

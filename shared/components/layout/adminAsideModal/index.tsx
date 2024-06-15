@@ -1,16 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { IoClose } from 'react-icons/io5'
 import AdminModalButton from '../../admin/adminModalButton'
 import { useTranslation } from 'react-i18next'
-import { FormControl } from '@chakra-ui/react'
-import { getCategoryById, updateCategory } from '@/shared/services/category'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import AdminModalUploadImage from '../../admin/adminModalUploadImage'
-import { QUERY } from '@/shared/constants/query'
-import { useCORP } from '@/shared/hooks/useCORP'
 
 interface Props {
   show?: boolean
