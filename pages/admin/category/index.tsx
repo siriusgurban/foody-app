@@ -16,7 +16,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdDeleteForever, MdEdit } from 'react-icons/md'
+import { MdDeleteForever, MdEdit, MdOutlineEdit } from 'react-icons/md'
 import AdminSecondaryComponent from '@/shared/components/admin/adminSecondaryComponent'
 import AdminUpdateModalCategory from '@/shared/components/admin/adminUpdateModalCategory'
 import AdminAddModalCategory from '@/shared/components/admin/adminAddModalCategory'
@@ -75,7 +75,7 @@ function Category() {
       <AdminLayout>
         <Box className="flex flex-col gap-4 w-full">
           <div className=" xl:w-full">
-            <div className="m-5">
+            <div className="my-5">
               <AdminUpdateModalCategory
                 onClickClose={showHideModalUpdate}
                 show={hideModalUpdate}
@@ -98,15 +98,23 @@ function Category() {
               />
             </div>
           </div>
-          <TableContainer className="md:overflow-x-auto">
+          <TableContainer className="md:overflow-x-auto scrollbar">
             <Table variant="simple" className="bg-white">
-              <Thead>
+              <Thead h="64px">
                 <Tr>
-                  <Th>ID</Th>
-                  <Th>{t('Image')}</Th>
-                  <Th>{t('Name')}</Th>
-                  <Th>{t('Slug')}</Th>
-                  <Th></Th>
+                  <Th className="text-sm text-admin-table-black font-semibold">
+                    ID
+                  </Th>
+                  <Th className="text-sm text-admin-table-black font-semibold">
+                    {t('Image')}
+                  </Th>
+                  <Th className="text-sm text-admin-table-black font-semibold">
+                    {t('Name')}
+                  </Th>
+                  <Th className="text-sm text-admin-table-black font-semibold">
+                    {t('Slug')}
+                  </Th>
+                  <Th className="text-sm text-admin-table-black font-semibold"></Th>
                 </Tr>
               </Thead>
 
@@ -114,8 +122,12 @@ function Category() {
                 {data?.data?.result?.data?.map((item: any, index: number) => {
                   return (
                     <Tr key={index}>
-                      <Td py={1}>{item?.id}</Td>
-                      <Td py={1}>
+                      <Td py={1} className="text-sm text-admin-table-id">
+                        <span className="border-2 rounded-lg p-1">
+                          {item?.id}
+                        </span>
+                      </Td>
+                      <Td py={1} className="text-sm text-admin-table-black">
                         <Image
                           src={item?.img_url}
                           width={48}
@@ -123,27 +135,27 @@ function Category() {
                           alt="table_image"
                         />
                       </Td>
-                      <Td py={1}>{item?.name}</Td>
-                      <Td py={1}>{item?.slug}</Td>
+                      <Td py={1} className="text-sm text-admin-table-black">
+                        {item?.name}
+                      </Td>
+                      <Td py={1} className="text-sm text-admin-table-black">
+                        {item?.slug}
+                      </Td>
                       <Td>
                         <div className="flex justify-end gap-4">
-                          <Button
+                          <button
                             onClick={() => (
                               push(pathname + '?id=' + item?.id),
                               showHideModalUpdate()
                             )}
                           >
                             <span>
-                              <MdEdit className="fill-admin-edit-icon w-5 h-5" />
+                              <MdOutlineEdit className="fill-admin-edit-icon w-5 h-5 hover:fill-green-800  hover:scale-95 transition-all duration-500" />
+                              {/* <MdEdit className="fill-admin-edit-icon w-5 h-5" /> */}
                             </span>
-                          </Button>
+                          </button>
                           <button onClick={() => handleDeleteClick(item?.id)}>
                             <span>
-                              {/* <DeleteModal
-                                // isOpen={isDeleteModalOpen}
-                                // onClose={closeDeleteModal}
-                                onClick={() => handleDeleteConfirm(item?.id)}
-                              /> */}
                               <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
                             </span>
                           </button>
