@@ -1,4 +1,5 @@
 import { CLIENT } from '@/shared/constants/router'
+import { isActive } from '@/shared/utils/isActive'
 import { Box, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -8,10 +9,6 @@ import { useTranslation } from 'react-i18next'
 function UserAsideMenu() {
   const { push, query, reload } = useRouter()
   const { t } = useTranslation('client')
-
-  const isActive = (path: string) => (query.page === path ? 'pink-200' : 'none')
-  const isActiveText = (path: string) =>
-    query.page === path ? 'client-main-red' : 'client-main-gray1'
 
   function deleteUser() {
     localStorage.removeItem('userInfo')
@@ -26,11 +23,14 @@ function UserAsideMenu() {
   return (
     <Box
       as="section"
-      className="xl:min-w-80 lg:min-w-60 md:min-w-40 h-lvh bg-client-fill-gray xl:flex lg:flex md:hidden sm:hidden xs:hidden flex-col gap-5 max-h-[515px] scrollbar overflow-y-scroll pr-4 xl:px-10 lg:px-8 md:px-6 pt-14 cursor-pointer overflow-hidden"
+      className="xl:min-w-80 lg:min-w-60 md:min-w-40 h-lvh bg-client-fill-gray xl:flex lg:flex md:hidden sm:hidden xs:hidden flex-col gap-5 max-h-[515px] scrollbar overflow-y-scroll pr-4 xl:px-10 lg:px-6 md:px-6 pt-14 cursor-pointer overflow-hidden"
     >
       <Box
-        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md bg- hover:bg-client-pink bg- bg-${isActive(
+        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
+          query,
           'profile',
+          'client-user-purple',
+          'none',
         )}`}
         onClick={() => push('?page=' + 'profile')}
       >
@@ -38,18 +38,31 @@ function UserAsideMenu() {
           width={22}
           height={14}
           alt="profile"
-          src={`/profile.svg`}
+          src={`${isActive(
+            query,
+            'profile',
+            '/profileRed.svg',
+            '/profile.svg',
+          )}`}
           color="red"
         />
         <Text
-          className={`text-xl font-semibold text-${isActiveText('profile')}  `}
+          className={`xl:text-xl text-lg font-semibold text-${isActive(
+            query,
+            'profile',
+            'client-main-red',
+            'client-main-gray1',
+          )}`}
         >
           {t('Profile')}
         </Text>
       </Box>
       <Box
-        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink bg-${isActive(
+        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
+          query,
           'basket',
+          'client-user-purple',
+          'none',
         )}`}
         onClick={() => push('?page=' + 'basket')}
       >
@@ -57,17 +70,30 @@ function UserAsideMenu() {
           width={22}
           height={14}
           alt="profile"
-          src={'/basketProfile.svg'}
+          src={`${isActive(
+            query,
+            'basket',
+            '/basketRed.svg',
+            '/basketProfile.svg',
+          )}`}
         />
         <Text
-          className={`text-xl font-semibold text-${isActiveText('basket')}  `}
+          className={`xl:text-xl text-lg font-semibold text-${isActive(
+            query,
+            'basket',
+            'client-main-red',
+            'client-main-gray1',
+          )}`}
         >
           {t('Your Basket')}
         </Text>
       </Box>
       <Box
-        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink bg-${isActive(
+        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
+          query,
           'orders',
+          'client-user-purple',
+          'none',
         )}`}
         onClick={() => push('?page=' + 'orders')}
       >
@@ -75,17 +101,27 @@ function UserAsideMenu() {
           width={22}
           height={14}
           alt="profile"
-          src={'/basketProfile.svg'}
+          src={`${
+            query.page === 'orders' ? '/basketRed.svg' : '/basketProfile.svg'
+          }`}
         />
         <Text
-          className={`text-xl font-semibold text-${isActiveText('orders')}  `}
+          className={`xl:text-xl text-lg font-semibold text-${isActive(
+            query,
+            'orders',
+            'client-main-red',
+            'client-main-gray1',
+          )}`}
         >
           {t('Your Orders')}
         </Text>
       </Box>
       <Box
-        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink bg-${isActive(
+        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
+          query,
           'checkout',
+          'client-user-purple',
+          'none',
         )}`}
         onClick={() => push('?page=' + 'checkout')}
       >
@@ -93,17 +129,30 @@ function UserAsideMenu() {
           width={22}
           height={14}
           alt="profile"
-          src={'/basketProfile.svg'}
+          src={`${isActive(
+            query,
+            'checkout',
+            '/basketRed.svg',
+            '/basketProfile.svg',
+          )}`}
         />
         <Text
-          className={`text-xl font-semibold text-${isActiveText('checkout')}  `}
+          className={`xl:text-xl text-lg font-semibold text-${isActive(
+            query,
+            'checkout',
+            'client-main-red',
+            'client-main-gray1',
+          )}`}
         >
           {t('Your Checkout')}
         </Text>
       </Box>
       <Box
-        className={`flex gap-4 px-4 py-3 w-60 cursor-pointer rounded-md hover:bg-client-pink bg-${isActive(
+        className={`flex gap-4 xl:px-4 px-2 py-3 max-w-60 cursor-pointer rounded-md hover:scale-110 transition-all duration-500 hover:bg-client-rest-purple bg-${isActive(
+          query,
           'logout',
+          'client-pink',
+          'none',
         )}`}
         onClick={deleteUser}
       >
@@ -114,7 +163,12 @@ function UserAsideMenu() {
           src={'/basketProfile.svg'}
         />
         <Text
-          className={`text-xl font-semibold text-${isActiveText('logout')}  `}
+          className={`xl:text-xl text-lg font-semibold text-${isActive(
+            query,
+            'logout',
+            'client-main-red',
+            'client-main-gray1',
+          )}`}
         >
           {t('Log Out')}
         </Text>
