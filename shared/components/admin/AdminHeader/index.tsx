@@ -65,7 +65,7 @@ function AdminHeader() {
         </button>
 
         <Lang />
-        <button className="hidden  sm:inline-block">
+        <button className="hidden sm:inline-block">
           <Image
             src={'/adminLogo.svg'}
             width={41}

@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import AdminModalUploadImage from '../../admin/adminModalUploadImage'
+import SkeletonUploading from '../../common/skeleton/SkeletonUploading'
+import { Box } from '@chakra-ui/react'
 
 interface Props {
   show?: boolean
@@ -59,23 +61,24 @@ const AdminAsideModal = ({
             <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
           </div>
           <div className="flex flex-col w-full lg:flex-row mb-16">
-            <div className="w-full h-36 lg:w-1/3">
+            <div className="w-full h-36 lg:w-1/3 ">
               <p className="font-medium text-lg text-admin-text mb-3">
                 {t('Upload Image')}
               </p>
-              <Image
-                width={118}
-                height={122}
-                alt="Upload"
-                ref={imgRef}
-                src={`${
-                  loading
-                    ? '/loadingImage.png'
-                    : imgUrl
-                    ? imgUrl
-                    : '/upload.png'
-                }`}
-              />
+              {loading ? (
+                <SkeletonUploading />
+              ) : (
+                <Box>
+                  <Image
+                    width={118}
+                    height={122}
+                    alt="Upload"
+                    ref={imgRef}
+                    src={`${imgUrl ? imgUrl : '/upload.png'}`}
+                    className="w-[100px] h-[84px] lg:w-[118px] lg:h-[118px] object-fill overflow-hidden"
+                  />
+                </Box>
+              )}
             </div>
             <div className="w-full lg:w-2/3 h-38">
               <AdminModalUploadImage onChange={getImage} />
