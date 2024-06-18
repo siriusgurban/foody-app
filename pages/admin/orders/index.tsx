@@ -30,6 +30,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import Swal from 'sweetalert2'
 
 interface Order {
   id: string
@@ -93,7 +94,24 @@ function Orders() {
   })
 
   const handleDelete = (id: string) => {
-    mutate(id)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutate(id)
+        Swal.fire(
+          'Deleted!',
+          'Your category has been deleted.',
+          'success'
+        )
+      }
+    })
   }
 
   const orderData = data?.result?.data

@@ -84,7 +84,7 @@ console.log("editData",query)
     const { mutate } = useMutation({
         mutationFn: updateOffer,
         onSuccess(data, variables, context) {
-            console.log(data, 'success')
+      //      console.log(data, 'success')
             toast({
                 title: 'Offer updated',
                 status: 'success',
@@ -93,7 +93,7 @@ console.log("editData",query)
             })
         },
         onError(data, variables, context) {
-            console.log(data, 'error')
+           // console.log(data, 'error')
         },
         onSettled: () => {
             queryClient.invalidateQueries({
@@ -102,16 +102,17 @@ console.log("editData",query)
         },
     })
     const EditOffer = () => {
-        console.log("hell")
-        console.log("text1", text1)
-        console.log("text2", text2)
-        console.log("lastProductImage", lastProductImage)
+        // console.log("hell")
+        // console.log("text1", text1)
+        // console.log("text2", text2)
+        // console.log("lastProductImage", lastProductImage)
 
         const uptData = {
             name: text1,
             description: text2,
             img_url: lastProductImage ? lastProductImage : initUrl
         };
+        console.log("upt",uptData)
         mutate({ id: query?.id, data: uptData })
 
         if (refInput.current) refInput.current.value = '';

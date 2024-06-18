@@ -71,7 +71,7 @@ const ClientHeader = () => {
     }
   }, [isModalOpen])
 
-  // console.log(data, 'UserData')
+   console.log(data, 'UserData')
 
   const toggleAvatars = () => {
     if (userInfo !== undefined && data !== undefined) {
@@ -110,7 +110,7 @@ const ClientHeader = () => {
 
     setSearchResults(filteredRestaurants)
   }
-  console.log('searchResults', searchResults)
+ // console.log('searchResults', searchResults)
   return (
     <nav className="flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer   bg-client-fill-gray sm:p-11">
       <h1
@@ -126,7 +126,7 @@ const ClientHeader = () => {
         {userInfo !== undefined && data !== undefined ? (
           <>
             <Navbar />
-            <div className=" hidden w-1/5 md:block">
+          {data &&   <div className=" hidden w-1/5 md:block">
               <input
                 type="text"
                 placeholder="Search"
@@ -141,7 +141,7 @@ const ClientHeader = () => {
                   searchResults={searchResults}
                 />
               )}
-            </div>
+            </div>}
             {/* <Lang bg={'white'} /> */}
             <ClientHeaderRightSideComponents />
           </>
