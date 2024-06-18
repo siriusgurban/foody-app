@@ -1,26 +1,33 @@
 import AdminAsideMenu from '@/shared/components/admin/AdminAsideMenu'
 import AdminAsideMenuResponsive from '@/shared/components/admin/AdminAsideMenuResponsive'
 import AdminHeader from '@/shared/components/admin/AdminHeader'
-import AdminAddUpdateModal from '@/shared/components/admin/adminAddUpdateModal'
 import AdminSecondaryComponent from '@/shared/components/admin/adminSecondaryComponent'
-import Foody from '@/shared/components/common/foody'
-import { getCategories, getCategoryById } from '@/shared/services/category'
 import { Box, Button, useDisclosure, useToast } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ButtonGroup, IconButton } from '@chakra-ui/react'
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
 import { DeleteOffer, getOffers } from '@/shared/services/offers'
 import AdminAddOfferModal from '@/shared/components/admin/adminAddUpdateModal'
 import AdminEditOfferModal from '@/shared/components/admin/addEditOfferModal'
 import { MdDeleteForever, MdEdit } from 'react-icons/md'
 import DeleteModal from '@/shared/components/common/deleteModal'
+import { shortText } from '@/shared/helpers/shortText'
+import Swal from 'sweetalert2'
 
+
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+} from '@chakra-ui/react'
 interface OfferItem {
   id: number
   img_url: string
@@ -71,11 +78,28 @@ function Offers() {
   })
 
   const handleDelete = (id: number) => {
-    mutate(String(id))
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutate(String(id))
+        Swal.fire(
+          'Deleted!',
+          'Your category has been deleted.',
+          'success'
+        )
+      }
+    })
   }
 
   const newData: OfferItem[] | undefined = data?.data?.result?.data
-
+console.log("newData",newData)
   return (
     <div>
       <Head>
@@ -84,7 +108,7 @@ function Offers() {
       </Head>
 
       <Box className="bg-admin-bg h-lvh">
-        <Box className="max-w-[1440px] mx-auto">
+        <Box className="max-w-[1240px] mx-auto">
           <AdminHeader />
           <AdminAddOfferModal
             onClickClose={showHideModal}
@@ -109,33 +133,53 @@ function Offers() {
                   visible={false}
                 />
               </div>
-              <table className="bg-white  m-5">
-                <thead className="h-[50px] border-b-2">
-                  <tr className="p-8">
-                    <th className="w-[100px] text-center">{t('ID')}</th>
-                    <th className="w-[100px] text-center">{t('Image')}</th>
-                    <th className="w-[120px] text-center">{t('Name')}</th>
-                    <th className="w-[200px] text-center">{t('Slug')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {newData?.map((item: OfferItem) => (
-                    <tr className="h-[60px] border-b-2 p-8" key={item.id}>
-                      <td className="w-[100px] text-center">{item.id}</td>
-                      <td className="w-[100px] text-center">
+             
+              <Box className="max-w-[1040px]  ">
+               <TableContainer className=" bg-white  m-5 md:overflow-x-auto scrollbar">
+            <Table variant="simple" className="bg-white">
+              <Thead h="50px" className=' border-b-2'>
+                <Tr>
+                  <Th className="text-center text-sm text-admin-table-black font-semibold">
+                    ID
+                  </Th>
+                  <Th className=" text-center text-sm text-admin-table-black font-semibold">
+                    {t('Image')}
+                  </Th>
+                  <Th className=" text-center text-sm text-admin-table-black font-semibold">
+                    {t('Title')}
+                  </Th>
+                  <Th className="text-center text-sm text-admin-table-black font-semibold">
+                    {t('Description')}
+                  </Th>
+                  <Th className="text-sm text-admin-table-black font-semibold"></Th>
+                </Tr>
+              </Thead>
+
+              <Tbody>
+                {newData?.map((item: OfferItem) => {
+                  return (
+                    <Tr key={item.id}>
+                      <Td py={1} className=" w-[100px] text-sm text-admin-table-id">
+                        <span className="border-2 rounded-lg p-1">
+                          {item?.id}
+                        </span>
+                      </Td>
+                      <Td py={1} className=" w-[100px] text-sm text-admin-table-black">
                         <Image
-                          src={item.img_url}
-                          alt="Offer Image"
-                          width={100}
-                          height={100}
+                          src={item?.img_url}
+                          width={48}
+                          height={42}
+                          alt="table_image"
                         />
-                      </td>
-                      <td className="w-[100px] text-center">{item.name}</td>
-                      <td className="w-[200px] text-center">
-                        {item.description}
-                      </td>
-                      <td className="w-[140px] text-center">
-                        <div className="flex gap-2">
+                      </Td>
+                      <Td py={1} className=" w-[100px] text-sm text-admin-table-black ">
+                        {item?.name}
+                      </Td>
+                      <Td py={1} className=" w-[100px] text-sm text-admin-table-black ">
+                      {shortText(30,item?.description)}
+                      </Td>
+                      <Td>
+                      <div className="flex gap-2">
                           <Button
                             onClick={() => (
                               push(pathname + '?id=' + item?.id),
@@ -148,16 +192,19 @@ function Offers() {
                           </Button>
                           <Button onClick={() => handleDelete(item?.id)}>
                             <span>
-                              <DeleteModal isOpen={isOpen} onClose={onClose} />
+                            {/* //  <DeleteModal isOpen={isOpen} onClose={onClose} handleDelete={handleDelete}/> */}
                               <MdDeleteForever className="fill-admin-delete-icon w-5 h-5" />
                             </span>
                           </Button>
                         </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </Td>
+                    </Tr>
+                  )
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+          </Box>
             </div>
           </main>
         </Box>
