@@ -250,3 +250,35 @@
     right: 80px;
   }
 }
+
+@media screen and (max-width: 960px) {
+  .footer_to_bg {
+    right: -160px;
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .bg_black {
+    width: 300px;
+    height: 310px;
+    top: 30px;
+    right: 60px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .footer_to_bg {
+    right: -30px;
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .bg_black {
+    width: 200px;
+    height: 210px;
+    top: 20px;
+    right: 40px;
+  }
+}

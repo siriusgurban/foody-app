@@ -16,6 +16,9 @@ import { useImageUpload } from '@/shared/hooks/useImageUpload'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { getCategories } from '@/shared/services/category'
+import { QUERY } from '@/shared/constants/query'
+import { useCORP } from '@/shared/hooks/useCORP'
+import AdminAsideModal from '../../layout/adminAsideModal'
 
 interface Props {
   show?: boolean
@@ -35,7 +38,14 @@ const AdminUpdateModalRest = ({ show = true, onClickClose, text }: Props) => {
   const { query } = useRouter()
   const { data } = useQuery({
     queryFn: () => getRestuarantById(query.id as string),
-    queryKey: ['restaurants', query.id],
+    queryKey: [QUERY.RESTAURANTS, query.id],
+  })
+
+  const { mutate } = useCORP({
+    queryFn: updateRestuarant,
+    queryKey: [QUERY.RESTAURANTS],
+    toastText: 'Restaurant updated',
+    onClickClose: () => onClickClose(),
   })
 
   const [category, setCategory] = useState<string | null>(
@@ -63,25 +73,6 @@ const AdminUpdateModalRest = ({ show = true, onClickClose, text }: Props) => {
     }
   }, [data, query.id])
 
-  const { mutate } = useMutation({
-    mutationFn: updateRestuarant,
-    onSuccess: () => {
-      toast({
-        title: 'Restaurant updated',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClickClose()
-    },
-    onError: (error) => {
-      console.error('Error adding restaurant:', error)
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['restaurants'] })
-    },
-  })
-
   async function handleRestaurant() {
     const name = nameRef?.current?.value
     const cuisine = cuisineRef?.current?.value
@@ -107,151 +98,106 @@ const AdminUpdateModalRest = ({ show = true, onClickClose, text }: Props) => {
   }
 
   return (
-    <div
-      className={`fixed z-10 w-full sm:w-3/4 sm:pl-10 ${
-        show ? 'right-0' : '-right-full'
-      } h-screen top-0 transition-all duration-700`}
+    <AdminAsideModal
+      show={show}
+      onClickClose={onClickClose}
+      handleEvent={handleRestaurant}
+      handleEventText="Update Restaurant"
+      text={text}
+      imgRef={imgRef}
+      loading={loading}
+      imgUrl={imgUrl}
+      getImage={getImage}
+      modalText="Add Your Restaurant Information"
     >
-      <button
-        onClick={onClickClose}
-        className="rounded-full bg-admin-modal-upload-icon absolute right-5 sm:left-0 top-7 w-7 h-7 cursor-pointer"
-      >
-        <IoClose className="fill-admin-white h-4 w-6 pl-1" />
-      </button>
-      <div className="bg-admin-main flex-col pl-7 pt-3 pb-5 pr-7 lg:pr-14 max-h-screen overflow-y-auto">
-        <div>
-          <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
-        </div>
-        <div className="flex flex-col w-full lg:flex-row mb-16">
-          <div className="w-full h-36 lg:w-1/3">
-            <p className="font-medium text-lg text-admin-text mb-3">
-              {t('Upload Image')}
-            </p>
-            <Image
-              width={118}
-              height={122}
-              alt="Upload"
-              ref={imgRef}
-              src={`${
-                loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
-              }`}
-            />
-          </div>
-          <div className="w-full lg:w-2/3 h-38">
-            <AdminModalUploadImage onChange={getImage} />
-          </div>
-        </div>
-        <div className="flex flex-col lg:flex-row w-full mb-10">
-          <div className="w-full lg:w-1/3">
-            <p className="font-medium text-admin-text tracking-wide capitalize text-lg font-display">
-              {t(`Add Your Restaurant Information`)}
-            </p>
-          </div>
-          <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 pt-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
-            <div>
-              <div className="flex flex-col gap-2 ">
-                <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t('Name')}
-                </p>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  ref={nameRef}
-                  // value={initName}
-                  placeholder={t('Mc Donald’s')}
-                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-                />
-                {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )} */}
-                <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t('Cuisine')}
-                </p>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  ref={cuisineRef}
-                  // value={initName}
-                  placeholder={t('Fast Food , Drink, Ice Cream, Sea Food')}
-                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-                />
-                {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )} */}
-                <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t('Delivery Price $')}
-                </p>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  ref={deliveryPriceRef}
-                  // value={initName}
-                  placeholder={t('name')}
-                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-                />
-                {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )} */}
-                <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t('Delivery Mi')}
-                </p>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  ref={deliveryMinRef}
-                  // value={initName}
-                  placeholder={t('name')}
-                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-                />
-                {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )} */}
-                <p className=" font-medium   text-admin-text  text-base font-display">
-                  {t('Address')}
-                </p>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  ref={addressRef}
-                  // value={initName}
-                  placeholder={t('Nizami street 45 Baku Azerbaijan')}
-                  className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-                />
-                {/* {errors?.slug && (
-                  <FormHelperText color="red">{errors?.name}</FormHelperText>
-                )} */}
-                <AdminModalDropdown
-                  p={t('Category')}
-                  className="mt-4 mb-2 placeholder"
-                  classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
-                  getText={setCategory}
-                  getData={getCategories}
-                  queryKey="categories"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-around border-t-2 border-t-admin-cancel-btn pt-6 border-admin-main gap-10">
-          <AdminModalButton
-            onClick={onClickClose}
-            className="text-admin-white bg-admin-cancel-btn py-3 w-1/2 rounded-2xl font-display"
-            text={t('Cancel')}
+      <div className="bg-admin-modal-frame-bg w-full lg:w-2/3 pt-5 pl-5 pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar">
+        <div className="flex flex-col gap-2">
+          <p className=" font-medium text-admin-text  text-base font-display">
+            {t('Name')}
+          </p>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            ref={nameRef}
+            // value={initName}
+            placeholder={t('Mc Donald’s')}
+            className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
           />
-
-          <AdminModalButton
-            onClick={handleRestaurant}
-            className="text-admin-white bg-admin-modal-purple-btn w-1/2 rounded-2xl font-display"
-            text={t('Update Restaurant')}
+          {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.name}</FormHelperText>
+                )} */}
+          <p className=" font-medium   text-admin-text  text-base font-display">
+            {t('Cuisine')}
+          </p>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            ref={cuisineRef}
+            // value={initName}
+            placeholder={t('Fast Food , Drink, Ice Cream, Sea Food')}
+            className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+          />
+          {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.name}</FormHelperText>
+                )} */}
+          <p className=" font-medium   text-admin-text  text-base font-display">
+            {t('Delivery Price $')}
+          </p>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            ref={deliveryPriceRef}
+            // value={initName}
+            placeholder={t('name')}
+            className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+          />
+          {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.name}</FormHelperText>
+                )} */}
+          <p className=" font-medium   text-admin-text  text-base font-display">
+            {t('Delivery Mi')}
+          </p>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            ref={deliveryMinRef}
+            // value={initName}
+            placeholder={t('name')}
+            className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+          />
+          {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.name}</FormHelperText>
+                )} */}
+          <p className=" font-medium   text-admin-text  text-base font-display">
+            {t('Address')}
+          </p>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            ref={addressRef}
+            // value={initName}
+            placeholder={t('Nizami street 45 Baku Azerbaijan')}
+            className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+          />
+          {/* {errors?.slug && (
+                  <FormHelperText color="red">{errors?.name}</FormHelperText>
+                )} */}
+          <AdminModalDropdown
+            p={t('Category')}
+            className="mt-4 mb-2 placeholder"
+            classNameSelect="bg-admin-input w-full text-admin-text rounded-2xl pl-3 font-medium text-base py-4 font-display"
+            getText={setCategory}
+            getData={getCategories}
+            queryKey="categories"
           />
         </div>
       </div>
-    </div>
+    </AdminAsideModal>
   )
 }
 

@@ -54,55 +54,32 @@ const AdminAddModalCategory = ({ show = true, onClickClose, text }: Props) => {
       onClickClose={onClickClose}
       handleEvent={addCategory}
       handleEventText="Add Category"
+      text={text}
+      imgRef={imgRef}
+      loading={loading}
+      imgUrl={imgUrl}
+      getImage={getImage}
+      modalText="Add Your Category Information"
     >
-      <div>
-        <p className="text-2xl text-admin-text font-medium mb-8 ">{text}</p>
-      </div>
-      <div className="flex flex-col w-full lg:flex-row mb-16">
-        <div className="w-full h-36 lg:w-1/3">
-          <p className="font-medium text-lg text-admin-text mb-3">
-            {t('Upload Image')}
-          </p>
-          <Image
-            width={118}
-            height={122}
-            alt="Upload"
-            ref={imgRef}
-            src={`${
-              loading ? '/loadingImage.png' : imgUrl ? imgUrl : '/upload.png'
-            }`}
-          />
-        </div>
-        <div className="w-full lg:w-2/3 h-38">
-          <AdminModalUploadImage onChange={getImage} />
-        </div>
-      </div>
-      <div className="flex   flex-col  lg:flex-row  w-full mb-[252px]">
-        <div className="w-full lg:w-1/3 ">
-          <p className="  font-medium text-admin-text  tracking-wide capitalize text-lg  font-display ">
-            {t('Add Your Category Information')}
-          </p>
-        </div>
-        <div className="  bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7    rounded-2xl max-h-[390px] overflow-y-scroll scrollbar ">
-          <FormControl className="p-0">
-            <div className="flex flex-col gap-2 ">
-              <p className=" font-medium   text-admin-text  text-base font-display">
-                {t('Name')}
-              </p>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                ref={nameRef}
-                placeholder={t('name')}
-                className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
-              />
-              {/* {errors?.slug && (
+      <div className="bg-admin-modal-frame-bg w-full lg:w-2/3  py-5 pl-5  pr-7 rounded-2xl max-h-[390px] overflow-y-scroll scrollbar mb-[210px]">
+        <FormControl className="p-0">
+          <div className="flex flex-col gap-2 ">
+            <p className=" font-medium   text-admin-text  text-base font-display">
+              {t('Name')}
+            </p>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              ref={nameRef}
+              placeholder={t('name')}
+              className="rounded-2xl  text-whiteLight  font-medium text-base  bg-admin-input   text-admin-modal-placeholder pl-5 py-3  capitalize font-display"
+            />
+            {/* {errors?.slug && (
                   <FormHelperText color="red">{errors?.name}</FormHelperText>
                 )} */}
-            </div>
-          </FormControl>
-        </div>
+          </div>
+        </FormControl>
       </div>
     </AdminAsideModal>
   )

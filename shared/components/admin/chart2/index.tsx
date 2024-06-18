@@ -34,7 +34,7 @@ const data: DataItem[] = [
 const COLORS = ['#914DF0', '#3FAEA3', '#F4A26C']
 
 const MountainAreaChart: React.FC = () => (
-  <div className="flex flex-col items-start bg-admin-secondary p-4 rounded-lg shadow-lg w-[530px] h-[400px]">
+  <div className="flex flex-col items-start bg-admin-secondary p-4 rounded-lg shadow-lg w-[630px] h-[400px]">
     <h2 className="text-xl font-semibold mb-4 text-admin-text">Total Salary</h2>
     <div className="w-full h-full">
       <ResponsiveContainer width="100%" height="100%">

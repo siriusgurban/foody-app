@@ -41,6 +41,14 @@ export interface Product {
   count?: number
 }
 
+export interface Offer {
+  id?: string
+  name: string
+  img_url: string
+  description: string
+  created?: number // Assuming it represents a Unix timestamp
+}
+
 export interface CustomMutationOptions
   extends UseMutationOptions<
     AxiosResponse<any, any> | undefined,

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { resolveSoa } from 'dns'
 import Image from 'next/image'
 import React, { FC, useState } from 'react'
-import { MdDeleteForever, MdEdit } from 'react-icons/md'
+import { MdDeleteForever, MdEdit, MdOutlineEdit } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { getCategories, getCategoryById } from '@/shared/services/category'
 import { QUERY } from '@/shared/constants/query'
@@ -121,7 +121,9 @@ const AdminRestaurantsCard: FC<AdminRestaurantsCardProps> = ({
               }}
             >
               <span>
-                <MdEdit className="fill-admin-edit-icon w-5 h-5  hover:fill-green-800  hover:scale-95 transition-all duration-500" />
+                <MdOutlineEdit className="fill-admin-edit-icon w-5 h-5 hover:fill-green-800  hover:scale-95 transition-all duration-500" />
+
+                {/* <MdEdit className="fill-admin-edit-icon w-5 h-5  hover:fill-green-800  hover:scale-95 transition-all duration-500" /> */}
               </span>
             </button>
           </div>

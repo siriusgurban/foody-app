@@ -7,6 +7,13 @@ export const CLIENT = {
     FAQS: "/faqs",
     LOGIN: "/login",
 
+    USER: "user",
+    PROFILE: "profile",
+    BASKET: "basket",
+    ORDERS: "orders",
+    CHECKOUT: "checkout",
+
+
 
 };
 

@@ -42,7 +42,7 @@ function AdminProductsSide() {
 
   function handleRestaurant(id: string) {
     let RestName = resto?.data?.result?.data.find(
-      (item: any, index: number) => id == item?.id,
+      (item: Restaurant, index: number) => id == item?.id,
     )
     return RestName?.name
   }
@@ -70,19 +70,19 @@ function AdminProductsSide() {
   return (
     <>
       <Box width="100%" className="h-screen">
-        <div className="bg-admin-secondary rounded-2xl flex flex-col sm:flex-row justify-between items-center p-5 mt-5">
+        <div className="bg-admin-secondary rounded-lg md:rounded-2xl flex flex-col sm:flex-row sm:justify-between justify-center items-center p-5 mt-5">
           <div className="text-admin-secondary-heading text-xl font-medium">
             {t(`products`)}
           </div>
-          <div className="mt-3 sm:mt-0 flex flex-col items-center sm:flex-row gap-5">
+          <div className="mt-3 sm:mt-0 flex flex-col items-center sm:flex-row gap-1.5 sm:gap-5">
             <AdminModalDropdown
-              className="flex width-200 gap-3"
-              classNameSelect="rounded-2xl py-2 px-2 bg-admin-input font-medium text-base text-admin-secondary-heading w-[170px] overflow-x-auto"
+              className="flex justify-center w-[270px] sm:w-52 gap-3 me-3 sm:me-0"
+              classNameSelect="w-[270px] rounded-sm sm:rounded-2xl py-2 px-0 sm:px-2 bg-admin-input font-medium text-base text-admin-secondary-heading w-[170px] overflow-x-auto"
               getText={setFilterRest}
               getData={getRestuarants}
               queryKey="restaurants"
             />
-            <AdminModalButton className="text-admin-secondary-add bg-admin-add-button-bg text-sm px-4 py-2 rounded-sm font-bold sm:rounded-2xl flex gap-2 align-middle">
+            <AdminModalButton className="text-admin-secondary-add bg-admin-add-button-bg text-sm  px-4 py-2  rounded-sm font-bold sm:rounded-2xl flex gap-2 align-middle w-[258px] sm:w-full justify-center">
               <Image src="/adminproducts/search.svg" />
               {t(`search`)}
             </AdminModalButton>
@@ -95,7 +95,13 @@ function AdminProductsSide() {
           text={t('updateproduct')}
         />
 
-        <Box display="flex" gap="40px" flexWrap="wrap" justifyContent="start">
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          // mt="52px"
+          justifyContent="center"
+          className="gap-x-8 gap-y-7 overflow-y-scroll max-h-[560px] scrollbar mt-7 md:mt-14"
+        >
           {isLoading ? (
             <Box className="flex flex-wrap gap-5 justify-between my-12">
               {[1, 2, 3, 4, 5].map((item, index) => {
@@ -110,7 +116,6 @@ function AdminProductsSide() {
                 className="productCards"
                 w="196px"
                 bg="white"
-                mt="52px"
                 pb="12px"
                 display="flex"
                 flexDir="column"
@@ -149,20 +154,25 @@ function AdminProductsSide() {
                   >
                     ${product.price}
                   </Text>
-                  <Box display="flex" gap="12px" alignItems="center">
-                    <Text
-                      onClick={() => handleDeleteClick(product.id)}
-                      cursor="pointer"
-                    >
-                      <img src="/adminproducts/garbage.svg" alt="delete" />
-                    </Text>
+                  <Box
+                    display="flex"
+                    gap="12px"
+                    alignItems="center"
+                    className="justify-between"
+                  >
                     <Text
                       onClick={() => {
                         push(pathname + '?id=' + product.id), showHideModalAdd()
                       }}
                       cursor="pointer"
                     >
-                      <img src="/adminproducts/pen.svg" alt="edit" />
+                      <Image src="/adminproducts/pen.svg" alt="edit" />
+                    </Text>
+                    <Text
+                      onClick={() => handleDeleteClick(product.id)}
+                      cursor="pointer"
+                    >
+                      <Image src="/adminproducts/garbage.svg" alt="delete" />
                     </Text>
                   </Box>
                 </Box>

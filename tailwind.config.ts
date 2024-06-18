@@ -78,6 +78,10 @@ const config: Config = {
         'client-rest-grey': '#E0E0E0',
         'client-rest-grey1': '#BDBDBD',
         'client-rest-purple': '#F0E1E1',
+
+        'client-user-purple': '#F1B3B6',
+        'admin-table-black': '#00072B',
+        'admin-table-id': '#454D59',
       },
     },
     plugins: [],

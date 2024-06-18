@@ -27,12 +27,12 @@ function AdminDashboard() {
       </Head>
 
       <AdminLayout>
-        <div className=" gap-7   mt-4 flex flex-col max-h-[620px] scrollbar overflow-y-scroll pr-4">
-          <div className="flex gap-8  flex-wrap">
+        <div className=" gap-6 mt-4 flex flex-col max-h-[720px] scrollbar overflow-y-scroll pr-0 sm:pr-4 px-2">
+          <div className="flex gap-8  flex-wrap justify-center w-full">
             <DonutChart />
             <MountainLineChart />
           </div>
-          <div className="flex gap-8 flex-wrap">
+          <div className="flex gap-8 flex-wrap  justify-center w-full">
             <FastFoodSalesBarChart />
             <FastFoodSalesBarChart />
           </div>
