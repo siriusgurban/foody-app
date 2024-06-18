@@ -398,6 +398,12 @@ function RestaurantId() {
                             <BasketList />
                           )}
                           <Box
+                            as="button"
+                            disabled={
+                              basket?.data?.result?.data?.total_item == 0
+                                ? true
+                                : false
+                            }
                             onClick={() => checkUser()}
                             className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
                               basket?.data?.result?.data?.total_item == 0 ||
@@ -405,7 +411,7 @@ function RestaurantId() {
                                 undefined
                                 ? 'client-rest-grey1'
                                 : 'client-main-red'
-                            } max-w-[820px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer`}
+                            } max-w-[820px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between w-full cursor-pointer`}
                           >
                             <Text className="text-white my-auto">
                               {t('Checkout')}
