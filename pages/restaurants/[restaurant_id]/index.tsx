@@ -242,9 +242,9 @@ function RestaurantId() {
                       <Box
                         onClick={() => onOpen()}
                         className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
-                          basket?.data?.result?.data?.total_item == 0 ||
-                          basket?.data?.result?.data?.total_item == undefined
-                            ? 'client-rest-grey1'
+                          basket?.data?.result?.data?.items.length == 0 ||
+                          basket?.data?.result?.data?.items.length == undefined
+                            ? '[#BDBDBD]'
                             : 'client-main-red'
                         } max-w-[820px] w-full mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
                       >
@@ -342,8 +342,8 @@ function RestaurantId() {
                         }
                         onClick={() => checkUser()}
                         className={` bg-${
-                          basket?.data?.result?.data?.total_item == 0 ||
-                          basket?.data?.result?.data?.total_item == undefined
+                          basket?.data?.result?.data?.items.length == 0 ||
+                          basket?.data?.result?.data?.items.length == undefined
                             ? '[#BDBDBD]'
                             : 'client-main-red'
                         }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
@@ -406,10 +406,10 @@ function RestaurantId() {
                             }
                             onClick={() => checkUser()}
                             className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
-                              basket?.data?.result?.data?.total_item == 0 ||
-                              basket?.data?.result?.data?.total_item ==
+                              basket?.data?.result?.data?.items.length == 0 ||
+                              basket?.data?.result?.data?.items.length ==
                                 undefined
-                                ? 'client-rest-grey1'
+                                ? '[#BDBDBD]'
                                 : 'client-main-red'
                             } max-w-[820px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between w-full cursor-pointer`}
                           >
