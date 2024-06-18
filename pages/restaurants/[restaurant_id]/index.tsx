@@ -341,7 +341,7 @@ function RestaurantId() {
                             : false
                         }
                         onClick={() => checkUser()}
-                        className={` bg-${
+                        className={`bg-${
                           basket?.data?.result?.data?.total_item == 0 ||
                           basket?.data?.result?.data?.total_item == undefined
                             ? 'client-rest-grey1'
