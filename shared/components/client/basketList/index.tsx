@@ -28,6 +28,7 @@ function BasketList() {
     queryKey: QUERY.BASKET,
     toastText: 'Item added',
   })
+
   const { handle: handleBasketDelete } = useBasket({
     queryFn: deleteBasket,
     queryKey: QUERY.BASKET,
@@ -73,12 +74,13 @@ function BasketList() {
               </Box>
 
               <Box className="flex flex-col xl:bg-white lg:bg-white md:bg-client-fill-gray sm:bg-client-fill-gray xs:bg-client-fill-gray rounded-full h-16 w-7 justify-center text-center align-middle ">
-                <Box
+                <button
+                  disabled={(item?.count as number) >= 10 ? true : false}
                   className="cursor-pointer"
                   onClick={() => handleAddBasket(item.id)}
                 >
                   <IoIosAdd className=" w-7" />
-                </Box>
+                </button>
                 <Box>{item.count}</Box>
                 <Box
                   className="cursor-pointer"
