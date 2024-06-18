@@ -244,7 +244,7 @@ function RestaurantId() {
                         className={`xl:hidden lg:hidden md:flex sm:flex xs:flex bg-${
                           basket?.data?.result?.data?.items.length == 0 ||
                           basket?.data?.result?.data?.items.length == undefined
-                            ? '[#BDBDBD]'
+                            ? 'slate-500'
                             : 'client-main-red'
                         } max-w-[820px] w-full mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between  cursor-pointer `}
                       >
@@ -344,7 +344,7 @@ function RestaurantId() {
                         className={` bg-${
                           basket?.data?.result?.data?.items.length == 0 ||
                           basket?.data?.result?.data?.items.length == undefined
-                            ? '[#BDBDBD]'
+                            ? 'slate-500'
                             : 'client-main-red'
                         }  w-[372px] mx-auto h-12 rounded-full ps-6 pe-0.5 flex align-middle justify-between absolute bottom-6 left-3 disabled cursor-pointer`}
                       >
@@ -409,7 +409,7 @@ function RestaurantId() {
                               basket?.data?.result?.data?.items.length == 0 ||
                               basket?.data?.result?.data?.items.length ==
                                 undefined
-                                ? '[#BDBDBD]'
+                                ? 'slate-500'
                                 : 'client-main-red'
                             } max-w-[820px] mx-auto h-9 rounded-full ps-6 pe-0.5 flex  justify-between w-full cursor-pointer`}
                           >
