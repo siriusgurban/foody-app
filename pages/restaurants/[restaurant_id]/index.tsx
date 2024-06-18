@@ -16,7 +16,6 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -28,6 +27,7 @@ import { QUERY } from '@/shared/constants/query'
 import { CLIENT } from '@/shared/constants/router'
 import { useBasket } from '@/shared/hooks/useBasket'
 import { getUser } from '@/shared/services/admin'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 function RestaurantId() {
   const { t } = useTranslation('client')
