@@ -68,7 +68,7 @@ function Category() {
     setHideModalAdd((prev) => !prev)
   }
 
-  // useCheckAdmin(ADMIN.CATEGORY)
+  useCheckAdmin()
 
   return (
     <div>

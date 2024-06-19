@@ -1,40 +1,24 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { getUser } from '../services/admin'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { ADMIN } from '../constants/router'
 import { useToast } from '@chakra-ui/react'
+import { getUser } from '../services/admin'
 
-export function useCheckAdmin(rout: string) {
-  const { query, push } = useRouter()
-  const [userInfo, setUserInfo] = useState()
+export function useCheckAdmin() {
+  const { push } = useRouter()
   const toast = useToast()
 
-  const { data, status, error } = useQuery({
+  const { data, status } = useQuery({
     queryFn: getUser,
     queryKey: ['user'],
   })
 
-  useLayoutEffect(() => {
-    if (typeof window !== 'undefined') {
-      const userInfoString = localStorage.getItem('userInfo')
-      if (userInfoString) {
-        const parsedUserInfo = JSON.parse(userInfoString)
-        setUserInfo(parsedUserInfo)
-        console.log(parsedUserInfo, 'parsedUserInfo')
-      }
-    }
-  }, []) // Empty dependency array ensures this effect runs only once after component mount
-
   useEffect(() => {
-    console.log(userInfo, 'userInfo')
-    console.log(data, 'data')
-    if (userInfo !== undefined && data !== undefined) {
-      return
-      //   push(rout)
-    } else {
+    const userInfoString = localStorage.getItem('userInfo')
+    if (userInfoString == undefined && data == undefined) {
       toast({
-        description: 'Please, login first',
+        description: 'Please log in first',
         status: 'warning',
         duration: 3000,
         isClosable: true,
@@ -42,7 +26,7 @@ export function useCheckAdmin(rout: string) {
       })
       push(ADMIN.LOGIN)
     }
-  }, [userInfo])
+  }, [])
 
   return {}
 }
