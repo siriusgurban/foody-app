@@ -30,6 +30,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getProducts } from '@/shared/services/products'
 import { useAppSelector } from '@/shared/store/hooks'
+import { getCategories, getCategoryById } from '@/shared/services/category'
 
 const emptyData: any = []
 
@@ -37,30 +38,39 @@ function Restaurants() {
   const { t } = useTranslation('client')
   const { push, query, asPath } = useRouter()
   const isActive = (path: string) => (query.id === path ? '[#F0E1E1]' : 'none')
-  const [size, setSize] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { allProducts } = useAppSelector((state) => state)
-
+  const [filterCategory, setFilterCategory] = useState<string | undefined>(
+    undefined,
+  )
   const { data, isLoading } = useQuery({
+    queryFn: getCategories,
+    queryKey: [QUERY.CATEGORIES],
+  })
+
+  const { data: restaurants } = useQuery({
     queryFn: getRestuarants,
     queryKey: [QUERY.RESTAURANTS],
   })
 
-  const { data: products } = useQuery({
-    queryFn: getProducts,
-    queryKey: [QUERY.PRODUCTS],
+  const { data: category, isLoading: isLoadingRest } = useQuery({
+    queryFn: () => getCategoryById(query.id as string),
+    queryKey: [QUERY.CATEGORIES, query.id],
   })
 
-  const { data: restaurant, isLoading: isLoadingRest } = useQuery({
-    queryFn: () => getRestuarantById(query.id as string),
-    queryKey: [QUERY.RESTAURANTS, query.id],
-  })
+  const restaurantsDatas: Restaurant[] = restaurants?.data?.result?.data ?? []
 
-  console.log(
-    restaurant?.data?.result?.data?.products,
-    'isLoadingisLoadingisLoading',
-  )
-  console.log(products?.data?.result?.data, 'products?.data?.result?.data')
+  useEffect(() => {
+    setFilterCategory(query?.id as string)
+    filteredRestaurants()
+  }, [query?.id])
+
+  const filteredRestaurants = () => {
+    return filterCategory == undefined
+      ? restaurantsDatas
+      : restaurantsDatas.filter(
+          (restaurant: any) => restaurant?.category_id == query.id,
+        )
+  }
 
   return (
     <div>
@@ -145,6 +155,7 @@ function Restaurants() {
               </DrawerContent>
             </Drawer>
           </section>
+
           <section>
             <Box>
               <Box
@@ -171,16 +182,9 @@ function Restaurants() {
                     return <SkeletonRestaurantClient key={index} />
                   })}
                 </Box>
-              ) : // allProducts
-              false ? (
-                products?.data?.result?.data?.map(
-                  (item: Product, index: number) => {
-                    return <ClientRestaurantCard key={index} item={item} />
-                  },
-                )
               ) : (
-                restaurant?.data?.result?.data?.products?.map(
-                  (item: Product, index: number) => {
+                filteredRestaurants()?.map(
+                  (item: Restaurant, index: number) => {
                     return <ClientRestaurantCard key={index} item={item} />
                   },
                 )

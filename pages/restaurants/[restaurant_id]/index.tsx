@@ -130,14 +130,14 @@ function RestaurantId() {
           <main className="flex xl:mx-8 md:mx-6 xs:mx-3 xl:gap-10 lg:gap-0 md:gap-0 xs:gap-0 justify-center">
             <section className="">
               <Box className="max-w-[1373px]">
-                <Box className="xs:w-72 md:w-2/3 xl:w-full xs:h-40 xl:h-[448px] overflow-hidden object-cover mx-auto">
+                <Box className="xs:w-72 md:w-2/3 xl:w-full  overflow-hidden object-cover mx-auto">
                   {restaurant?.data?.result?.data?.img_url ? (
                     <Image
                       width={1400}
                       height={448}
                       alt="coverimage"
                       src={restaurant?.data?.result?.data?.img_url}
-                      className="bg-cover"
+                      className="xs:h-40 xl:h-[448px] object-fill"
                     />
                   ) : (
                     <SkeletonCover />
@@ -219,7 +219,7 @@ function RestaurantId() {
                                 </Box>
                                 <Box
                                   onClick={() => basketVerify(item?.id)}
-                                  className="xl:w-10 md:w-8 xs:w-5 my-auto"
+                                  className="xl:w-10 md:w-8 xs:w-5 my-auto hover:brightness-95 transition-all hover:scale-105 duration-300"
                                 >
                                   <Image
                                     width={40}
