@@ -72,7 +72,7 @@ function UserOrders() {
         duration: 3000,
         isClosable: true,
       })
-      queryClient.invalidateQueries({ queryKey: ['order-user'] })
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
     },
     onError: (error) => {
       console.error(error)
