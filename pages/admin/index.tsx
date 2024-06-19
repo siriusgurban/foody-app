@@ -15,8 +15,10 @@ import DonutChart from '../../shared/components/admin/chart'
 import MountainLineChart from '../../shared/components/admin/chart2'
 import FastFoodSalesBarChart from '../../shared/components/admin/chart3'
 import AdminLayout from '@/shared/components/layout/adminLayout'
+import { useCheckAdmin } from '@/shared/hooks/useCheckAdmin'
 
 function AdminDashboard() {
+  useCheckAdmin()
   const { t } = useTranslation('admin')
 
   return (
