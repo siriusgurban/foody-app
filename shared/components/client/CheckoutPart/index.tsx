@@ -31,7 +31,8 @@ function CheckoutPart() {
   const dispatch = useDispatch()
   // console.log("dispatch",dispatch)
   // console.log("UserData", userData);
-  // console.log("BasketData", basketData);
+  const isButtonDisabled = !basketData?.data?.result?.data?.items?.length
+  console.log("BasketData", isButtonDisabled)
   const basketId = basketData?.data?.result?.data?.id
   //console.log("basketId", basketId);
   const newData = { ...userDatas, basket_id: basketId }
@@ -188,7 +189,7 @@ function CheckoutPart() {
             </div>
 
             <div>
-              <button className="bg-[#6FCF97]  w-[260px]  sm:w-[320px] xl:w-[360px]  h-[53px] mt-7 rounded text-[#FFFFFF] text-[18px] font-semibold leading-6 hover:bg-[#379c5f]">
+              <button className="bg-[#6FCF97]  w-[260px]  sm:w-[320px] xl:w-[360px]  h-[53px] mt-7 rounded text-[#FFFFFF] text-[18px] font-semibold leading-6 hover:bg-[#379c5f]" disabled={isButtonDisabled}>
                 Checkout
               </button>
             </div>

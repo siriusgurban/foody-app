@@ -23,6 +23,8 @@ import React, { useState } from 'react'
 import { ScrollBarContainer } from '../../common/Scroll/scroll'
 import { shortText } from '@/shared/helpers/shortText'
 import Image from 'next/image'
+import DeleteModal from '../../common/deleteModal'
+import Swal from "sweetalert2"
 interface Order {
   id: string
   customer_id: string
@@ -85,11 +87,34 @@ function UserOrders() {
     },
   })
   const handleDelete = (id: string) => {
-    mutate(id)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutate(id)
+        Swal.fire(
+          'Deleted!',
+          'Your category has been deleted.',
+          'success'
+        )
+      }
+    })
+
   }
 
   return (
     <>
+    {/* <DeleteModal
+                isOpen={isOpen}
+                onClose={onClose}
+                handleDeleteConfirm={handleDelete}
+              /> */}
       <div>
         <ScrollBarContainer bg="#C74FEB">
           <motion.div
