@@ -28,6 +28,7 @@ import { CLIENT } from '@/shared/constants/router'
 import { useBasket } from '@/shared/hooks/useBasket'
 import { getUser } from '@/shared/services/admin'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetServerSideProps } from 'next'
 
 function RestaurantId() {
   const { t } = useTranslation('client')
@@ -149,7 +150,7 @@ function RestaurantId() {
                     <Text className="xs:text-base md:text-xl xl:text-2xl font-bold ">
                       {restaurant?.data?.result?.data?.name}
                     </Text>
-                    <Text className="text-client-main-gray1 xs:text-xs md:text-sm xl:text-sm ">
+                    <Text className="text-client-main-gray1 xs:text-xs md:text-sm xl:text-sm capitalize ">
                       {restaurant?.data?.result?.data?.address}
                     </Text>
                   </Box>
@@ -163,12 +164,12 @@ function RestaurantId() {
                       </Text>
                     </Box>
                     <Box className="flex justify-between gap-7">
-                      <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12  md:w-16 md:h-12 sm:w-14 sm:h-10 xs:w-14 xs:h-10 border border-client-main-red text-client-main-red rounded-md py-1 px-2 xs:py-0.5 xs:px-0.5 sm:py-1 sm:px-0.5">
+                      <Box className="xs:text-xs md:text-sm xl:text-sm  w-20 h-12  md:w-[72px] md:h-12 sm:w-16 sm:h-10 xs:w-16 xs:h-10 border border-client-main-red text-client-main-red rounded-md py-1 px-2 xs:py-0.5 xs:px-0.5 sm:py-1 sm:px-0.5">
                         ${restaurant?.data?.result?.data?.delivery_price}{' '}
                         {t('Delivery')}
                       </Box>
                       <Box
-                        className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer  justify-center pt-3"
+                        className="xs:hidden md:flex xl:flex xs:text-xs md:text-sm xl:text-sm  w-20 h-12 border bg-client-main-red text-white rounded-md cursor-pointer justify-center pt-3 hover:brightness-95 transition-all hover:scale-105 duration-300"
                         onClick={() => push(CLIENT.HOME)}
                       >
                         {t('Go Back')}
@@ -446,6 +447,12 @@ function RestaurantId() {
 }
 
 export default RestaurantId
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale as string, ['client'])),
+  },
+})
 
 // export async function getStaticProps({ locale }: { locale: any }) {
 //   return {
