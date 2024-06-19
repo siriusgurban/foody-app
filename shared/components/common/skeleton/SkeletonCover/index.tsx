@@ -7,7 +7,8 @@ function SkeletonCover() {
       startColor="gray.400"
       endColor="teal.100"
       height="448px"
-      w="100%"
+      width="100%"
+      className="object-fill"
     />
   )
 }

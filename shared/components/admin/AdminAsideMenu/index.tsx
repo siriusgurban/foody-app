@@ -11,6 +11,12 @@ function AdminAsideMenu() {
 
   const isActive = (path: string) => (asPath === path ? '#CD61ED' : 'none')
 
+  function deleteUser() {
+    localStorage.removeItem('userInfo')
+
+    push(ADMIN.LOGIN)
+  }
+
   return (
     <Box
       as="section"
@@ -144,7 +150,7 @@ function AdminAsideMenu() {
           {t('offers')}
         </Button>
         <Button
-          onClick={() => push(ADMIN.LOGIN)}
+          onClick={() => deleteUser()}
           className="flex gap-7 w-52 cursor-pointer hover:bg-admin-btnhover hover:w-52"
           colorScheme="none"
           style={{

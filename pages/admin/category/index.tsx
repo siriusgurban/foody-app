@@ -25,6 +25,8 @@ import AdminLayout from '@/shared/components/layout/adminLayout'
 import SkeletonTable from '@/shared/components/common/skeleton/SkeletonTable'
 import { QUERY } from '@/shared/constants/query'
 import { useCORP } from '@/shared/hooks/useCORP'
+import { useCheckAdmin } from '@/shared/hooks/useCheckAdmin'
+import { ADMIN } from '@/shared/constants/router'
 
 function Category() {
   const [hideModalUpdate, setHideModalUpdate] = useState<boolean>(true)
@@ -40,7 +42,7 @@ function Category() {
     queryKey: [QUERY.CATEGORIES],
   })
 
-  console.log(data?.data?.result?.data, 'datacategory')
+  // console.log(data?.data?.result?.data, 'datacategory')
 
   const { mutate } = useCORP({
     queryFn: deleteCategory,
@@ -65,6 +67,8 @@ function Category() {
   function showHideModalAdd() {
     setHideModalAdd((prev) => !prev)
   }
+
+  // useCheckAdmin(ADMIN.CATEGORY)
 
   return (
     <div>
