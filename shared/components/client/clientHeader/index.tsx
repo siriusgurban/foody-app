@@ -113,20 +113,21 @@ const ClientHeader = () => {
  // console.log('searchResults', searchResults)
   return (
     <nav className="flex justify-between  items-center m-0 rounded-md py-11 px-5 sm:m-8   cursor-pointer   bg-client-fill-gray sm:p-11">
-      <h1
-        className="flex items-center text-4xl font-extrabold text-client-zero-black"
-        onClick={toggleAvatars}
-      >
-        <button onClick={showHideModal} className="md:hidden block mr-5">
-          <Image width={40} height={0} src="/hamburger.svg" alt="hamburger" />
-        </button>
-        <Foody role="client" />
-      </h1>
-      <>
-        {userInfo !== undefined && data !== undefined ? (
-          <>
-            <Navbar />
-          {data &&   <div className=" hidden w-1/5 md:block">
+    <h1
+      className="flex items-center text-4xl font-extrabold text-client-zero-black"
+      onClick={toggleAvatars}
+    >
+      <button onClick={showHideModal} className="md:hidden block mr-5">
+        <Image width={40} height={0} src="/hamburger.svg" alt="hamburger" />
+      </button>
+      <Foody role="client" />
+    </h1>
+    <>
+      {userInfo !== undefined && data !== undefined ? (
+        <>
+          <Navbar />
+          {data && (
+            <div className=" hidden w-1/5 md:block">
               <input
                 type="text"
                 placeholder="Search"
@@ -141,31 +142,18 @@ const ClientHeader = () => {
                   searchResults={searchResults}
                 />
               )}
-            </div>}
-            {/* <Lang bg={'white'} /> */}
-            <ClientHeaderRightSideComponents />
-          </>
-        ) : (
-          <>
-            <Navbar />
-            <div className=" hidden w-1/5 sm:block">
-              <input
-                type="text"
-                placeholder="Search"
-                onChange={searchRestaurant}
-                className=" outline-none w-full relative  py-3 px-6  shadow-sm rounded-xl  "
-                onFocus={openSearchModal}
-                // onBlur={closeSearchModal}
-              />
-              {searchModal && (
-                <HeaderSearchRestaurantModal onClose={closeSearchModal} />
-              )}
             </div>
-            {/* <Lang bg={'white'} /> */}
-            <ClientHeaderLangLogin />
-          </>
-        )}
-      </>
+          )}
+          {/* <Lang bg={'white'} /> */}
+          <ClientHeaderRightSideComponents />
+        </>
+      ) : (
+        <>
+          <Navbar />
+          <ClientHeaderLangLogin />
+        </>
+      )}
+    </>
 
       {/* mobile design */}
       {isModalOpen && (
