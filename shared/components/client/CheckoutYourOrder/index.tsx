@@ -20,7 +20,7 @@ function CheckoutYourOrder() {
   //console.log("basket", totalAmmount);
 
   return (
-    <div className="flex h-full justify-center ml-2 w-full">
+    <div className="flex h-full justify-center ml-2 w-full md:h-50 mb-5">
       <div className=" md:bg-[#f2f5fb] bg-[#FFFFFF] text-[#828282] w-[347px] pt-8 rounded md:shadow-lg shadow-none xl:p-5 lg:p-2 p-1">
         <h1 className="text-[#4F4F4F] text-[30px] h-8 font-semibold leading-6 text-left block md:hidden mb-6">
           Checkout
