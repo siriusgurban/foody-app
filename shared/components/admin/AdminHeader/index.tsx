@@ -7,6 +7,7 @@ import {
   MenuList,
   Select,
   Text,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
 import Image from 'next/image'
@@ -20,6 +21,8 @@ import Foody from '../../common/foody'
 import AdminAddModalCategory from '../adminAddModalCategory'
 import AdminAddModalProduct from '../adminAddModalProduct'
 import AdminUpdateModalProduct from '../adminUpdateModalProduct'
+import { useQuery } from '@tanstack/react-query'
+import { getUser } from '@/shared/services/admin'
 
 function AdminHeader() {
   const { t } = useTranslation('admin')
@@ -65,14 +68,16 @@ function AdminHeader() {
         </button>
 
         <Lang />
-        <button className="hidden sm:inline-block">
-          <Image
-            src={'/adminLogo.svg'}
-            width={41}
-            height={41}
-            alt="adminLogo"
-          />
-        </button>
+        <Tooltip>
+          <button className="hidden sm:inline-block">
+            <Image
+              src={'/adminLogo.svg'}
+              width={41}
+              height={41}
+              alt="adminLogo"
+            />
+          </button>
+        </Tooltip>
       </Box>
     </Box>
   )
