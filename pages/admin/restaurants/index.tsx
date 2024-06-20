@@ -15,8 +15,10 @@ import SkeletonRestaurant from '@/shared/components/common/skeleton/SkeletonRest
 import { QUERY } from '@/shared/constants/query'
 import { useCORP } from '@/shared/hooks/useCORP'
 import DeleteModal from '@/shared/components/common/deleteModal'
+import { useCheckAdmin } from '@/shared/hooks/useCheckAdmin'
 
 const Restaurants: React.FC = () => {
+  useCheckAdmin()
   const { t } = useTranslation('admin')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [hideModal, setHideModal] = useState<boolean>(true)
