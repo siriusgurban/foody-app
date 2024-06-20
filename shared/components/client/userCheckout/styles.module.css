@@ -1,0 +1,10 @@
+@media (min-width: 768px) {
+
+    .checkout {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        gap: 24px;
+    }
+}
