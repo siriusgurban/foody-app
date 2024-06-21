@@ -16,9 +16,9 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Foody from '@/shared/components/common/foody'
-import { instanceAxios } from '@/shared/helpers/instanceAxios'
-import { postAdmin } from '@/shared/services/admin'
+
 import { adminLogin, token } from '@/shared/types/admin'
+import { postAdmin } from '@/shared/services/admin'
 
 const initialValues = {
   email: '',
