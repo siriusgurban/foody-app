@@ -1,21 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import AdminModalButton from '../adminModalButton'
 import { useTranslation } from 'react-i18next'
 import { FormControl, Text, useToast } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import Image from 'next/image'
 import { useImageUpload } from '@/shared/hooks/useImageUpload'
-import { getProductById, postProduct } from '@/shared/services/products'
+import { getProductById, updateProduct } from '@/shared/services/products'
 import AdminModalDropdown from '../adminModalDropdown'
-import AdminModalTextArea from '../adminModalText'
 import { useRouter } from 'next/router'
-import {
-  getRestuarantById,
-  getRestuarants,
-} from '@/shared/services/restaurants'
-import AdminModalUploadImage from '../adminModalUploadImage'
-import { updateCategory } from '@/shared/services/category'
+import { getRestuarants } from '@/shared/services/restaurants'
 import { QUERY } from '@/shared/constants/query'
 import { useCORP } from '@/shared/hooks/useCORP'
 import AdminAsideModal from '../../layout/adminAsideModal'
@@ -37,9 +29,8 @@ const AdminUpdateModalProduct = ({
 
   const { data } = useQuery({
     queryFn: () => getProductById(query.id as string),
-    queryKey: ['products', query.id],
+    queryKey: [QUERY.PRODUCTS, query.id],
   })
-  // console.log(data, 'product')
 
   let initUrl = data?.data?.result?.data?.img_url
 
@@ -51,8 +42,6 @@ const AdminUpdateModalProduct = ({
   const [restId, setRestId] = useState<string | null>('')
   const imgRef = useRef<any>(null)
 
-  console.log(nameRef?.current?.value, 'descriptionRef')
-
   useEffect(() => {
     if (data) {
       nameRef.current.value = data?.data.result.data.name
@@ -62,7 +51,7 @@ const AdminUpdateModalProduct = ({
     }
   }, [query.id, data])
 
-  async function updateProduct() {
+  async function handleUpdateProduct() {
     const name = nameRef?.current?.value
     const description = descriptionRef?.current?.value
     const price = priceRef?.current?.value
@@ -75,7 +64,7 @@ const AdminUpdateModalProduct = ({
       rest_id: restId,
       img_url: img,
     }
-    console.log(form, 'formformform')
+    console.log(form, 'form product')
 
     mutate({ id: query?.id, data: form })
 
@@ -85,7 +74,7 @@ const AdminUpdateModalProduct = ({
   }
 
   const { mutate } = useCORP({
-    queryFn: updateCategory,
+    queryFn: updateProduct,
     queryKey: [QUERY.PRODUCTS],
     toastText: 'Product updated',
     onClickClose: () => onClickClose(),
@@ -95,7 +84,7 @@ const AdminUpdateModalProduct = ({
     <AdminAsideModal
       show={show}
       onClickClose={onClickClose}
-      handleEvent={updateProduct}
+      handleEvent={handleUpdateProduct}
       handleEventText="Update Product"
       text={text}
       imgRef={imgRef}

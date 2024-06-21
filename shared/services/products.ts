@@ -35,17 +35,11 @@ export const postProduct = async (data: any) => {
   }
 }
 
-export const updateProduct = async ({
-  id,
-  data,
-}: {
-  id: string | string[] | undefined
-  data: Product
-}) => {
+export const updateProduct = async ({ id, data }: { id: any; data: any }) => {
   try {
     const response = await instanceAxios({
       method: 'PUT',
-      url: 'products' + '/' + id,
+      url: `products/${id}`,
       data: data,
     })
     return response
