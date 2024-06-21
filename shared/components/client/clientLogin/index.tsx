@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import ClientInput from '../clientInput'
 import { useFormik } from 'formik'
-import { adminLogin } from '@/shared/types/admin'
-import { postAdmin } from '@/shared/services/admin'
 import { Box, Button, FormHelperText, Text, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { LuEye, LuEyeOff } from 'react-icons/lu'
 import { useTranslation } from 'react-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { adminLogin } from '@/shared/types/admin'
+import { postAdmin } from '@/shared/services/admin'
 
 const initialValues = {
   email: '',
