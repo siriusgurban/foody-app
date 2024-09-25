@@ -6,4 +6,4 @@ App created with TS, Next JS, Chakra UI, Formik, Tailwind.
 
 #
 
-[Foody App](https://foody-app-ochre.vercel.app)
+[Foody App](https://foody-app-copy.vercel.app)
